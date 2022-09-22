@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from 'bootstrap4/form.html' import render_form %}
+
+{% block title %}
+    My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div style="margin-top: 25px; margin-bottom: 50px;">
+    <h1>
+        {% if name %}
+        Hello {{ name }}!
+        {% else %}
+        Hello World!
+        {% endif %}
+    </h1>
+
+
+
+</div>
+{% endblock %}
