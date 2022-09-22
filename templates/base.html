@@ -5,7 +5,9 @@
         {% block head %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/header.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
         {% block styles %}
             <!-- Bootstrap CSS -->
             {{ bootstrap.load_css() }}
@@ -13,27 +15,33 @@
 
         <title>{% block title %}Flasky{% endblock %}</title>
         {% endblock %}
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
-        <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+        
     </head>
 
-    <body class="d-flex flex-column min-vh-100">
+    <body>
 
         {% block navbar %}
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-            <a class="navbar-brand" href="/">Flask</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <header>
+            <container fluid>
+              <div class="row logoImg">
+                <img src="{{ url_for('static',filename='assets/Img/muroexe.png') }}" />
+              </div>
+              <div class="row">
+                <div class="col-9 navLink">
+                  <a href="#">Shoes</a>
+                  <a href="#">Sneakers</a>
+                  <a href="#">Slipers</a>
+                  <a href="#">Boots</a>
+                  <a href="#">Accessories</a>
+                </div>
+                <div class="col-3 userIcon">
+                  <a href="#"><i class="bi bi-search"></i></a>
+                  <a href="#"><i class="bi bi-person-fill"></i></a>
+                  <a href="#"><i class="bi bi-cart-fill"></i></a>
+                </div>
+              </div>
+            </container>
+          </header>
         {% endblock %}
 
         {% block content %}
@@ -57,14 +65,5 @@
         </div>
         {% endblock %}
 
-        <footer class="mt-auto bg-light text-center text-lg-start" style="margin-top:50px;">
-            <div class="text-center p-3" style="background-color:#e9ecef;">
-                Copyright &copy; 2022 DHPIT. All rights reserved.
-            </div>
-        </footer>
-<!-- 
-        {% block scripts %}
-            {{ moment.include_moment() }}
-        {% endblock %} -->
     </body>
 </html>
