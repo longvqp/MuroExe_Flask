@@ -10,8 +10,8 @@ bootstrap = Bootstrap5(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-   return render_template('index.html')
-
+    name = "Testing"
+    return render_template('index.html',name=name)
 
 
 @app.errorhandler(404)

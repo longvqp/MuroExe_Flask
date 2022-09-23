@@ -1,21 +1,65 @@
 {% extends "base.html" %}
-{% from 'bootstrap4/form.html' import render_form %}
 
 {% block title %}
-    My Flask App
+My Flask App
 {% endblock %}
 
 {% block page_content %}
-<div style="margin-top: 25px; margin-bottom: 50px;">
-    <h1>
-        {% if name %}
-        Hello {{ name }}!
-        {% else %}
-        Hello World!
-        {% endif %}
-    </h1>
 
 
+  
 
-</div>
+    <div>
+            {% include "mainpage_banner.html" %}
+    </div>
+
+    
+
+   
+
+
+    <div class="container-fluid productlineup rellax" data-rellax-speed="3" data-rellax-zindex="5">
+        <h1 class="rellax pdLines" data-rellax-speed="0.5" data-aos="zoom-in">
+            Product Lines
+        </h1>
+        <div class="row">
+            <div class="col-3" data-aos="fade-up">
+                <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group-1.png') }}" /></a>
+            </div>
+            <div class="col-3" data-aos="fade-up">
+                <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group-2.png') }}" /></a>
+            </div>
+            <div class="col-1">
+                <span>&nbsp;</span>
+                <span>&nbsp;</span>
+            </div>
+            <div class="col-4" data-aos="fade-up">
+                <h1 class="rellax pdMoto" data-rellax-speed="-1">
+                    WE ARE <br />
+                    #DOTHEFUTURE
+                    <br />
+                </h1>
+                <h5 class="rellax mt-5" data-aos="fade-down" data-rellax-speed="-1">
+                    Elegant and technic daily product. Extreme comfort.<br />
+                    <br />
+                    <br />
+                    100% animal free.
+                </h5>
+            </div>
+        </div>
+        <span>&nbsp;</span>
+        <div class="row">
+            <div class="col-3" data-aos="fade-up">
+                <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group-3.png') }}" /></a>
+            </div>
+            <div class="col-3" data-aos="fade-up">
+                <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group.png') }}" /></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="spacer">
+        <span>&nbsp;</span>
+    </div>
+
 {% endblock %}
