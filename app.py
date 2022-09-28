@@ -13,6 +13,9 @@ def index():
     name = "Testing"
     return render_template('index.html',name=name)
 
+@app.route('/login', methods=['GET','POST'])
+def login():
+    return 'Aha'
 
 @app.errorhandler(404)
 def page_not_found(e):
