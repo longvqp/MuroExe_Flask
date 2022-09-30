@@ -6,9 +6,6 @@ My Flask App
 
 {% block page_content %}
 
-
-
-
 <div class="row herobanner rellax" data-rellax-zindex="2" data-rellax-speed="-2">
     <div class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -23,13 +20,6 @@ My Flask App
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
 
 <div class="container-fluid productlineup rellax" data-rellax-speed="3" data-rellax-zindex="5">
     <h1 class="rellax pdLines" data-rellax-speed="0.5" data-aos="zoom-in">
@@ -52,15 +42,21 @@ My Flask App
                 #DOTHEFUTURE
                 <br />
             </h1>
-            <h5 class="rellax mt-5" data-aos="fade-down" data-rellax-speed="-1">
-                Elegant and technic daily product. Extreme comfort.<br />
+            <h6 class="rellax mt-5" data-aos="fade-down" data-rellax-speed="-1">
+                We create technical and minimalist products for everyday life. All our products are vegan and with a
+                strong sustainable component. <br />
+                <br />
+                Also, we involve our user in all creative processes to create the perfect product, designed by and for
+                them. <br />
+                <br />
+                We are design. We are comfort. We are commitment. <br />
                 <br />
                 <br />
-                100% animal free.
-            </h5>
+
+            </h6>
         </div>
     </div>
-    <span>&nbsp;</span>
+    
     <div class="row">
         <div class="col-3" data-aos="fade-up">
             <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group-3.png') }}" /></a>
@@ -70,7 +66,6 @@ My Flask App
         </div>
     </div>
 </div>
-
 
 <div class="container-fluid py-2 pdPanel rellax" data-aos="fade-down" data-rellax-speed="1.5" data-rellax-zindex="10">
     <h1 class="rellax" data-rellax-speed="1" data-aos="fade-up"><u>Featured Product</u></h1>
@@ -354,5 +349,7 @@ My Flask App
 </div>
 
 
+<script>
 
+</script>
 {% endblock %}

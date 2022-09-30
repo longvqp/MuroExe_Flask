@@ -18,7 +18,7 @@ iframe {
     margin-right: 0;
     padding-top: 50px;
     padding-left: 55px;
-    padding-bottom: 150px;
+    padding-bottom: 75px;
     background-color: rgb(240, 238, 234);
 }
 .productlineup img{
@@ -153,3 +153,5 @@ iframe {
   .spacer{
     height: 10vh;
   }
+
+ 

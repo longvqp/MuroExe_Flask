@@ -12,7 +12,7 @@ body{
     margin: 0;
     margin-bottom: 25px;
     display: block;
-    position: relative;
+    
   }
   
   .logoImg img {
@@ -78,3 +78,30 @@ body{
     color: rgb(0, 0, 0);
   }
   
+  footer {
+    color: white;
+    background-color: rgb(0, 0, 0);
+    padding-top: 50px;
+    padding-bottom: 40px;
+    padding-left: 25px;
+    padding-right: 10px;
+  }
+  footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: lighter;
+  }
+
+  footer a:hover{
+    font-weight: bold;
+    color: rgb(240, 238, 234);
+  }
+
+  footer h4 {
+    margin-bottom: 25px;
+  }
+
+  footer p{
+    font-weight: bold;
+    text-align: center;
+  }
