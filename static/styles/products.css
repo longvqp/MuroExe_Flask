@@ -4,6 +4,7 @@ body {
 }
 
 .pdDetail {
+    padding-top: 5vh;
     margin-left: 50px;
 }
 
@@ -60,7 +61,8 @@ body {
 }
 .btn1{
     margin-top: 10vh;
-    background-color: rgb(181, 246, 255);
+    color: white;
+    background-color: rgb(0, 0, 0);
     border-style: hidden;
     padding: 10px;
     width: fit-content;
@@ -73,12 +75,14 @@ body {
 }
 
 .btn1:hover{
-    background-color: rgb(178, 255, 178);
+    background-color: rgb(255, 255, 255);
     box-shadow: 5px 5px 8px rgb(74, 74, 74);
     transform: scale(1.1);
+    color: black;
+    
 }
 
 .btn1:active{
-    background-color: rgb(142, 214, 142);
+    background-color: rgb(255, 252, 200);
     transform: scale(1.05);
 }

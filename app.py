@@ -10,8 +10,11 @@ bootstrap = Bootstrap5(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    name = "Testing"
-    return render_template('index.html',name=name)
+    return render_template('index.html')
+
+@app.route('/product', methods=['GET','SET'])
+def product():
+    return render_template('products.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -20,7 +23,6 @@ def login():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
-
 
 @app.errorhandler(500)
 def internal_server_error(e):
