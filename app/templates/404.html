@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+404 - Not Found
+{% endblock %}
+
+{% block page_content %}
+<div style="margin-top: 25px; margin-bottom: 50px;">
+    <div class="container">
+        <h1 class="first-four">4</h1>
+        <div class="cog-wheel1">
+            <div class="cog1">
+                <div class="top"></div>
+                <div class="down"></div>
+                <div class="left-top"></div>
+                <div class="left-down"></div>
+                <div class="right-top"></div>
+                <div class="right-down"></div>
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+        </div>
+        <h1 class="second-four">4</h1>
+        <h2 class="wrong-para">Page Not Found !<br>
+
+            <a href="/">click here to return</a>
+        </h2>
+    </div>
+
+</div>
+<script>
+    
+    console.log('hello script working')
+
+    let t1 = gsap.timeline();
+    let t2 = gsap.timeline();
+  
+
+    t1.to(".cog1",
+        {
+            transformOrigin: "50% 50%",
+            rotation: "+=360",
+            repeat: -1,
+            ease: Linear.easeNone,
+            duration: 8
+        });
+
+    t2.to(".cog2",
+        {
+            transformOrigin: "50% 50%",
+            rotation: "-=360",
+            repeat: -1,
+            ease: Linear.easeNone,
+            duration: 8
+        });
+
+
+</script>
+{% endblock %}

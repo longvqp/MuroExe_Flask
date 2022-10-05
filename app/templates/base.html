@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/header.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/404.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/page.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/products.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/product_panel.css') }}">
@@ -23,7 +24,7 @@
 
   <title>{% block title %}Flasky{% endblock %}</title>
   {% endblock %}
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/gsap.min.js"></script>
 </head>
 
 <body>
@@ -44,8 +45,20 @@
         </div>
         <div class="col-3 userIcon">
           <a href="#"><i class="bi bi-search"></i></a>
-          <a href="#"><i class="bi bi-person-fill"></i></a>
           <a href="#"><i class="bi bi-cart-fill"></i></a>
+
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-person-fill"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Sign In</a></li>
+              <li><a class="dropdown-item" href="#">Sign Up</a></li>
+            </ul>
+          </div>
+
+          </a>
+
         </div>
       </div>
     </div>
@@ -54,7 +67,7 @@
 
   {% block content %}
 
-  <div style="padding: auto;">
+  <div style="padding: auto; z-index: 1; position: relative;">
     {% block page_content %}
     {% endblock %}
   </div>
@@ -67,24 +80,24 @@
           <h4>
             MuroExe World
           </h4>
-          <a href="#" > <i class="bi bi-caret-right"></i> About us</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Sustainability and commitment</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Ordering for companies</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Design process</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Blog</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> About us</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Sustainability and commitment</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Ordering for companies</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Design process</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Blog</a><br>
         </div>
         <div class="col-3">
           <h4>Information</h4>
-          <a href="#" > <i class="bi bi-caret-right"></i> Help center</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Legal notice and privacy policy</a>
+          <a href="#"> <i class="bi bi-caret-right"></i> Help center</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Legal notice and privacy policy</a>
         </div>
         <div class="col-3">
           <h4>Buying Guide</h4>
-          <a href="#" > <i class="bi bi-caret-right"></i> Before buying</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Shipping</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Returns policy</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Frequently ask question</a><br>
-          <a href="#" > <i class="bi bi-caret-right"></i> Choosing size</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Before buying</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Shipping</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Returns policy</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Frequently ask question</a><br>
+          <a href="#"> <i class="bi bi-caret-right"></i> Choosing size</a><br>
         </div>
         <div class="col-3">
           <h4>Contact Us</h4>
