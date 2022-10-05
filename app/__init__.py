@@ -1,9 +1,9 @@
 from flask import Flask
-from flask_bootstrap import Bootstrap5
+from flask_bootstrap import Bootstrap
 from config import config
 
 
-bootstrap = Bootstrap5()
+bootstrap = Bootstrap()
 
 
 def create_app(config_name):
