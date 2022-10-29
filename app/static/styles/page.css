@@ -1,160 +1,132 @@
 body {
-    background-color: rgb(255, 255, 255);
-    font-family: Montserrat;
-    overflow-x:hidden;
+  background-color: rgb(255, 255, 255);
+  font-family: Montserrat;
+  overflow-x: hidden;
 }
 
 iframe {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
+
+.scroll_down {
+  text-align: center;
+  padding: 2vh;
+  height: 14vh;
+
+}
+
+.scroll_down h4 {
+  animation: jumpInfinite 1.5s infinite;
+}
+
+
 .herobanner {
- overflow-x: hidden;
+  overflow-x: hidden;
+
 }
-.herobanner img{
-    padding: 0;
-    margin: 0;
+
+.herobanner img {
+  padding: 0;
+  margin: 0;
 }
 
 .productlineup {
-    overflow-x:hidden;
-    margin-left: 0;
-    margin-right: 0;
-    padding-top: 50px;
-    padding-left: 55px;
-    padding-bottom: 75px;
-    background-color: rgb(240, 238, 234);
+  overflow: hidden;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 50px;
+  padding-left: 55px;
+  padding-bottom: 75px;
+  background-color: rgb(240, 238, 234);
 }
-.productlineup img{
-    transition: transform 1s ease;
+
+.productlineup img {
+  transition: transform 1s ease;
 }
-.productlineup img:hover{
-    transform: scale(1.2);
-    box-shadow: 5px 5px 8px rgba(17, 17, 17, 0.705);
+
+.productlineup img:hover {
+  transform: scale(1.2);
+  box-shadow: 5px 5px 8px rgba(17, 17, 17, 0.705);
 }
+
 .pdLines {
-    background-color: rgb(38, 38, 38);
-    width: fit-content;
-    padding: 10px;
-    text-decoration: underline;
-    color: white;
-    
+  background-color: rgb(38, 38, 38);
+  width: fit-content;
+  padding: 10px;
+  text-decoration: underline;
+  color: white;
+
 }
 
 .pdMoto {
-    background-color: rgb(38, 38, 38);
-    box-shadow: 10px 10px rgb(74, 74, 74);
-    color: white;
-    padding: 10px;
+  background-color: rgb(38, 38, 38);
+  box-shadow: 10px 10px rgb(74, 74, 74);
+  color: white;
+  padding: 10px;
 }
 
 .carousel {
-    padding: 0px;
+  padding: 0px;
 }
+
 .pdPanel {
-    /* margin-top: 50px; */
-    width: 100%;
-    height: max-content;
-    background-color: rgb(255, 255, 255);
-  }
-  .pdPanel h1{
-    box-shadow: 10px 10px rgb(74, 74, 74);
-    /* margin-top: 200px; */
-    margin-bottom: 0px;
-    background-color: black;
-    color: white;
-    font-weight: bold;
-    width: fit-content;
-    padding: 20px;
-    z-index: 10;
-  }
-
-    
-
-  .pdRow{
-    display: grid;
-    gap: 1rem;
-    margin: auto;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding-top: 1vh;
-    overflow-x: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none; 
-  }
-  .pdRow::-webkit-scrollbar {
-    display: none;
+  /* margin-top: 50px; */
+  width: 100%;
+  height: min-content;
+  background-color: rgb(255, 255, 255);
 }
-  .pdCard {
-    background-color: white;
-    display: block;
-    width: 22vw;
-    margin-bottom: 100px;
-    transition:  0.5s ease;
-    /* box-shadow: 3px 3px rgb(74, 74, 74); */
-    box-shadow: 3px 3px 8px rgba(183, 183, 183, 0.377);
+
+.pdPanel h1 {
+  box-shadow: 10px 10px rgb(74, 74, 74);
+  /* margin-top: 200px; */
+  margin-bottom: 0px;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  width: fit-content;
+  padding: 20px;
+  z-index: 10;
+}
+
+.about_container {
+  background-color: black;
+  width: 100%;
+  color: white;
+}
+
+.about {
+  color: white;
+  text-align: center;
+}
+
+.about h1 {
+  color: white;
+  padding-bottom: 75px;
+  padding-top: 50px;
+  text-decoration: underline;
+}
+.about_info {
+  padding-top: 100px;
+  text-align: left;
+  padding-bottom: 100px;
+}
+
+.spacer {
+  height: 10vh;
+}
+
+
+@keyframes jumpInfinite {
+  0% {
+    margin-top: 0;
   }
 
-  .pdCard:hover {
-    box-shadow: 3px 3px 8px rgba(17, 17, 17, 0.377);
-    transform: scale(1.02);
+  50% {
+    margin-top: 10px;
   }
 
-  
-  .pdCard img {
-    max-width: 100%;
-    max-height: 100%;
+  100% {
+    margin-top: 0;
   }
-  
-  
-  .pdSubImg img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-  
-  .pdBanner {
-    width: 100%;
-    margin: 0;
-  }
-  .pdBanner h6{
-    background-color: black;
-    color: white;
-    font-weight: bold;
-    width: fit-content;
-    padding: 10px;
-  }
-  .pdBanner a {
-    padding: 10px;
-    float: right;
-    color: black;
-  }
-  
-  .pdName h2{
-    font-weight: lighter;
-  }
-  
-  
-  .pdPrice i {
-    background-color: black;
-    float: right;
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: larger;
-    color: white;
-    transition: 0.3s;
-  }
-  
-  .pdPrice i:hover{
-    background-color: aqua;
-    color: black;
-  }
-  .pdPrice p {
-    font-size: smaller;
-  }
-
-  
-  .spacer{
-    height: 10vh;
-  }
-
+}

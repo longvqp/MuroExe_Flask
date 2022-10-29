@@ -86,3 +86,87 @@ body {
     background-color: rgb(255, 252, 200);
     transform: scale(1.05);
 }
+
+
+.pdRow{
+    display: grid;
+    gap: 1rem;
+    margin: auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding-top: 1vh;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+  }
+  .pdRow::-webkit-scrollbar {
+    display: none;
+}
+  .pdCard {
+    background-color: white;
+    height: fit-content;
+    display: block;
+    width: 22vw;
+    margin-bottom: 100px;
+    transition:  0.5s ease;
+    /* box-shadow: 3px 3px rgb(74, 74, 74); */
+    box-shadow: 3px 3px 8px rgba(183, 183, 183, 0.377);
+  }
+
+  .pdCard:hover {
+    box-shadow: 3px 3px 8px rgba(17, 17, 17, 0.377);
+    transform: scale(1.02);
+  }
+
+  
+  .pdCard img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  
+  .pdSubImg img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .pdBanner {
+    width: 100%;
+    margin: 0;
+  }
+  .pdBanner h6{
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    width: fit-content;
+    padding: 10px;
+  }
+  .pdBanner a {
+    padding: 10px;
+    float: right;
+    color: black;
+  }
+  
+  .pdName h2{
+    font-weight: lighter;
+  }
+  
+  
+  .pdPrice i {
+    background-color: black;
+    float: right;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: larger;
+    color: white;
+    transition: 0.3s;
+  }
+  
+  .pdPrice i:hover{
+    background-color: aqua;
+    color: black;
+  }
+  .pdPrice p {
+    font-size: smaller;
+  }
