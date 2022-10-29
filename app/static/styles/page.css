@@ -23,6 +23,7 @@ iframe {
 
 .herobanner {
   overflow-x: hidden;
+  height: 90vh;
 
 }
 
@@ -49,7 +50,9 @@ iframe {
   transform: scale(1.2);
   box-shadow: 5px 5px 8px rgba(17, 17, 17, 0.705);
 }
-
+.productlineup .row .col-md-3{
+  width: fit-content;
+}
 .pdLines {
   background-color: rgb(38, 38, 38);
   width: fit-content;
@@ -93,10 +96,11 @@ iframe {
   background-color: black;
   width: 100%;
   color: white;
+  margin-right: 0px !important; 
+  margin-left: 0px !important;
 }
 
 .about {
-  color: white;
   text-align: center;
 }
 

@@ -12,7 +12,6 @@ body{
     margin: 0;
     margin-bottom: 35px;
     display: block;
-    position: relative;
     z-index: 99;
   }
   

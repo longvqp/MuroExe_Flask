@@ -1,3 +1,35 @@
-.btn .btn-default{
-    background-color: red;
+.page-header h1{
+    text-align: center;
+    margin-top: 75px;
+    background-color: rgb(0, 0, 0);
+    width: fit-content;
+    padding: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-shadow: 10px 10px rgb(74, 74, 74);
+    margin-bottom: 55px;
+    color: white;
+}
+
+.btn .btn-default {
+    background-color: red !important;
+}
+
+.register {
+    padding-right: 0px !important; 
+    padding-left: 0px !important;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    height: 89vh;
+    
+}
+
+.register input{
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(0, 0, 0);;
+    color: black;
+    font-weight: bold;
+    border-radius: 0px;
+    margin-bottom: 25px;
 }

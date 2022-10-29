@@ -10,16 +10,13 @@ My Flask App
     <div class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="{{ url_for('static',filename='assets/Img/banner3.png') }}"
-                    class="d-block w-100" alt="..." />
+                <img src="{{ url_for('static',filename='assets/Img/banner3.png') }}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item">
-                <img src="{{ url_for('static',filename='assets/Img/banner2.png') }}"
-                    class="d-block w-100" alt="..." />
+                <img src="{{ url_for('static',filename='assets/Img/banner2.png') }}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item">
-                <img src="{{ url_for('static',filename='assets/Img/banner1.png') }}"
-                    class="d-block w-100" alt="..." />
+                <img src="{{ url_for('static',filename='assets/Img/banner1.png') }}" class="d-block w-100" alt="..." />
             </div>
         </div>
     </div>
@@ -34,6 +31,9 @@ My Flask App
         Product Lines
     </h1>
     <div class="row">
+        <div class="col-md-1">
+            <span>&nbsp;</span>
+        </div>
         <div class="col-md-3" data-aos="fade-up">
             <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group-1.png') }}" /></a>
         </div>
@@ -41,7 +41,6 @@ My Flask App
             <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group-2.png') }}" /></a>
         </div>
         <div class="col-md-1">
-            <span>&nbsp;</span>
             <span>&nbsp;</span>
         </div>
         <div class="col-md-4" data-aos="fade-up">
@@ -66,10 +65,13 @@ My Flask App
     </div>
 
     <div class="row">
-        <div class="col-3" data-aos="fade-up">
+        <div class="col-md-1">
+            <span>&nbsp;</span>
+        </div>
+        <div class="col-md-3" data-aos="fade-up">
             <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group-3.png') }}" /></a>
         </div>
-        <div class="col-3" data-aos="fade-up">
+        <div class="col-md-3" data-aos="fade-up">
             <a href="#"><img src="{{ url_for('static',filename='assets/Img/Mask group.png') }}" /></a>
         </div>
     </div>
@@ -362,7 +364,7 @@ My Flask App
         <h1>About us.</h1>
         <h2>We dress a generation of urban professionals, creatives and innovators that need functional yet modern
             products for their everyday lives.</h2>
-            <hr>
+        <hr>
         <div class="row about_info">
             <div class="col-md-4">
                 <b>History.</b><br>
@@ -382,10 +384,10 @@ My Flask App
                 Muroexe is simplicity, it's the future, creativity, well thought out products, weird, extraterrestrial,
                 artificial intelligent, Netflix, an HBO series, industrial, post-humanism, different, the possibility to
                 populate Mars, science and always foward looking. <br>
-<b>
-                There are people who love what we do. And people who don't understand anything.</b>
+                <b>
+                    There are people who love what we do. And people who don't understand anything.</b>
             </div>
-            
+
         </div>
         <hr>
     </div>
