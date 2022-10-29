@@ -10,3 +10,7 @@ def index():
 @main.route('/product')
 def product():
     return render_template('products.html')
+
+@main.route('/about')
+def about():
+    return render_template('about.html')
