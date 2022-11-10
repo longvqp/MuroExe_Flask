@@ -81,7 +81,7 @@ My Flask App
     <h1 class="rellax" data-rellax-speed="1" data-aos="fade-up"><u>Featured Product</u></h1>
 
     <div class="row d-flex pdRow rellax  flex-row flex-nowrap" data-rellax-speed="0.75">
-
+    {% for product in products%}
         <div class="col-3">
             <div class="pdCard container">
                 <div class="row pdBanner">
@@ -94,24 +94,54 @@ My Flask App
                 </div>
 
                 <div class="row">
-                    <img src="{{ url_for('static', filename='assets/products/custom.jpg')}}" />
+                    <img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img) }}" alt="...">
                 </div>
 
                 <div class="pdInf">
                     <div class="row pdName">
-                        <h2>Atom Custom White</h2>
+                        <h2>{{product.product_name}}</h2>
                     </div>
                     <div class="row pdPrice">
                         <div class="col-8">
-                            <h5>&#163; 119.00</h5>
+                            <h5>&#163; {{product.price}}.00</h5>
                             <p>Free shipping</p>
                         </div>
-                        <div class="col-4"><a href="/product"><i class="bi bi-bag-fill"></i></a></div>
+                        <div class="col-4"><a href="/product/{{product.id}}"><i class="bi bi-bag-fill"></i></a></div>
                     </div>
                 </div>
             </div>
         </div>
+    {%endfor%}
 
+    <div class="col-3">
+        <div class="pdCard container">
+            <div class="row pdBanner">
+                <div class="col-9">
+                    <h6>New Arrival</h6>
+                </div>
+                <div class="col-3">
+                    <a href="#"><i class="bi bi-heart"></i></a>
+                </div>
+            </div>
+
+            <div class="row">
+                <img src="{{ url_for('static', filename='assets/products/custom.jpg')}}" />
+            </div>
+
+            <div class="pdInf">
+                <div class="row pdName">
+                    <h2>Atom Custom White</h2>
+                </div>
+                <div class="row pdPrice">
+                    <div class="col-8">
+                        <h5>&#163; 119.00</h5>
+                        <p>Free shipping</p>
+                    </div>
+                    <div class="col-4"><a href="/product"><i class="bi bi-bag-fill"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <div class="col-3">
             <div class="pdCard container">

@@ -78,5 +78,11 @@ class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
     product_name = db.Column(db.String(64), index=True)
-    product_img = db.Column(db.String(128))
+    product_img = db.Column(db.String())
+    product_subimg1 = db.Column(db.String())
+    product_subimg2 = db.Column(db.String())
+    product_subimg3 = db.Column(db.String())
+    price = db.Column(db.Integer)
+    desc = db.Column(db.String())
+    stock = db.Column(db.Integer)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))

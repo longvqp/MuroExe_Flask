@@ -1,15 +1,20 @@
 from flask import render_template
 from . import main
-
+from ..models import Product
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    products = Product.query.all()
+    return render_template('index.html',products=products)
 
 
-@main.route('/product')
-def product():
-    return render_template('products.html')
+@main.route('/product/<product_id>')
+def product(product_id):
+    product = Product.query.filter_by(id=product_id).first()
+    if( not product):
+        return render_template('error/404.html'), 404
+    
+    return render_template('product/products.html',product=product)
 
 @main.route('/about')
 def about():

@@ -10,13 +10,13 @@ My Flask App
     <div class="container-fluid">
         <div class="row pdDetail">
             <div class="col-md-4">
-                <img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img) }}" alt="...">
+                <img src="{{ url_for('static',filename='assets/Img/product/dusk.jpg')}}" alt="...">
                 <div class="subImg row">
-                    <div class="col-4"><img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg1)}}"
+                    <div class="col-4"><img src="{{ url_for('static',filename='assets/Img/product/dusk-2.jpg')}}"
                             alt=""></div>
-                            <div class="col-4"><img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg2)}}"
+                    <div class="col-4"><img src="{{ url_for('static',filename='assets/Img/product/dusk-3.jpg')}}"
                             alt=""></div>
-                            <div class="col-4"><img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg3)}}"
+                    <div class="col-4"><img src="{{ url_for('static',filename='assets/Img/product/dusk-4.jpg')}}"
                             alt=""></div>
 
 
@@ -27,16 +27,19 @@ My Flask App
                 <h1>&nbsp</h1>
             </div>
             <div class="col-md-6">
-                <h1>{{product.product_name}}</h1>
+                <h1>Materia Dusk Brown</h1>
                 <h6>Home Materia Dusk Brown</h6>
                 <p>Reference MATDUSKBROWN36</p>
                 <hr>
                 <h5>Description: </h5>
                 <h6>
-                   {{product.desc}}
+                    > Synthetic Suede <br>
+                    > Mesh<br>
+                    > Insole made with recycled materials<br>
+                    > Rubber Sole<br>
                 </h6>
                 <hr>
-                <h2>&#163; {{product.price}}.00</h2>
+                <h2>&#163; 119.00</h2>
                 <p>VAT included</p>
                 <h4>Size</h4>
                 <div class="row sizeChart">
@@ -58,7 +61,12 @@ My Flask App
         </div>
 
 
-        
+        <div class="row">
+            <h1>PRODUCT REVIEW</h1>
+        </div>
+        <div class="row">
+            <h1>RELATED PRODUCT</h1>
+        </div>
     </div>
 
 </main>
