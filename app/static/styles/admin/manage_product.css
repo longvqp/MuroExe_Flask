@@ -1,0 +1,77 @@
+.pdImg {
+    max-width: 50px !important;
+    max-height: 50px !important;
+}
+
+.pdDesc textarea {
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.pdInput input {
+    border: 0px;
+    border-bottom: 1px solid black;
+}
+
+.heading {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    padding: 25px;
+    width: fit-content;
+    box-shadow: 10px 10px rgb(74, 74, 74);
+    margin-bottom: 40px;
+    margin-top: 30px;
+}
+
+#backBtn a {
+    color: rgb(219, 205, 86);
+    text-decoration: none;
+}
+
+
+#backBtn a:hover {
+    color: rgb(31, 31, 31);
+}
+
+
+#backBtn a:active {
+    color: rgb(145, 145, 145);
+}
+
+#deleteBtn {
+    color: white;
+    background-color: black;
+    padding: 2px;
+    box-shadow: 2px 2px rgb(74, 74, 74);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#deleteBtn:hover {
+    background-color: red;
+}
+
+
+#stockBtn {
+    color: white;
+    background-color: black;
+    padding: 2px;
+    box-shadow: 2px 2px rgb(74, 74, 74);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#stockBtn:hover {
+    background-color: rgb(15, 153, 239);
+}
+
+.active {
+    background-color: rgb(0, 0, 0);
+    color: white !important;
+    font-weight: bold;
+    scale: 1.1;
+    margin-left: 10px;
+    margin-right: 10px;
+}

@@ -25,7 +25,7 @@ class User(UserMixin, db.Model):
     dob = db.Column(db.DateTime())
     #Create Enum for Gender
     gender = db.Column(db.Boolean, default=False)
-    ballance = db.Column(db.Integer)
+    #ballance = db.Column(db.Integer)
     create_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
 
@@ -72,6 +72,7 @@ class Category(db.Model):
     __tablename__= 'categories'
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(64), unique=True, index=True)
+    # Mot Category co nhieu san pham
     products = db.relationship('Product', backref='categories')
 
 class Product(db.Model):
@@ -84,5 +85,18 @@ class Product(db.Model):
     product_subimg3 = db.Column(db.String())
     price = db.Column(db.Integer)
     desc = db.Column(db.String())
-    stock = db.Column(db.Integer)
+    
+    # Mot san pham co nhieu size 
+    sizes = db.relationship('StockAndSize', backref='products')
+    # Mot San pham thuoc ve mot Category
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+
+class StockAndSize(db.Model):
+    __tablename__ = 'product_stock'
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), index=True)
+    size = db.Column(db.Integer)
+    stock = db.Column(db.Integer)
+    
+    #Mot size thuoc ve mot San Pham
+    

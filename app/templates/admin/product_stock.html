@@ -1,0 +1,57 @@
+{% extends "ad_base.html" %}
+{% set active_page = 'edit_product' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid">
+    <div class="row">
+        <div id="backBtn" class="col-md-1">
+            <a href="{{url_for('admin.ManageProduct')}}">
+                <h1><i class="bi bi-arrow-up-left-square-fill"></i></h1>
+            </a>
+        </div>
+        <h1 class="heading">PRODUCT STOCK</h1>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Size</th>
+                <th scope="col">Stock</th>
+
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for size in sizes%}
+            <tr class="tbRow">
+                <th style="vertical-align: middle;" scope="row">{{size.id}}</th>
+                <td> <img class="pdImg"
+                        src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img)}}" alt="">
+                    {{product.product_name}}</td>
+                <td style="vertical-align: middle;">{{size.size}}</td>
+                <form method="POST" id="stockForm" action="{{url_for('admin.UpdateStock',product_id=product.id)}}">
+                    {{form.csrf_token}}
+                    <fieldset class="form-field"><td style="vertical-align: middle;">{{updateForm.stock(value=size.stock)}}</td> </fieldset>
+                    <td style="vertical-align: middle;"><a onclick="myFunction()" type="submit"
+                            id="stockBtn">Update</a>&nbsp;&nbsp;&nbsp;<a id="deleteBtn"
+                            href="#">Delete</a></td>
+                </form>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <hr>
+    {{ wtf.quick_form(form) }}
+
+</div>
+<script>
+    function myFunction() {
+        document.getElementById("stockForm").submit();
+    }
+</script>
+{% endblock %}

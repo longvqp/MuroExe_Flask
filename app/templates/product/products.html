@@ -12,11 +12,14 @@ My Flask App
             <div class="col-md-4">
                 <img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img) }}" alt="...">
                 <div class="subImg row">
-                    <div class="col-4"><img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg1)}}"
+                    <div class="col-4"><img
+                            src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg1)}}"
                             alt=""></div>
-                            <div class="col-4"><img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg2)}}"
+                    <div class="col-4"><img
+                            src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg2)}}"
                             alt=""></div>
-                            <div class="col-4"><img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg3)}}"
+                    <div class="col-4"><img
+                            src="{{ url_for('static',filename='assets/Product_Image/'+product.product_subimg3)}}"
                             alt=""></div>
 
 
@@ -33,21 +36,19 @@ My Flask App
                 <hr>
                 <h5>Description: </h5>
                 <h6>
-                   {{product.desc}}
+                    {{product.desc}}
                 </h6>
                 <hr>
                 <h2>&#163; {{product.price}}.00</h2>
                 <p>VAT included</p>
                 <h4>Size</h4>
                 <div class="row sizeChart">
-
-                    <h5 id="" class="sizeCheck">34</h5>
-                    <h5>35</h5>
-                    <h5>36</h5>
-                    <h5>37</h5>
-                    <h5>38</h5>
-                    <h5>39</h5>
-
+                    <h5 class="size">34</h5>
+                    <h5 class="size">35</h5>
+                    <h5 class="size">36</h5>
+                    <h5 class="size">37</h5>
+                    <h5 class="size">38</h5>
+                    <h5 class="size">39</h5>
                 </div>
                 <button class="btn1">Add to basket</button>
             </div>
@@ -58,10 +59,29 @@ My Flask App
         </div>
 
 
-        
+
     </div>
 
 </main>
+<script>
+    console.log("Script on chosing size")
+    var sizeChart = document.getElementsByClassName("sizeChart");
+    var sizes = document.getElementsByClassName("size");
 
+    for(var i=0; i<=sizes.length-1; i++){
+        
+        sizes[i].addEventListener("click", function(){
+          
+            var current = document.getElementsByClassName("sizeCheck")
+           
+            if (current.length > 0) {
+               
+                current[0].className = current[0].className.replace("sizeCheck", "");
+            }
+            this.className += " sizeCheck";
+        
+        })
+    }
+</script>
 
 {% endblock %}

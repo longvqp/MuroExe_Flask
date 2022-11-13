@@ -1,0 +1,150 @@
+{% extends "ad_base.html" %}
+{% set active_page = 'add_product' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    <h1 class="heading">ADD PRODUCT PAGE</h1>
+    </form>
+     <form method="POST" action="{{url_for('admin.AddProduct')}}" class="form"  enctype="multipart/form-data">
+        {{form.csrf_token}}
+        
+        <div class="row">
+            <div class="col-md-4">
+                <fieldset class="form-field" id="mainImg">
+                    <div class="row">
+                
+                
+                        
+                            <h4>{{ form.product_img.label }}</h4>
+                        
+                            <h4> {{ form.product_img}}</h4>
+                        
+                    </div>
+                </fieldset>
+                <div class="row">
+                    <div class="col-md-4">
+                        <fieldset class="form-field">
+                            <div class="row">
+                                <hr>
+                                
+                                    <h6>{{ form.product_subimg1.label }}</h6>
+                                
+                                
+                                    <h6> {{ form.product_subimg1}}</h6>
+                                
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <fieldset class="form-field">
+                            <div class="row">
+                                <hr>
+                                
+                                    <h6>{{ form.product_subimg2.label }}</h6>
+                         
+                                    <h6> {{ form.product_subimg2}}</h6>
+                                
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <fieldset class="form-field">
+                            <div class="row">
+                                <hr>
+                             
+                                    <h6>{{ form.product_subimg3.label }}</h6>
+                            
+                                    <h6> {{ form.product_subimg3}}</h6>
+                                
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <h1>&nbsp</h1>
+            </div>
+            <div class="col-md-6">
+                <fieldset class="form-field">
+                    <div class="row">
+                        <div class="row">
+                            <h4>{{ form.product_name.label }}</h4>
+                        </div>
+                        <div class="row">
+                            <h1> {{ form.product_name }}</h1>
+                            <h6>Home Materia Dusk Brown</h6>
+                            <p>Reference MATDUSKBROWN36</p>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-field">
+                    <div class="row">
+                        <div class="row">
+                            <h4>{{ form.desc.label }}</h4>
+                        </div>
+                        <div class="row">
+                            <h1> {{ form.desc }}</h1>
+                            <hr>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-field">
+                    <div class="row">
+                        <div class="row">
+                            <h4>{{ form.price.label }}</h4>
+                        </div>
+                        <div class="row">
+                            <h1> &#163;{{ form.price }}</h1>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-field">
+                    <div class="row">
+                        <div class="row">
+                            <h4>{{ form.category.label }}</h4>
+                        </div>
+                        <div class="row">
+                            <h1>{{ form.category }}</h1>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <hr>
+                {{ form.submit }}
+                
+            </div>
+        </div>
+    </form> 
+
+
+    <!-- <div class="col-md-6 px-auto" >
+        <div class="page-header">
+            <h1>Add Product</h1>
+        <div class="col-md-10">
+             
+            {{ wtf.quick_form(form) }}
+    
+        </div>
+        </div>
+    </div>
+    </div> -->
+</div>
+{% endblock %}
+
+
+
+
+
