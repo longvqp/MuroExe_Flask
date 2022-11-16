@@ -9,6 +9,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/user/information.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/header.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/register.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/404.css') }}">
@@ -45,7 +46,7 @@
           {% if current_user.is_authenticated %}
           <a href="{{ url_for('auth.logout') }}">Log Out</a>
           <a href="#">Cart</a>
-          <a href="#">{{current_user.username}}</a>
+          <a href="{{ url_for('auth.infor')}}">{{current_user.username}}</a>
           {% else %}
           <a href="{{ url_for('auth.login') }}">Log In</a>
           <a href="{{ url_for('auth.register') }}">Register</a>
@@ -64,7 +65,7 @@
   {% for message in get_flashed_messages() %}
   <center>
     <div class="alert alert-warning alert-dismissible fade show" role="alert"
-      style="float: center; position:relative; z-index:99;">
+      style="position:absolute; z-index:99; margin-left: 40vw;">
 
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       {{message}}
@@ -116,12 +117,11 @@
     </div>
   </footer>
 
+
   <script type="text/javascript">
     setTimeout(function () {
-
-      // Closing the alert
       $('.alert').alert('close');
-    }, 2000);
+    }, 5000);
   </script>
   <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
   <script>

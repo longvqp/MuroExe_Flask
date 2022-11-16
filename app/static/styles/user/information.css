@@ -1,0 +1,129 @@
+
+
+.sideNav {
+    background-color: black ;
+    color: white;
+    font-weight: bold;
+    height: 100vh;
+    
+}
+
+
+.sideNav ul li a {
+    width:max-content;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    transform-origin: center;
+    transition:  0.5s;
+    transition-timing-function: ease;
+}
+
+.sideNav ul li a:hover{
+    transform: scale(1.1);
+    color: rgb(149, 114, 55);
+    background-color: white;
+    padding: 10px;
+
+
+}
+
+.sideNav ul li{
+    list-style-type: none;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    color: white;
+}
+
+.active {
+    scale:1.1;
+    color: rgb(0, 0, 0) !important;
+    background-color: white;
+    padding: 10px;
+}
+
+.form_label{
+    font-weight: bold;
+    font-size:25px;
+}
+
+.form_input{
+    font-size: 25px;
+    outline: none;
+}
+
+.form_input input{
+    border: none;
+    width: 100%;
+}
+
+.form-field{
+    margin-top: 25px;
+    margin-left: 50px;
+}
+ #submit {
+    background-color: black;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-style: 50px;
+    color: white;
+    border: none;
+    margin-top: 50px;
+    box-shadow: 10px 10px rgb(74, 74, 74);
+    transform-origin: center;
+    transition:  0.5s;
+    transition-timing-function: ease;
+ }
+
+ #submit:hover{
+    background-color: rgb(255, 231, 134);
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+   
+    box-shadow: 4px 4px rgba(255, 166, 0, 0.762);
+
+    transform: scale(1.1);
+ }
+
+.address_card{
+    margin: 20px;
+    padding: 10px;
+    
+    margin-right: 25px;
+    background-color: white;
+    box-shadow: 2px 2px 5px rgb(74, 74, 74);
+}
+
+.deleteBtn {
+    color: white;
+    background-color: black;
+    padding: 2px;
+    box-shadow: 2px 2px rgb(74, 74, 74);
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+}
+
+
+.deleteBtn:hover {
+    background-color: red;
+    color: white;
+}
+
+.checkBtn {
+    margin-top: 5px;
+    color: white;
+    background-color: black;
+    padding: 2px;
+    box-shadow: 2px 2px rgb(74, 74, 74);
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+}
+
+.checkBtn:hover{
+    color: white;
+    background-color: rgb(101, 183, 25);
+}

@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
+    page_content %}
+    
+    <div class="container-fluid">
+      <div class="row">
+        <h1
+          style="
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            padding: 25px;
+            width: fit-content;
+            box-shadow: 10px 10px rgb(74, 74, 74);
+            margin-bottom: 25px;
+          "
+        >
+          Account Information
+        </h1>
+      </div>
+      <div class="row">
+        <div class="col-md-3 sideNav">
+          <ul>
+            <li>
+              <a  href="{{url_for('auth.infor')}}"
+                ><i class="bi bi-info-square-fill"></i>&nbsp;&nbsp;Information
+              </a>
+            </li>
+            <li>
+              <a href="{{url_for('auth.address')}}"
+                ><i class="bi bi-house-fill"></i>&nbsp;&nbsp;Address
+              </a>
+            </li>
+            <li class="active">
+              <a class="active" href="{{url_for('auth.voucher')}}"
+                ><i class="bi bi-bag-dash-fill"></i>&nbsp;&nbsp;Voucher
+              </a>
+            </li>
+            <li>
+              <a href="{{url_for('auth.history')}}"
+                ><i class="bi bi-bookmark-star-fill"></i>&nbsp;&nbsp;Order History
+              </a>
+            </li>
+            <li>
+              <a href="{{url_for('main.index')}}"
+                ><i class="bi bi-arrow-up-left-square-fill"></i>&nbsp;&nbsp;Back to
+                shopping</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <h1>Hello {{current_user.username}}</h1>
+        </div>
+      </div>
+    </div>
+    
+    {% endblock %}
+    

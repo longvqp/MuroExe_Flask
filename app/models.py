@@ -20,8 +20,8 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64))
+    fullname = db.Column(db.String(64))
     phone = db.Column(db.String(10))
-    # address = db.Column(db.String(128)) New Table
     dob = db.Column(db.DateTime())
     #Create Enum for Gender
     gender = db.Column(db.Boolean, default=False)
@@ -33,6 +33,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
 
+    #Mot User co nhieu Address
+    addresses = db.relationship('Address', backref='users')
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
@@ -67,13 +69,17 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# class Address(db.Model):
-#     __tablename__='addresses'
-#     user
-#     address
-#     city
-#     postal_code
-#     country
+class Address(db.Model):
+    __tablename__='addresses'
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.String())
+    city  = db.Column(db.String())
+    area  = db.Column(db.String())
+    postal_code  = db.Column(db.String())
+    country  = db.Column(db.String())
+    is_default = db.Column(db.Boolean(), default=False)
+    #Mot Address thuoc ve mot User
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 class Category(db.Model):
     __tablename__= 'categories'

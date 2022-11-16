@@ -1,0 +1,93 @@
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block
+title %} My Flask App {% endblock %} {% block page_content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <h1
+      style="
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        padding: 25px;
+        width: fit-content;
+        box-shadow: 10px 10px rgb(74, 74, 74);
+        margin-bottom: 25px;
+      "
+    >
+      Account Information
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3 sideNav">
+      <ul>
+        <li>
+          <a href="{{url_for('auth.infor')}}"
+            ><i class="bi bi-info-square-fill"></i>&nbsp;&nbsp;Information
+          </a>
+        </li>
+        <li class="active">
+          <a class="active" href="{{url_for('auth.address')}}"
+            ><i class="bi bi-house-fill"></i>&nbsp;&nbsp;Address
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.voucher')}}"
+            ><i class="bi bi-bag-dash-fill"></i>&nbsp;&nbsp;Voucher
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.history')}}"
+            ><i class="bi bi-bookmark-star-fill"></i>&nbsp;&nbsp;Order History
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('main.index')}}"
+            ><i class="bi bi-arrow-up-left-square-fill"></i>&nbsp;&nbsp;Back to
+            shopping</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9" style="padding-right: 20px; padding-left: 20px">
+      {% for address in addresses%}
+        {%if not address %}
+        <h1>Add Address</h1>
+        {{ wtf.quick_form(addressForm) }}
+        {%endif%}
+      <div class="row address_card"  {% if address.is_default %} style="background-color: rgb(253, 243, 209);" {%endif%}>
+        <div class="col-md-8">
+          <h5><b> Address: </b>&nbsp;{{address.address}}</h5>
+          <h5><b> City: </b>&nbsp;{{address.city}}</h5>
+        </div>
+        <div class="col-md-3">
+          <h5><b> Postal: </b>&nbsp;{{address.postal_code}}</h5>
+          <h5><b> Country: </b>&nbsp;{{address.country}}</h5>
+        </div>
+        <div class="col-md-1">
+          {% if address.is_default %} 
+          <h6>Default Address</h6>
+          {%endif%}
+          {% if not address.is_default %}
+          <a class="deleteBtn"
+            href="delete_address/{{address.id}}"
+            style="display: flex; justify-content: center; align-items: center"
+            >Delete</a
+          >
+        
+       
+          <a class="checkBtn"
+          href="make_default/{{address.id}}"
+          style="display: flex; justify-content: center; align-items: center"
+          >Default</a
+        >
+        {%endif%}
+        </div>
+      </div>
+      
+      {%endfor%} 
+      <a href="{{url_for('auth.adding_address')}}" class="checkBtn">Add Address</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

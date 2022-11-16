@@ -1,17 +1,142 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
+page_content %}
 
-{% block title %}
-My Flask App
-{% endblock %}
-
-{% block page_content %}
-
-
-    <div class="container-fluid">
-        <h1>Hello {{user_id}}</h1>
+<div class="container-fluid">
+  <div class="row">
+    <h1
+      class="col-md-2"
+      style="
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        padding: 25px;
+        width: fit-content;
+        box-shadow: 10px 10px rgb(74, 74, 74);
+        margin-bottom: 25px;
+      "
+    >
+      Account Information
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3 sideNav">
+      <ul>
+        <li class="active">
+          <a class="active" href="{{url_for('auth.infor')}}"
+            ><i class="bi bi-info-square-fill"></i>&nbsp;&nbsp;Information
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.address')}}"
+            ><i class="bi bi-house-fill"></i>&nbsp;&nbsp;Address
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.voucher')}}"
+            ><i class="bi bi-bag-dash-fill"></i>&nbsp;&nbsp;Voucher
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.history')}}"
+            ><i class="bi bi-bookmark-star-fill"></i>&nbsp;&nbsp;Order History
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('main.index')}}"
+            ><i class="bi bi-arrow-up-left-square-fill"></i>&nbsp;&nbsp;Back to
+            shopping</a
+          >
+        </li>
+      </ul>
     </div>
+    <div class="col-md-9">
+      <h1>Hello {{current_user.username}}</h1>
+      <h6>Member since: {{current_user.create_date.strftime('%d-%m-%Y')}}</h6>
 
+      <form action="{{url_for('auth.infor')}}" method="POST">
+        {{inforForm.csrf_token}}
 
+        <fieldset class="form-field">
+          <div class="row">
+            <div class="form_label col-md-4">
+              {{ inforForm.username.label }}
+            </div>
+            <div class="form_input col-md-8">
+              {{ inforForm.username(value=current_user.username,
+              disabled="disabled") }}
+            </div>
+          </div>
+        </fieldset>
 
+        <fieldset class="form-field">
+          <div class="row">
+            <div class="form_label col-md-4">{{ inforForm.email.label }}</div>
+            <div class="form_input col-md-8">
+              {{ inforForm.email(value=current_user.email, disabled="disabled")
+              }}
+            </div>
+          </div>
+        </fieldset>
+        <hr />
+        <fieldset class="form-field">
+          <div class="row">
+            <div class="form_label col-md-4">
+              {{ inforForm.fullname.label }}
+            </div>
+            <div class="form_input col-md-8">
+              {{ inforForm.username( value=current_user.fullname, placeholder='Enter your fullname')}}
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-field">
+          <div class="row">
+            <div class="form_label col-md-4">{{ inforForm.phone.label }}</div>
+            <div class="form_input col-md-8">
+              {{ inforForm.phone(value=current_user.phone, placeholder='Input your phone number here') }}
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="form-field">
+          <div class="row">
+            <div class="form_label col-md-4">{{ inforForm.dob.label }}</div>
+            <div class="form_input col-md-8">{{ inforForm.dob }}</div>
+          </div>
+        </fieldset>
+        <fieldset class="form-field">
+          <div class="row">
+            <div class="form_label col-md-4">{{ inforForm.gender.label }}</div>
+            <div class="form_input col-md-8">{{ inforForm.gender }}</div>
+          </div>
+        </fieldset>
+        <hr />
+        <fieldset class="form-field">
+          <div class="row">
+            <div class="form_label col-md-4">
+              {{ inforForm.password.label }}
+            </div>
+            <div class="form_input col-md-8">
+              {{ inforForm.password(placeholder='Input your old password') }}
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-field">
+          <div class="row">
+            <div class="form_label col-md-4">
+              {{ inforForm.password2.label }}
+            </div>
+            <div class="form_input col-md-8">
+              {{ inforForm.password2(placeholder='Input your new password here')
+              }}
+            </div>
+          </div>
+        </fieldset>
+
+        {{inforForm.submit}}
+      </form>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

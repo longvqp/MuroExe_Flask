@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from ..models import User
+from ..models import User, Address
 from ..import db
 
 @auth.route('/login', methods=['GET','POST'])
@@ -40,3 +40,72 @@ def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('main.index'))
+
+
+@auth.route('/infor', methods=['GET','POST'])
+def infor():
+    inforForm = InformationForm()
+    if inforForm.validate_on_submit():
+        print("RUNNING")
+        current_user.fullname = inforForm.fullname.data
+        current_user.phone = inforForm.phone.data
+        print(current_user.fullname)
+        print(inforForm.fullname.data)
+        db.session.commit()
+
+    return render_template('user/account_infor.html', inforForm=inforForm)
+
+@auth.route('/address', methods=['GET','POST'])
+def address():
+    addressForm = AddressForm()
+    if addressForm.validate_on_submit():    
+        new_address = Address(address=addressForm.address.data,
+        city=addressForm.city.data,
+        postal_code=addressForm.postal_code.data,
+        country = addressForm.country.data,
+        user_id = current_user.id)
+        db.session.add(new_address)
+        db.session.commit()
+    addresses = Address.query.filter_by(user_id=current_user.id)
+    return render_template('user/account_address.html', addressForm=addressForm, addresses=addresses)
+
+@auth.route('/delete_address/<address_id>', methods=['GET','POST'])
+def delete_address(address_id):
+    is_deleted = Address.query.filter_by(id=address_id).delete()
+    db.session.commit()
+    flash('Deleted Address')
+    return redirect(url_for('auth.address'))
+
+@auth.route('/make_default/<address_id>', methods=['GET','POST'])
+def make_address_default(address_id):
+    #Check if have other default
+    default_address = Address.query.filter_by(is_default=True).first()
+    default_address.is_default=False
+    address = Address.query.filter_by(id=address_id).first()
+    address.is_default=True
+    db.session.commit()
+    flash(address.address + ' is now default address')
+    return redirect(url_for('auth.address'))
+
+@auth.route('/adding_address', methods=['GET','POST'])
+def adding_address():
+    addressForm = AddressForm()
+    if addressForm.validate_on_submit():    
+        new_address = Address(address=addressForm.address.data,
+        city=addressForm.city.data,
+        postal_code=addressForm.postal_code.data,
+        country = addressForm.country.data,
+        user_id = current_user.id)
+        db.session.add(new_address)
+        db.session.commit()
+        flash('Added new address')
+        return redirect(url_for('auth.address'))
+    return render_template('user/add_address.html',addressForm=addressForm)
+
+@auth.route('/voucher')
+def voucher():
+    return render_template('user/account_voucher.html')
+
+@auth.route('/history')
+def history():
+    return render_template('user/account_history.html')

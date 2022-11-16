@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import User
-
+import pycountry
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
@@ -23,10 +23,30 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Email already registered.')
 
 class LoginForm(FlaskForm):
-        username = StringField('Username', validators=[
-        DataRequired(), Length(1, 64),
-        Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
+    username = StringField('Username', validators=[
+    DataRequired(), Length(1, 64),
+    Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
                'Usernames must have only letters, numbers, dots or '
                'underscores')])
-        password = PasswordField('Password')
-        submit = SubmitField('Login')
+    password = PasswordField('Password')
+    submit = SubmitField('Login')
+
+class InformationForm(FlaskForm):
+    email = StringField('Email')
+    username = StringField('Username')
+    fullname = StringField('Full name')
+    phone = StringField('Phone number: ')
+    dob = DateField(format='%d-%m-%Y')
+    gender = BooleanField()
+    password = PasswordField('Old Password'
+       )
+    password2 = PasswordField('New Password')
+    submit = SubmitField('Save')
+
+class AddressForm(FlaskForm):
+    address = StringField("Address")
+    city = StringField("City")
+    postal_code = StringField("Postal Code")
+    country = SelectField('Country', choices=[(country.name, country.name) for country in pycountry.countries])
+    submit = SubmitField('Add')
+
