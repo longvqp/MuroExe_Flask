@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64))
     phone = db.Column(db.String(10))
-    address = db.Column(db.String(128))
+    # address = db.Column(db.String(128)) New Table
     dob = db.Column(db.DateTime())
     #Create Enum for Gender
     gender = db.Column(db.Boolean, default=False)
@@ -67,6 +67,13 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# class Address(db.Model):
+#     __tablename__='addresses'
+#     user
+#     address
+#     city
+#     postal_code
+#     country
 
 class Category(db.Model):
     __tablename__= 'categories'
@@ -97,6 +104,29 @@ class StockAndSize(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), index=True)
     size = db.Column(db.Integer)
     stock = db.Column(db.Integer)
+    # UniqueConstraint('product_id', 'size', name='size_product')
     
-    #Mot size thuoc ve mot San Pham
+#Mot size thuoc ve mot San Pham
     
+# class Voucher
+#     #mot User co nhieu voucher
+#     #mot Order ap dung mot voucher
+
+# class Order
+#     # 1 User co nhieu Order
+#     # 1 Order co nhieu Product
+
+# class Cart
+#     # 1 User co mot Cart
+#     # 1 Cart co nhieu Product
+
+# class History
+#     # 1 user co mot History
+#     # 1 History chua nhieu Order
+
+
+
+
+
+
+
