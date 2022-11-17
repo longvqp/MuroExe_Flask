@@ -50,42 +50,44 @@ title %} My Flask App {% endblock %} {% block page_content %}
     </div>
     <div class="col-md-9" style="padding-right: 20px; padding-left: 20px">
       {% for address in addresses%}
-        {%if not address %}
+        
+        <div class="row address_card"  {% if address.is_default %} style="background-color: rgb(253, 243, 209);" {%endif%}>
+          <div class="col-md-8">
+            <h5><b> Address: </b>&nbsp;{{address.address}}</h5>
+            <h5><b> City: </b>&nbsp;{{address.city}}</h5>
+          </div>
+          <div class="col-md-3">
+            <h5><b> Postal: </b>&nbsp;{{address.postal_code}}</h5>
+            <h5><b> Country: </b>&nbsp;{{address.country}}</h5>
+          </div>
+          <div class="col-md-1">
+            {% if address.is_default %} 
+            <h6>Default Address</h6>
+            {% endif %}
+            {% if not address.is_default %}
+            <a class="deleteBtn"
+              href="delete_address/{{address.id}}"
+              style="display: flex; justify-content: center; align-items: center"
+              >Delete</a>
+            <a class="checkBtn"
+            href="make_default/{{address.id}}"
+            style="display: flex; justify-content: center; align-items: center"
+            >Default</a
+          >
+          {% endif %}
+          </div>
+        </div>
+      {% endfor %} 
+
+      {%if addresses|length==0 %}
         <h1>Add Address</h1>
         {{ wtf.quick_form(addressForm) }}
-        {%endif%}
-      <div class="row address_card"  {% if address.is_default %} style="background-color: rgb(253, 243, 209);" {%endif%}>
-        <div class="col-md-8">
-          <h5><b> Address: </b>&nbsp;{{address.address}}</h5>
-          <h5><b> City: </b>&nbsp;{{address.city}}</h5>
-        </div>
-        <div class="col-md-3">
-          <h5><b> Postal: </b>&nbsp;{{address.postal_code}}</h5>
-          <h5><b> Country: </b>&nbsp;{{address.country}}</h5>
-        </div>
-        <div class="col-md-1">
-          {% if address.is_default %} 
-          <h6>Default Address</h6>
-          {%endif%}
-          {% if not address.is_default %}
-          <a class="deleteBtn"
-            href="delete_address/{{address.id}}"
-            style="display: flex; justify-content: center; align-items: center"
-            >Delete</a
-          >
-        
-       
-          <a class="checkBtn"
-          href="make_default/{{address.id}}"
-          style="display: flex; justify-content: center; align-items: center"
-          >Default</a
-        >
-        {%endif%}
-        </div>
-      </div>
+        {% else %}
+        <a href="{{url_for('auth.adding_address')}}" class="checkBtn">Add Address</a>
+      {% endif %}
+
+     
       
-      {%endfor%} 
-      <a href="{{url_for('auth.adding_address')}}" class="checkBtn">Add Address</a>
     </div>
   </div>
 </div>

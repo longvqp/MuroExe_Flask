@@ -17,6 +17,11 @@ page_content %}
     >
       Account Information
     </h1>
+    {% for field, errors in inforForm.errors.items() %}
+<div class="alert alert-error">
+    {{ inforForm[field].label }}: {{ ', '.join(errors) }}
+</div>
+{% endfor %}
   </div>
   <div class="row">
     <div class="col-md-3 sideNav">
@@ -84,7 +89,7 @@ page_content %}
               {{ inforForm.fullname.label }}
             </div>
             <div class="form_input col-md-8">
-              {{ inforForm.username( value=current_user.fullname, placeholder='Enter your fullname')}}
+              {{ inforForm.fullname( value=current_user.fullname, placeholder='Enter your fullname')}}
             </div>
           </div>
         </fieldset>
@@ -100,7 +105,7 @@ page_content %}
         <fieldset class="form-field">
           <div class="row">
             <div class="form_label col-md-4">{{ inforForm.dob.label }}</div>
-            <div class="form_input col-md-8">{{ inforForm.dob }}</div>
+            <div class="form_input col-md-8">{{ inforForm.dob(value=current_user.dob) }}</div>
           </div>
         </fieldset>
         <fieldset class="form-field">
@@ -135,6 +140,7 @@ page_content %}
 
         {{inforForm.submit}}
       </form>
+      
     </div>
   </div>
 </div>

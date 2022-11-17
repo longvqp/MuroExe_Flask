@@ -45,15 +45,16 @@ def logout():
 @auth.route('/infor', methods=['GET','POST'])
 def infor():
     inforForm = InformationForm()
+    print(current_user.id)
     if inforForm.validate_on_submit():
         print("RUNNING")
         current_user.fullname = inforForm.fullname.data
         current_user.phone = inforForm.phone.data
-        print(current_user.fullname)
-        print(inforForm.fullname.data)
+        current_user.dob = inforForm.dob.data
         db.session.commit()
 
     return render_template('user/account_infor.html', inforForm=inforForm)
+
 
 @auth.route('/address', methods=['GET','POST'])
 def address():
@@ -66,7 +67,8 @@ def address():
         user_id = current_user.id)
         db.session.add(new_address)
         db.session.commit()
-    addresses = Address.query.filter_by(user_id=current_user.id)
+    addresses = Address.query.filter_by(user_id=current_user.id).all()
+    print("Addres:",len(addresses))
     return render_template('user/account_address.html', addressForm=addressForm, addresses=addresses)
 
 @auth.route('/delete_address/<address_id>', methods=['GET','POST'])

@@ -22,7 +22,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64))
     fullname = db.Column(db.String(64))
     phone = db.Column(db.String(10))
-    dob = db.Column(db.DateTime())
+    dob = db.Column(db.Date())
     #Create Enum for Gender
     gender = db.Column(db.Boolean, default=False)
     #ballance = db.Column(db.Integer)

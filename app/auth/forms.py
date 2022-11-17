@@ -36,7 +36,7 @@ class InformationForm(FlaskForm):
     username = StringField('Username')
     fullname = StringField('Full name')
     phone = StringField('Phone number: ')
-    dob = DateField(format='%d-%m-%Y')
+    dob = DateField('Your Dob: ')
     gender = BooleanField()
     password = PasswordField('Old Password'
        )
