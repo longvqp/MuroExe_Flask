@@ -1,0 +1,46 @@
+{% extends "ad_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid">
+   <h1 class="heading">Manage Banner Image</h1>
+   
+   {{ wtf.quick_form(addbannerForm) }}
+
+   <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Banner Name</th>
+        <th scope="col">Is Disable</th>
+       
+        
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {%for banner in banners%}
+      <tr class="tbRow">
+        <th  style="vertical-align: middle;" scope="row">{{banner.id}}</th>
+        <td style="vertical-align: middle;">
+            <img class="pdImg" src="{{ url_for('static',filename='assets/Product_Image/Banner/'+banner.banner)}}" alt="">
+            <a href="#">{{banner.banner}}</a></td>
+        <td style="vertical-align: middle;">{{banner.is_disable}}</td>
+        
+        
+        <td style="vertical-align: middle;"><a id="stockBtn" href="#">Check Stock</a>&nbsp;&nbsp;&nbsp;<a id="deleteBtn" href="#">Delete</a></td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+  
+</div>
+{% endblock %}
+
+
+
+
+

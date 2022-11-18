@@ -1,7 +1,7 @@
 from flask import render_template, current_app as app, redirect,url_for,flash
 from . import admin
-from .forms import AddProductForm,EditProductForm,AddStockForm,UpdateStockForm
-from ..models import Product, Category, StockAndSize
+from .forms import AddProductForm,EditProductForm,AddStockForm,UpdateStockForm,AddBannerImageForm
+from ..models import Product, Category, StockAndSize, BannerImage
 from .. import db
 from werkzeug.utils import secure_filename
 import uuid as uuid
@@ -63,12 +63,11 @@ def ManageProduct(category):
     products = Product.query.filter_by(category_id=ctgr.id).all()
     return render_template('admin/manage_product.html', products=products)
 
-
 @admin.route('/delete/<product_id>', methods=['GET','POST'])
 def DeleteProduct(product_id):
     is_deleted = Product.query.filter_by(id=product_id).delete()
     db.session.commit()
-    return redirect(url_for('admin.ManageProduct'))
+    return redirect(url_for('admin.ManageProduct',category='shoes'))
 
 @admin.route('/edit_for/<product_id>', methods=['GET','POST'])
 def EditProduct(product_id):
@@ -120,8 +119,25 @@ def UpdateStock(size_id):
     return "Updated"
     # return redirect(url_for('admin.CheckStock',product_id=product.id))   
 
+@admin.route('/banner_page', methods=['GET','POST'])
+def PageBanner():
+    banners = BannerImage.query.all()
+    addbannerForm = AddBannerImageForm()
+    if addbannerForm.validate_on_submit():
+        banner_image_name = str(uuid.uuid1()) + "_" + secure_filename(addbannerForm.banner.data.filename)
+        addbannerForm.banner.data.save(os.path.join(app.config['UPLOAD_FOLDER']+'/Banner', banner_image_name))
+        banner = BannerImage(
+            banner = banner_image_name,
+            is_disable = addbannerForm.is_disable.data
+        )
+        db.session.add(banner)
+        db.session.commit()
+    return render_template('admin/page_banner.html',banners=banners, addbannerForm = addbannerForm)
 
 
+
+
+# For Batch Data Adding
 @admin.route('/add_category')
 def AddCategory():
     shoe = Category(category_name='shoes')

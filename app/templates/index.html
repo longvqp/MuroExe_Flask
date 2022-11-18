@@ -15,9 +15,11 @@ My Flask App
             <div class="carousel-item">
                 <img src="{{ url_for('static',filename='assets/Img/banner2.png') }}" class="d-block w-100" alt="..." />
             </div>
+            {%for banner in banners%}
             <div class="carousel-item">
-                <img src="{{ url_for('static',filename='assets/Img/banner1.png') }}" class="d-block w-100" alt="..." />
+                <img src="{{ url_for('static',filename='assets/Product_Image/Banner/'+banner.banner) }}" class="d-block w-100" alt="..." />
             </div>
+            {%endfor%}
         </div>
     </div>
     <div class="scroll_down">

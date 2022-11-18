@@ -112,6 +112,12 @@ class StockAndSize(db.Model):
     stock = db.Column(db.Integer)
     # UniqueConstraint('product_id', 'size', name='size_product')
     
+class BannerImage(db.Model):
+    __tablename__='banner_images'
+    id = db.Column(db.Integer, primary_key=True)
+    banner = db.Column(db.String())
+    is_disable = db.Column(db.Boolean(), default=False)
+    
 #Mot size thuoc ve mot San Pham
     
 # class Voucher

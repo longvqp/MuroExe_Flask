@@ -28,9 +28,13 @@ class EditProductForm(FlaskForm):
 class AddStockForm(FlaskForm):
     size = IntegerField('Size: ')
     stock = IntegerField('In Stock: ')
-    
     submit = SubmitField('Add Size')
 
 class UpdateStockForm(FlaskForm):
     stock = IntegerField('In Stock: ')
     submit = SubmitField('Update')
+
+class AddBannerImageForm(FlaskForm):
+    banner = FileField('Product Image: ', validators=[DataRequired()])
+    is_disable = BooleanField('Disalbe')
+    submit = SubmitField('save')

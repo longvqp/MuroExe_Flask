@@ -1,80 +1,110 @@
 {% extends "bootstrap/base.html" %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    {% block head %}
 
-<head>
-  <!-- Required meta tags -->
-  {% block head %}
-  
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/font.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/admin/manage_product.css') }}">
-  
-  
-  
-  <title>{% block title %}Flasky{% endblock %}</title>
-  {% endblock %}
-  <script src="{{ url_for('static',filename='javascript/addProduct.js') }}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/gsap.min.js"></script>
-</head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/font.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/admin/manage_product.css') }}"
+    />
 
-<body>
+    <title>{% block title %}Flasky{% endblock %}</title>
+    {% endblock %}
+    <script src="{{ url_for('static',filename='javascript/addProduct.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/gsap.min.js"></script>
+  </head>
 
-  {% block navbar %}
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{url_for('admin.index')}}">MoroExe Admin</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <body>
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{{url_for('admin.index')}}"
+        >MoroExe Admin</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
-    </button>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link {{ 'active' if active_page == 'add_product' else ''}}" href="{{url_for('admin.AddProduct')}}">Add Product</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {{ 'active' if active_page == 'edit_product' else ''}}" href="{{url_for('admin.ManageProduct',category='shoes')}}">Manage Product</a>
+          <li class="nav-item">
+            <a
+              class="nav-link {{ 'active' if active_page == 'add_product' else ''}}"
+              href="{{url_for('admin.AddProduct')}}"
+              >Add Product</a
+            >
           </li>
           <li class="nav-item">
-         
-        </li>
-        <li class="nav-item">
-         
-      </li>
-            
+            <a
+              class="nav-link {{ 'active' if active_page == 'edit_product' else ''}}"
+              href="{{url_for('admin.ManageProduct',category='shoes')}}"
+              >Manage Product</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {{ 'active' if active_page == 'edit_product' else ''}}"
+              href="{{url_for('admin.PageBanner')}}"
+              >Page Banner</a
+            >
+          </li>
+          <li class="nav-item"></li>
         </ul>
+      </div>
+    </nav>
+    {% endblock %} {% block content %} {% for message in get_flashed_messages()
+    %}
+    <center>
+      <div
+        class="alert alert-warning alert-dismissible fade show"
+        role="alert"
+        style="position: absolute; z-index: 99; margin-left: 40vw"
+      >
+        <button type="button" class="close" data-dismiss="alert">
+          &times;
+        </button>
+        {{message}}
+      </div>
+    </center>
+    {% endfor %}
+    <div style="padding: auto; z-index: 1; position: relative">
+      {% block page_content %} {% endblock %}
     </div>
-</nav>
-  {% endblock %}
-
-  {% block content %}
-  {% for message in get_flashed_messages() %}
-  <center>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert"
-      style="position:absolute; z-index:99; margin-left: 40vw;">
-
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      {{message}}
-    </div>
-  </center>
-  {% endfor %}
-  <div style="padding: auto; z-index: 1; position: relative;">
-    {% block page_content %}
+    <script type="text/javascript">
+      setTimeout(function () {
+        $(".alert").alert("close");
+      }, 5000);
+    </script>
     {% endblock %}
-  </div>
-  <script type="text/javascript">
-    setTimeout(function () {
-      $('.alert').alert('close');
-    }, 5000);
-  </script>
-  {% endblock %}
-
-
-  
-</body>
-
+  </body>
 </html>
