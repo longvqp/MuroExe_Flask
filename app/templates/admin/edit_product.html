@@ -84,10 +84,10 @@ My Flask App
                 <fieldset class="form-field">
                     <div class="row">
                         <div class="row">
-                            <h4>{{ form.desc.label }}</h4>
+                            <!-- <h4>{{ form.desc.label }}</h4> -->
                         </div>
                         <div class="row">
-                            <div class="pdDesc"> {{ form.desc(default=product.desc) }}</div>
+                            <!-- <div class="pdDesc"> {{ form.desc(default=product.desc) }}</div> -->
                             <hr>
                         </div>
                     </div>
@@ -115,12 +115,28 @@ My Flask App
                         </div>
                     </div>
                 </fieldset>
+                <fieldset class="form-field">
+                    <div class="row">
+                        <div class="col-md-6">
+                        <div class="row">
+                            <h4>{{ form.tag.label }}</h4>
+                        </div>
+                        <div class="row">
+                            <h4>{{ form.tag }}</h4>
+                        </div>
+                    </div>
+                </fieldset>
                     {{ form.submit(value='Update Product') }}
                 </form>
                 <hr>
                     <div class="col-md-6">
                     
                     </div>
+                    {% for field, errors in form.errors.items() %}
+<div class="alert alert-error">
+    {{ form[field].label }}: {{ ', '.join(errors) }}
+</div>
+{% endfor %}
                     </div>
                 
 

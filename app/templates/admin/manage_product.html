@@ -15,7 +15,7 @@ My Flask App
         <th scope="col">Id</th>
         <th scope="col">Product Name</th>
         <th scope="col">Price</th>
-        <th scope="col">Desc</th>
+        <th scope="col" style="width: 50%">Desc</th>
         
         <th scope="col">Action</th>
       </tr>
@@ -28,7 +28,7 @@ My Flask App
             <img class="pdImg" src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img)}}" alt="">
             <a href="/admin/edit_for/{{product.id}}">{{product.product_name}}</a></td>
         <td style="vertical-align: middle;"> &#163; {{product.price}}</td>
-        <td style="vertical-align: middle;">{{product.desc}}</td>
+        <td style="vertical-align: middle; ">{{product.desc}}</td>
         
         <td style="vertical-align: middle;"><a id="stockBtn" href="/admin/check_stock/{{product.id}}">Check Stock</a>&nbsp;&nbsp;&nbsp;<a id="deleteBtn" href="/admin/delete/{{product.id}}">Delete</a></td>
       </tr>

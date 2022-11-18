@@ -34,11 +34,15 @@ My Flask App
                         src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img)}}" alt="">
                     {{product.product_name}}</td>
                 <td style="vertical-align: middle;">{{size.size}}</td>
-                <form method="POST" id="stockForm" action="{{url_for('admin.UpdateStock',product_id=product.id)}}">
+                <!-- Loi gi do ma size luon tra ve 1 -->
+                <form method="POST" id="stockForm" action="/admin/update_stock/{{size.id}}"> 
                     {{form.csrf_token}}
                     <fieldset class="form-field"><td style="vertical-align: middle;">{{updateForm.stock(value=size.stock)}}</td> </fieldset>
-                    <td style="vertical-align: middle;"><a onclick="myFunction()" type="submit"
-                            id="stockBtn">Update</a>&nbsp;&nbsp;&nbsp;<a id="deleteBtn"
+                    <td style="vertical-align: middle;">
+                        <a onclick="myFunction()" type="submit"
+                            id="stockBtn">Update</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a id="deleteBtn"
                             href="#">Delete</a></td>
                 </form>
             </tr>

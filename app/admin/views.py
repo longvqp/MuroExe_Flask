@@ -6,6 +6,7 @@ from .. import db
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
+import json
 from config import config
 
 @admin.route('/')
@@ -17,8 +18,6 @@ def AddProduct():
     form = AddProductForm()
     print(form.validate_on_submit())
     if form.validate_on_submit():
-        
-        print("CO CHAY NGE")
         category = Category.query.filter_by(category_name=form.category.data).first()
         uploaded_picture = form.product_img.data
         uploaded_sub_picture1 = form.product_subimg1.data
@@ -34,7 +33,7 @@ def AddProduct():
         #Set unique id to picture name and save
         product_img_name = str(uuid.uuid1()) + "_" + uploaded_picture_name
         uploaded_picture.save(os.path.join(app.config['UPLOAD_FOLDER'], product_img_name))
-        product_image_path = os.path.join(app.config['UPLOAD_FOLDER'], product_img_name)
+
 
         product_subimg1_name = str(uuid.uuid1()) + "_" + uploaded_sub_picture1_name
         uploaded_sub_picture1.save(os.path.join(app.config['UPLOAD_FOLDER'], product_subimg1_name))
@@ -72,15 +71,12 @@ def DeleteProduct(product_id):
 
 @admin.route('/edit_for/<product_id>', methods=['GET','POST'])
 def EditProduct(product_id):
-
-
-     
     product = Product.query.filter_by(id=product_id).first()
     editForm = EditProductForm()
     if editForm.validate_on_submit():
         product.product_name = editForm.product_name.data
         product.price = editForm.price.data
-        product.desc = editForm.desc.data 
+        product.tag = editForm.tag.data 
         db.session.commit()
         return redirect(url_for('admin.ManageProduct'))   
     return render_template('admin/edit_product.html', product=product, form=editForm)
@@ -94,7 +90,6 @@ def CheckStock(product_id):
     if stockForm.validate_on_submit():
         print("STOCK FORM SUBMIT")
         size_exist = StockAndSize.query.filter_by(size=stockForm.size.data,product_id=product.id).first()
-        
         if( not size_exist):
             stock = StockAndSize(size=stockForm.size.data,
                                     stock=stockForm.stock.data,
@@ -108,13 +103,72 @@ def CheckStock(product_id):
         print("UPDATING STOCK VALUE")
     return render_template('admin/product_stock.html', product=product,sizes=sizes,form=stockForm, updateForm=updateForm)
 
-@admin.route('/update_stock/<product_id>', methods=['POST'])
-def UpdateStock(product_id):
-    product = Product.query.filter_by(id=product_id).first()
+@admin.route('/update_stock/<size_id>', methods=['POST'])
+def UpdateStock(size_id):
+    stock = StockAndSize.query.filter_by(id=size_id).first()
+    product = Product.query.filter_by(id=stock.product_id).first()
     updateForm = UpdateStockForm()
     if updateForm.validate_on_submit():
-        
+        stock.stock = updateForm.stock.data
+        db.session.commit()
+        print(stock.stock)
+        print(updateForm.stock.data)
         print("FORM WORKING")
-    return redirect(url_for('admin.CheckStock',product_id=product.id))   
+    return "Updated"
+    # return redirect(url_for('admin.CheckStock',product_id=product.id))   
 
 
+
+@admin.route('/add_category')
+def AddCategory():
+    shoe = Category(category_name='shoes')
+    sneaker = Category(category_name='sneakers')
+    boot = Category(category_name='boots')
+    slipper = Category(category_name='slippers')
+    accessory = Category(category_name='accessories')
+    db.session.add_all([shoe,sneaker,boot,slipper,accessory])
+    db.session.commit()
+    flash("Added all category")
+    return redirect(url_for('admin.index'))
+
+@admin.route('/add_batch')
+def AddBatch():
+    datadir = "/Users/longvu/Projects/Moroexe_Flask/app/static/data"
+    datas = []
+    img_names = []
+    with os.scandir(datadir) as folders:
+        for folder in folders:
+            if(folder.name!='.DS_Store'):
+                #print("In Folder: "+folder.name)
+                folderPath = (folder.path)
+                for file in os.scandir(folderPath):
+                    if( file!='.DS_Store' ):
+                        #print(file)
+                        if(file.name=='infor.JSON'):
+                            with open(file, 'r') as fcc_file:
+                                datas.append(json.load(fcc_file)) 
+
+
+    # print (datas[1])
+    category = Category.query.filter_by(category_name='shoes').first()
+    for data in datas:
+        pd_name = (data['product_name'])
+        pd_price = (data['price'])
+        pd_desc = (data['desc'])
+        img_1 = (data['product_img'])
+        img_2 = (data['product_subimg1'])
+        img_3 = (data['product_subimg2'])
+        img_4 = (data['product_subimg3'])
+        product = Product(product_name = pd_name,
+                            price = pd_price,
+                            desc = pd_desc,
+                            product_img = img_1,
+                            product_subimg1 = img_2,
+                            product_subimg2 = img_3,
+                            product_subimg3 = img_4,
+                            categories=category
+                            )
+        db.session.add(product)
+        db.session.commit()
+    flash("Added a bunch of data")
+    return redirect(url_for('admin.index'))

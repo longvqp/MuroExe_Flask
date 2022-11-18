@@ -96,9 +96,9 @@ class Product(db.Model):
     product_subimg1 = db.Column(db.String())
     product_subimg2 = db.Column(db.String())
     product_subimg3 = db.Column(db.String())
-    price = db.Column(db.Integer)
+    price = db.Column(db.Float)
     desc = db.Column(db.String())
-    
+    tag = db.Column(db.String())
     # Mot san pham co nhieu size 
     sizes = db.relationship('StockAndSize', backref='products')
     # Mot San pham thuoc ve mot Category

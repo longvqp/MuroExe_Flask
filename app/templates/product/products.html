@@ -43,14 +43,17 @@ My Flask App
                 <p>VAT included</p>
                 <h4>Size</h4>
                 <div class="row sizeChart">
-                    <h5 class="size">34</h5>
-                    <h5 class="size">35</h5>
-                    <h5 class="size">36</h5>
-                    <h5 class="size">37</h5>
-                    <h5 class="size">38</h5>
-                    <h5 class="size">39</h5>
+                    {% for size in stock_size %}
+                        {% if size.stock > 0 %}
+                        <h5 class="size">{{size.size}}</h5>
+                        {% else %}
+                        <h5 class="size" style="pointer-events: none;"><s>{{size.size}}</s></h5>
+                        {% endif %}
+                    {% endfor %}
+                   
                 </div>
-                <button class="btn1">Add to basket</button>
+               
+                <a href="#" class="btn1">Add to basket</a>
             </div>
 
 
@@ -67,13 +70,13 @@ My Flask App
     console.log("Script on chosing size")
     var sizeChart = document.getElementsByClassName("sizeChart");
     var sizes = document.getElementsByClassName("size");
-
+    
     for(var i=0; i<=sizes.length-1; i++){
         
         sizes[i].addEventListener("click", function(){
           
             var current = document.getElementsByClassName("sizeCheck")
-           
+            
             if (current.length > 0) {
                
                 current[0].className = current[0].className.replace("sizeCheck", "");
@@ -82,6 +85,8 @@ My Flask App
         
         })
     }
+
+
 </script>
 
 {% endblock %}

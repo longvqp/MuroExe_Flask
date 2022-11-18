@@ -39,22 +39,38 @@
             <li class="nav-item">
               <a class="nav-link {{ 'active' if active_page == 'edit_product' else ''}}" href="{{url_for('admin.ManageProduct')}}">Manage Product</a>
           </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">User</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Shipping</a>
-          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('admin.AddBatch')}}">Add Batch Product</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('admin.AddCategory')}}">Add Category</a>
+      </li>
+            
         </ul>
     </div>
 </nav>
   {% endblock %}
 
   {% block content %}
+  {% for message in get_flashed_messages() %}
+  <center>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert"
+      style="position:absolute; z-index:99; margin-left: 40vw;">
+
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{message}}
+    </div>
+  </center>
+  {% endfor %}
   <div style="padding: auto; z-index: 1; position: relative;">
     {% block page_content %}
     {% endblock %}
   </div>
+  <script type="text/javascript">
+    setTimeout(function () {
+      $('.alert').alert('close');
+    }, 5000);
+  </script>
   {% endblock %}
 
 

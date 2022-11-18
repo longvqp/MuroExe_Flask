@@ -47,11 +47,11 @@ def infor():
     inforForm = InformationForm()
     print(current_user.id)
     if inforForm.validate_on_submit():
-        print("RUNNING")
         current_user.fullname = inforForm.fullname.data
         current_user.phone = inforForm.phone.data
         current_user.dob = inforForm.dob.data
         db.session.commit()
+        flash("Information updated")
 
     return render_template('user/account_infor.html', inforForm=inforForm)
 
@@ -82,11 +82,14 @@ def delete_address(address_id):
 def make_address_default(address_id):
     #Check if have other default
     default_address = Address.query.filter_by(is_default=True).first()
-    default_address.is_default=False
-    address = Address.query.filter_by(id=address_id).first()
-    address.is_default=True
-    db.session.commit()
-    flash(address.address + ' is now default address')
+    if( default_address ):
+        default_address.is_default=False
+        db.session.commit()
+    else:
+        address = Address.query.filter_by(id=address_id).first()
+        address.is_default=True
+        db.session.commit()
+        flash(address.address + ' is now default address')
     return redirect(url_for('auth.address'))
 
 @auth.route('/adding_address', methods=['GET','POST'])
@@ -98,7 +101,9 @@ def adding_address():
         postal_code=addressForm.postal_code.data,
         country = addressForm.country.data,
         user_id = current_user.id)
+
         db.session.add(new_address)
+
         db.session.commit()
         flash('Added new address')
         return redirect(url_for('auth.address'))

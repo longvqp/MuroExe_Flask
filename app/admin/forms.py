@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, TextAreaField,FloatField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import Category
@@ -19,9 +19,10 @@ class AddProductForm(FlaskForm):
 
 class EditProductForm(FlaskForm):
     product_name = StringField('Product Name: ', validators=[DataRequired()])
-    price = IntegerField('Price')
+    price = FloatField('Price')
     desc = TextAreaField('Product Description')
     category = SelectField('Category', choices=[('shoes', 'Shoe'), ('boots', 'Boot'), ('slippers', 'Slipper')])
+    tag = SelectField('Tag', choices=[('New Arrival', 'New Arrival'), ('Best Seller', 'Best Seller'),('None', 'None')])
     submit = SubmitField('Update Product')
 
 class AddStockForm(FlaskForm):
