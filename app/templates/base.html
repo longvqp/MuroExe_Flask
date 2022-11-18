@@ -37,10 +37,10 @@
       <div class="row">
         <div class="col-9 navLink">
           <a href="{{url_for('main.listing',category='shoes')}}">Shoes</a>
-          <a href="#">Sneakers</a>
-          <a href="#">Slipers</a>
-          <a href="#">Boots</a>
-          <a href="#">Accessories</a>
+          <a href="{{url_for('main.listing',category='sneakers')}}">Sneakers</a>
+          <a href="{{url_for('main.listing',category='slippers')}}">Slipers</a>
+          <a href="{{url_for('main.listing',category='boots')}}">Boots</a>
+          <a href="{{url_for('main.listing',category='accessories')}}">Accessories</a>
         </div>
         <div class="col-3 userIcon">
           {% if current_user.is_authenticated %}

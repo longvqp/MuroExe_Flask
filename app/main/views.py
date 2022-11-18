@@ -31,4 +31,4 @@ def listing(category):
 
     products = Product.query.filter_by(category_id=ctgr.id).all()
 
-    return render_template('product/listing.html', products = products)
+    return render_template('product/listing.html', products = products,ctgr=ctgr)

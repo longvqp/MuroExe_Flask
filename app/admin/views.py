@@ -57,9 +57,10 @@ def AddProduct():
  
     return render_template('admin/add_product.html', form=form)
 
-@admin.route('/manage_product', methods=['GET','POST'])
-def ManageProduct():
-    products = Product.query.all()
+@admin.route('/manage_product/<category>', methods=['GET','POST'])
+def ManageProduct(category):
+    ctgr = Category.query.filter_by(category_name=category).first()
+    products = Product.query.filter_by(category_id=ctgr.id).all()
     return render_template('admin/manage_product.html', products=products)
 
 
@@ -72,14 +73,16 @@ def DeleteProduct(product_id):
 @admin.route('/edit_for/<product_id>', methods=['GET','POST'])
 def EditProduct(product_id):
     product = Product.query.filter_by(id=product_id).first()
+    ctgr = Category.query.filter_by(id=product.category_id).first()
+    print(ctgr.category_name)
     editForm = EditProductForm()
     if editForm.validate_on_submit():
         product.product_name = editForm.product_name.data
         product.price = editForm.price.data
         product.tag = editForm.tag.data 
         db.session.commit()
-        return redirect(url_for('admin.ManageProduct'))   
-    return render_template('admin/edit_product.html', product=product, form=editForm)
+        return redirect(url_for('admin.ManageProduct',category=ctgr.category_name))   
+    return render_template('admin/edit_product.html', product=product, form=editForm,ctgr=ctgr)
    
 @admin.route('/check_stock/<product_id>', methods=['GET','POST'])
 def CheckStock(product_id):
@@ -150,8 +153,9 @@ def AddBatch():
 
 
     # print (datas[1])
-    category = Category.query.filter_by(category_name='shoes').first()
+    
     for data in datas:
+        category = Category.query.filter_by(category_name=(data['category'])).first()
         pd_name = (data['product_name'])
         pd_price = (data['price'])
         pd_desc = (data['desc'])

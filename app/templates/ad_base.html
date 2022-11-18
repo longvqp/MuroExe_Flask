@@ -26,7 +26,7 @@
 
   {% block navbar %}
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">MoroExe Admin</a>
+    <a class="navbar-brand" href="{{url_for('admin.index')}}">MoroExe Admin</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,13 +37,13 @@
                 <a class="nav-link {{ 'active' if active_page == 'add_product' else ''}}" href="{{url_for('admin.AddProduct')}}">Add Product</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{ 'active' if active_page == 'edit_product' else ''}}" href="{{url_for('admin.ManageProduct')}}">Manage Product</a>
+              <a class="nav-link {{ 'active' if active_page == 'edit_product' else ''}}" href="{{url_for('admin.ManageProduct',category='shoes')}}">Manage Product</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{url_for('admin.AddBatch')}}">Add Batch Product</a>
+         
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('admin.AddCategory')}}">Add Category</a>
+         
       </li>
             
         </ul>

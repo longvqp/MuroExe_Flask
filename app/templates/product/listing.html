@@ -9,7 +9,7 @@ My Flask App
 
     <div class="container-fluid">
         <div class="page-header">
-            <h1>Shoes</h1>
+            <h1>{{ctgr.category_name}}</h1>
         </div>
         <div class="row" style="padding: 0!important; margin:0 !important;">
             {% for product in products%}
@@ -21,14 +21,13 @@ My Flask App
                         <div class="col-9">
                              
                              {% if product.tag%}
-                            <h6>{{product.tag}}</h6>
-                            {%else%}
-                            &nbsp;
-                            {% if product.tag==none%}
-                            <h6>{{product.tag}}</h6>
-                            {%else%}
-                            &nbsp;
-                            {%endif%}
+                                <h6>{{product.tag}}</h6>
+                                {%else%}
+                                    
+                                    {% if product.tag==none%}
+                                        &nbsp;
+                                   
+                                    {%endif%}
                             {%endif%}
                         </div>
                         <div class="col-3">

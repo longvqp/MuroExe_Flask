@@ -7,7 +7,8 @@ My Flask App
 {% block page_content %}
 <div class="container-fluid">
    <h1 class="heading">Welcome Admin</h1>
-  
+   <a class="nav-link" href="{{url_for('admin.AddBatch')}}">Add Batch Product</a>
+   <a class="nav-link" href="{{url_for('admin.AddCategory')}}">Add Category</a>
 </div>
 {% endblock %}
 

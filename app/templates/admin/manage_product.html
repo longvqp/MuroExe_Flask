@@ -7,8 +7,18 @@ My Flask App
 
 {% block page_content %}
 <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
    <h1 class="heading" >MANAGE PRODUCT PAGE</h1>
- 
+  </div>
+  <div class="col-md-6 mnPd">
+    <a href="{{url_for('admin.ManageProduct',category='shoes')}}">Shoes</a>
+    <a href="{{url_for('admin.ManageProduct',category='sneakers')}}">Sneakers</a>
+    <a href="{{url_for('admin.ManageProduct',category='boots')}}">Boots</a>
+    <a href="{{url_for('admin.ManageProduct',category='slippers')}}">Slipper</a>
+    <a href="{{url_for('admin.ManageProduct',category='accessories')}}">Accessories</a>
+  </div>
+  </div>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -24,7 +34,7 @@ My Flask App
         {%for product in products%}
       <tr class="tbRow">
         <th  style="vertical-align: middle;" scope="row">{{product.id}}</th>
-        <td>
+        <td style="vertical-align: middle;">
             <img class="pdImg" src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img)}}" alt="">
             <a href="/admin/edit_for/{{product.id}}">{{product.product_name}}</a></td>
         <td style="vertical-align: middle;"> &#163; {{product.price}}</td>

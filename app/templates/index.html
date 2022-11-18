@@ -81,37 +81,109 @@ My Flask App
     <h1 class="rellax" data-rellax-speed="1" data-aos="fade-up"><u>Featured Product</u></h1>
 
     <div class="row d-flex pdRow rellax  flex-row flex-nowrap" data-rellax-speed="0.75">
-    {% for product in products%}
+        {% for product in products%}
+        {% if product.tag=="New Arrival" %}
+        
         <div class="col-3">
-            <div class="pdCard container">
+
+            <div class="pdCard">
+
                 <div class="row pdBanner">
                     <div class="col-9">
-                        <h6>New Arrival</h6>
+                         
+                       <h6>New Arrival</h6>
                     </div>
                     <div class="col-3">
                         <a href="#"><i class="bi bi-heart"></i></a>
                     </div>
                 </div>
 
-                <div class="row">
-                    <img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img) }}" alt="...">
-                </div>
+                <a href="/product/{{product.id}}">
 
-                <div class="pdInf">
-                    <div class="row pdName">
-                        <h2>{{product.product_name}}</h2>
+                    <div class="row">
+                        <img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img) }}"
+                            alt="...">
                     </div>
-                    <div class="row pdPrice">
-                        <div class="col-8">
-                            <h5>&#163; {{product.price}}.00</h5>
-                            <p>Free shipping</p>
+
+                    <div class="pdInf">
+                        <div class="row pdName">
+                            <h2>{{product.product_name}}</h2>
                         </div>
-                        <div class="col-4"><a href="/product/{{product.id}}"><i class="bi bi-bag-fill"></i></a></div>
+                        <div class="row pdPrice">
+                            <h5>&#163; {{product.price}}</h5>
+                        </div>
                     </div>
+                </a>
+                <div class="row">
+                    <div class="col-md-6">
+                        &nbsp;
+                    </div>
+                    
+                    <div class="col-md-6 addCart">
+                        <a href="#" >
+                        Add to cart
+                    </a>
+                    </div>
+                
                 </div>
             </div>
         </div>
-    {%endfor%}
+        {% endif %}
+        {%endfor%}
+
+    
+  
+    </div>
+    <div class="row d-flex pdRow rellax  flex-row flex-nowrap" data-rellax-speed="0.75">
+        {% for product in products%}
+        {% if product.tag=="Best Seller" %}
+        
+        <div class="col-3">
+
+            <div class="pdCard">
+
+                <div class="row pdBanner">
+                    <div class="col-9">
+                         
+                       <h6>Best Seller</h6>
+                    </div>
+                    <div class="col-3">
+                        <a href="#"><i class="bi bi-heart"></i></a>
+                    </div>
+                </div>
+
+                <a href="/product/{{product.id}}">
+
+                    <div class="row">
+                        <img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img) }}"
+                            alt="...">
+                    </div>
+
+                    <div class="pdInf">
+                        <div class="row pdName">
+                            <h2>{{product.product_name}}</h2>
+                        </div>
+                        <div class="row pdPrice">
+                            <h5>&#163; {{product.price}}</h5>
+                        </div>
+                    </div>
+                </a>
+                <div class="row">
+                    <div class="col-md-6">
+                        &nbsp;
+                    </div>
+                    
+                    <div class="col-md-6 addCart">
+                        <a href="#" >
+                        Add to cart
+                    </a>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {%endfor%}
 
     
   
