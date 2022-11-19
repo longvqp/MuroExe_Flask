@@ -1,6 +1,7 @@
-from flask import render_template
+from flask import render_template,request
 from . import main
 from ..models import Product,StockAndSize,Category,BannerImage
+from sqlalchemy import desc,asc
 @main.route('/')
 def index():
     products = Product.query.all()
@@ -28,8 +29,17 @@ def get_infor(user_id):
 
 @main.route('/listing/<category>', methods=['GET','POST'])
 def listing(category):
+    sort = request.args.get('sort')
     ctgr = Category.query.filter_by(category_name=category).first()
-
-    products = Product.query.filter_by(category_id=ctgr.id).all()
-
+    products = Product.query.filter_by(category_id=ctgr.id)
+    
+    if(sort=='r_alpha'):
+        products = products.order_by(desc(Product.product_name)).all()
+    if(sort=='alpha'):
+        products = products.order_by(asc(Product.product_name)).all()
+    if(sort=='price_asc'):
+        products = products.order_by(asc(Product.price)).all()
+    if(sort=='price_desc'):
+        products = products.order_by(desc(Product.price)).all()
     return render_template('product/listing.html', products = products,ctgr=ctgr)
+

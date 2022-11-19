@@ -1,5 +1,6 @@
 {% extends "ad_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% set active_page = 'banner' %}
 {% block title %}
 My Flask App
 {% endblock %}
@@ -31,7 +32,15 @@ My Flask App
         <td style="vertical-align: middle;">{{banner.is_disable}}</td>
         
         
-        <td style="vertical-align: middle;"><a id="stockBtn" href="#">Check Stock</a>&nbsp;&nbsp;&nbsp;<a id="deleteBtn" href="#">Delete</a></td>
+        <td style="vertical-align: middle;">
+          {% if not banner.is_disable%}
+          <a id="stockBtn" href="{{url_for('admin.DisableBanner',banner_id=banner.id)}}">Disable</a>
+          {% else %}
+          <a id="stockBtn" href="{{url_for('admin.EnableBanner',banner_id=banner.id)}}">Enable</a>
+          {% endif %}
+          &nbsp;&nbsp;&nbsp;
+          <a id="deleteBtn" href="{{url_for('admin.DeleteBanner',banner_id=banner.id)}}">Delete</a>
+        </td>
       </tr>
       {%endfor%}
     </tbody>

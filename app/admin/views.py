@@ -132,11 +132,28 @@ def PageBanner():
         )
         db.session.add(banner)
         db.session.commit()
+        return redirect(url_for('admin.PageBanner'))
     return render_template('admin/page_banner.html',banners=banners, addbannerForm = addbannerForm)
 
+@admin.route('/disable_banner/<banner_id>', methods=['GET','POST'])
+def DisableBanner(banner_id):
+    banner = BannerImage.query.filter_by(id=banner_id).first()
+    banner.is_disable=True
+    db.session.commit()
+    return redirect(url_for('admin.PageBanner'))
 
+@admin.route('/enable_banner/<banner_id>', methods=['GET','POST'])
+def EnableBanner(banner_id):
+    banner = BannerImage.query.filter_by(id=banner_id).first()
+    banner.is_disable=False
+    db.session.commit()
+    return redirect(url_for('admin.PageBanner'))
 
-
+@admin.route('/delete_banner/<banner_id>', methods=['GET','POST'])
+def DeleteBanner(banner_id):
+    is_deleted = BannerImage.query.filter_by(id=banner_id).delete()
+    db.session.commit()
+    return redirect(url_for('admin.PageBanner'))
 # For Batch Data Adding
 @admin.route('/add_category')
 def AddCategory():
