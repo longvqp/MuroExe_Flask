@@ -98,6 +98,9 @@ class Product(db.Model):
     product_subimg3 = db.Column(db.String())
     price = db.Column(db.Float)
     desc = db.Column(db.String())
+    color = db.Column(db.String())
+    material = db.Column(db.String())
+    style = db.Column(db.String())
     tag = db.Column(db.String())
     # Mot san pham co nhieu size 
     sizes = db.relationship('StockAndSize', backref='products')

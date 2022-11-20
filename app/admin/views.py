@@ -196,6 +196,9 @@ def AddBatch():
         img_2 = (data['product_subimg1'])
         img_3 = (data['product_subimg2'])
         img_4 = (data['product_subimg3'])
+        color = (data['color'])
+        style = (data['style'])
+        material = (data['material'])
         product = Product(product_name = pd_name,
                             price = pd_price,
                             desc = pd_desc,
@@ -203,7 +206,10 @@ def AddBatch():
                             product_subimg1 = img_2,
                             product_subimg2 = img_3,
                             product_subimg3 = img_4,
-                            categories=category
+                            categories=category,
+                            color=color,
+                            style=style,
+                            material=material
                             )
         db.session.add(product)
         db.session.commit()
