@@ -1,111 +1,167 @@
-{% extends "base.html" %}
-
-{% block title %}
-My Flask App
-{% endblock %}
-
-{% block page_content %}
+{% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
+page_content %}
 <main>
-    <div id="mySidepanel" class="sidepanel">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-        <a href="#">Size</a>
-        <a href="#">Color</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
+  <div id="mySidepanel" class="sidepanel">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    {% if colors %}
+    <button type="button" class="collapsible">Color</button>
+    <div class="content">
+      {% for color in colors%}
+
+      <a id="color" href="javascript:addToUrl('color','{{color}}' );">
+        <div
+          filter
+          style="padding: 10px 10px 10px 10px; width: 100%; height: 15px; border: 1px solid black ; background-color: {{color}};"
+        >
+          &nbsp;
+        </div>
+        {{color}}
+      </a>
+
+      {% endfor%}
     </div>
 
-    <div class="container-fluid">
-        
-        
-    
+    {%endif%} {% if styles %}
+    <button type="button" class="collapsible">Style</button>
+    <div class="content">
+      {% for style in styles%}
 
-      
-        <div class="page-header">
-            <h1>{{ctgr.category_name}}</h1>
-        </div>
-        <div class="row sortField" style="margin-bottom: 40px;">
-            <form action="/listing/{{ctgr.category_name}}" id="sortForm"></form>
-            <div class="col">
-                <button class="openbtn" onclick="openNav()">☰ Filter</button>
-                <label for="sort">Sort by</label>
-                <select name="sort" id="sort" form="sortForm" onchange="this.form.submit()">
-                    <option value=""></option>
-                    <option value="alpha">Name A-Z</option>
-                    <option value="r_alpha">Name Z-A</option>
-                    <option value="price_asc">Price ascending</option>
-                    <option value="price_desc">Price descending</option>
-                </select>
+      <a id="color" href="javascript:addToUrl('style','{{style}}' );">
+        {{style}}
+      </a>
+
+      {% endfor%}
+    </div>
+    {%endif%}
+  </div>
+
+  <div class="container-fluid">
+    <div class="page-header">
+      <h1>{{ctgr.category_name}}</h1>
+    </div>
+    <div class="row sortField" style="margin-bottom: 40px">
+      <form action="/listing/{{ctgr.category_name}}" id="sortForm"></form>
+      <div class="col">
+        <button class="openbtn" onclick="openNav()">☰ Filter</button>
+        <label for="sort">Sort by</label>
+        <select
+          name="sort"
+          id="sort"
+          form="sortForm"
+          onchange="this.form.submit()"
+        >
+          <option value=""></option>
+          <option value="alpha">Name A-Z</option>
+          <option value="r_alpha">Name Z-A</option>
+          <option value="price_asc">Price ascending</option>
+          <option value="price_desc">Price descending</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row" style="padding: 0 !important; margin: 0 !important">
+      {% for product in products%}
+      <div class="col-3">
+        <div class="pdCard">
+          <div class="row pdBanner">
+            <div class="col-9">
+              {% if product.tag%}
+              <h6>{{product.tag}}</h6>
+              {%else%} {% if product.tag==none%} &nbsp; {%endif%} {%endif%}
             </div>
-        </div>
-
-        <div class="row" style="padding: 0!important; margin:0 !important;">
-            {% for product in products%}
             <div class="col-3">
-
-                <div class="pdCard">
-
-                    <div class="row pdBanner">
-                        <div class="col-9">
-
-                            {% if product.tag%}
-                            <h6>{{product.tag}}</h6>
-                            {%else%}
-
-                            {% if product.tag==none%}
-                            &nbsp;
-
-                            {%endif%}
-                            {%endif%}
-                        </div>
-                        <div class="col-3">
-                            <a href="#"><i class="bi bi-heart"></i></a>
-                        </div>
-                    </div>
-
-                    <a href="/product/{{product.id}}">
-
-                        <div class="row">
-                            <img src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img) }}"
-                                alt="...">
-                        </div>
-
-                        <div class="pdInf">
-                            <div class="row pdName">
-                                <h2>{{product.product_name}}</h2>
-                            </div>
-                            <div class="row pdPrice">
-                                <h5>&#163; {{product.price}}</h5>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="row">
-                        <div class="col-md-6">
-                            &nbsp;
-                        </div>
-
-                        <div class="col-md-6 addCart">
-                            <a href="#">
-                                Add to cart
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
+              <a href="#"><i class="bi bi-heart"></i></a>
             </div>
-            {%endfor%}
+          </div>
+
+          <a href="/product/{{product.id}}">
+            <div class="row">
+              <img
+                src="{{ url_for('static',filename='assets/Product_Image/'+product.product_img) }}"
+                alt="..."
+              />
+            </div>
+
+            <div class="pdInf">
+              <div class="row pdName">
+                <h2>{{product.product_name}}</h2>
+              </div>
+              <div class="row pdPrice">
+                <h5>&#163; {{product.price}}</h5>
+              </div>
+            </div>
+          </a>
+          <div class="row">
+            <div class="col-md-6">&nbsp;</div>
+
+            <div class="col-md-6 addCart">
+              <a href="#"> Add to cart </a>
+            </div>
+          </div>
         </div>
-
+      </div>
+      {%endfor%}
     </div>
-    <script>
-        function openNav() {
-            document.getElementById("mySidepanel").style.width = "25vw";
-        }
+  </div>
+  <script>
+    function openNav() {
+      document.getElementById("mySidepanel").style.width = "25vw";
+    }
 
-        function closeNav() {
-            document.getElementById("mySidepanel").style.width = "0";
+    function closeNav() {
+      document.getElementById("mySidepanel").style.width = "0";
+    }
+    function addToUrl(name, value) {
+      var href = window.location.href;
+      var param = name + "=" + value;
+      
+
+      if (href.includes(name)) {
+        param_i = href.split("=");
+        current = "";
+        for (i = 0; i < param_i.length - 1; i++) {
+          if (param_i[i].includes("color")) {
+            
+            current = param_i[i + 1].toString();
+
+            console.log(current)
+          }
+          if (param_i[i].includes("style")) {
+            
+            current = param_i[i + 1].toString();
+
+            console.log(current)
+          }
         }
-    </script>
+        href = href.replace(current, value);
+        console.log(href)
+        window.location.href = href
+      }else{
+        if (href.includes("?")) {
+        window.location.href = href + "&" + param;
+      } else {
+        window.location.href = href + "?" + param;
+      }
+      }
+     
+    }
+  </script>
+
+  <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+    }
+  </script>
 </main>
-
 
 {% endblock %}

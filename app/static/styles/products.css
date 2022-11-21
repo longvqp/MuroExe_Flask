@@ -173,6 +173,18 @@ body {
   background-color: rgb(255, 227, 171);
 }
 
+.moreCtgr {
+  color: white;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 20px;
+  width: 25vw !important;
+  background-color: black;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px !important;
+  font-weight: bold
+}
 
 
 .sortField label{
@@ -204,20 +216,24 @@ body {
   padding-top: 60px;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .sidepanel a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 25px;
-  color: #818181;
+  color: black;
   display: block;
   transition: 0.3s;
 }
 
 .sidepanel a:hover {
-  color: #f1f1f1;
+  background-color: black;
 }
 
 .sidepanel .closebtn {
+  color: white;
   position: absolute;
   top: 0;
   right: 25px;
@@ -235,4 +251,33 @@ body {
 
 .openbtn:hover {
   background-color:#444;
+}
+
+
+.collapsible {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  font-size: 25px;
+  font-weight: bold;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+  background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
