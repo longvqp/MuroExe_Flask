@@ -12,8 +12,8 @@ page_content %}
             <tr>
               <th style="width: 60%" scope="col">Product</th>
               <th style="width: 10%" scope="col">Price</th>
-              <th style="width: 20%" scope="col">Quantity</th>
-              <th style="width: 10%" scope="col">Total</th>
+              <th style="width: 10%" scope="col">Quantity</th>
+              <th style="width: 20%" scope="col">Total</th>
             </tr>
           </thead>
           <tbody>
@@ -36,8 +36,8 @@ page_content %}
                   </div>
                 </div>
               </td>
-              <td><h5>&euro; &nbsp; {{pd.price}}</h5></td>
-              <td>
+              <td style="text-align: center;"><h5>&euro; &nbsp; {{pd.price}}</h5></td>
+              <td  style="text-align: center;">
                 <input
                   type="number"
                   id="quantity"
@@ -47,7 +47,7 @@ page_content %}
                 />
               </td>
               <td class="each_price">
-                <h5>&euro; &nbsp; {{pd.price*cart.quantity}}</h5>
+                <h5  style="text-align: center;">&euro; &nbsp; {{pd.price*cart.quantity}}</h5>
               </td>
             </tr>
             {%endfor%} {%endfor%}
