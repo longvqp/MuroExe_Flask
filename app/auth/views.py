@@ -121,6 +121,4 @@ def history():
 def GetCart():
 
     carts = Cart.query.filter_by(user_id=current_user.id).all()
-    for cart in carts:
-        print(cart.product_incart)
     return render_template('user/user_cart.html',carts=carts)

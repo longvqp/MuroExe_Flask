@@ -90,37 +90,38 @@ def listing(category):
 #
 @main.route('/add_to_cart/<product_id>', methods=['GET','POST'])
 def AddToCart(product_id):
-    print(product_id)
     pd = Product.query.filter_by(id=product_id).first()
     quantity = request.args.get('quantity')
     size = request.args.get("size_input")
-    print("size input", size)
-    print("quantity", quantity)
-    
-
     carts = Cart.query.filter_by(user_id=current_user.id).all()
     for cart in carts:
-        print("All the product:",cart.product_incart)
         for pd_incart in cart.product_incart:
-            print("Each Product:",pd_incart)
-            print("Product ID:",pd_incart.id,'---',pd.id)
-            print("Product Size:",cart.size,'---',size)
             if(str(pd_incart.id)==str(pd.id) and str(cart.size) == str(size)):
                 cart.quantity = quantity
                 db.session.commit()
                 flash("Quantity updated in cart")
                 return redirect(url_for('main.product',product_id=pd.id))
-            
-                
     cart = Cart(user_id=current_user.id,size=size,quantity=quantity)
     cart.product_incart.append(pd)
     db.session.add(cart)
     db.session.commit()
     flash("Added item to cart")
     return redirect(url_for('main.product',product_id=pd.id))
-    return redirect(url_for('main.product',product_id=pd.id))
+    
+
+@main.route('/delete_from_cart/<cart_id>/<product_id>', methods=['GET','POST'])
+def DeleteFromCart(cart_id,product_id):
+    print(cart_id)
+    print(product_id)
+    pd = Product.query.filter_by(id=product_id).first()
+    cart_for_deleted = Cart.query.filter_by(id=cart_id).first()
+    cart_for_deleted.product_incart.remove(pd)
+    cart_is_deleted = Cart.query.filter_by(id=cart_id).delete()
+    db.session.commit()
+    return redirect(url_for('auth.GetCart'))
 
 @main.route('/get_stock/<product_id>/<size>', methods=['GET','POST'])
 def GetStock(product_id,size):
     stock = StockAndSize.query.filter_by(product_id=product_id,size=size).first()
+
     return str(stock.stock)
