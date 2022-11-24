@@ -119,6 +119,5 @@ def history():
 
 @auth.route('/cart', methods=['GET','POST'])
 def GetCart():
-
     carts = Cart.query.filter_by(user_id=current_user.id).all()
     return render_template('user/user_cart.html',carts=carts)

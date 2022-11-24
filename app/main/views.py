@@ -111,13 +111,12 @@ def AddToCart(product_id):
 
 @main.route('/delete_from_cart/<cart_id>/<product_id>', methods=['GET','POST'])
 def DeleteFromCart(cart_id,product_id):
-    print(cart_id)
-    print(product_id)
     pd = Product.query.filter_by(id=product_id).first()
     cart_for_deleted = Cart.query.filter_by(id=cart_id).first()
     cart_for_deleted.product_incart.remove(pd)
     cart_is_deleted = Cart.query.filter_by(id=cart_id).delete()
     db.session.commit()
+    flash("Deleted from cart")
     return redirect(url_for('auth.GetCart'))
 
 @main.route('/get_stock/<product_id>/<size>', methods=['GET','POST'])

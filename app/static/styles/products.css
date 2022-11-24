@@ -307,6 +307,7 @@ ul {
 
 
 .backBtn {
+  text-decoration: none;
   display: block;
   margin-top: 10vh;
   margin-bottom: 10vh;

@@ -158,6 +158,7 @@ def DeleteBanner(banner_id):
     is_deleted = BannerImage.query.filter_by(id=banner_id).delete()
     db.session.commit()
     return redirect(url_for('admin.PageBanner'))
+
 # For Batch Data Adding
 @admin.route('/add_category')
 def AddCategory():
@@ -218,4 +219,66 @@ def AddBatch():
         db.session.add(product)
         db.session.commit()
     flash("Added a bunch of data")
+    return redirect(url_for('admin.index'))
+
+@admin.route('/add_product_size')
+def AddProductSize():
+    all_shoe        = Product.query.filter_by(category_id=1).all()
+    all_sneaker     = Product.query.filter_by(category_id=2).all()
+    all_boots       = Product.query.filter_by(category_id=3).all()
+    all_slipper     = Product.query.filter_by(category_id=4).all()
+    all_accessory   = Product.query.filter_by(category_id=5).all()
+    
+    
+    # for shoe in all_shoe:
+    #     for i in range(37,43):
+    #         print(i)
+    #         stock = StockAndSize(size=i,
+    #                             stock=100,
+    #                             product_id=shoe.id)
+    #         db.session.add(stock)
+    #         db.session.commit()
+    #     print("Added size for ", shoe.product_name)
+    
+    for sneaker in all_sneaker:
+        for i in range(37,43):
+            print(i)
+            stock = StockAndSize(size=i,
+                                stock=100,
+                                product_id=sneaker.id)
+            db.session.add(stock)
+            db.session.commit()
+        print("Added size for ", sneaker.product_name)
+
+    for boot in all_boots:
+        for i in range(37,43):
+            print(i)
+            stock = StockAndSize(size=i,
+                                stock=100,
+                                product_id=boot.id)
+            db.session.add(stock)
+            db.session.commit()
+        print("Added size for ", boot.product_name)
+
+    for slipper in all_slipper:
+        for i in range(37,43):
+            print(i)
+            stock = StockAndSize(size=i,
+                                stock=100,
+                                product_id=slipper.id)
+            db.session.add(stock)
+            db.session.commit()
+        print("Added size for ", slipper.product_name)
+
+    for accs in all_accessory:
+        for i in range(1,4):
+            print(i)
+            stock = StockAndSize(size=i,
+                                stock=100,
+                                product_id=accs.id)
+            db.session.add(stock)
+            db.session.commit()
+        print("Added size for ", accs.product_name)
+    
+    flash("Added a bunch of size")
     return redirect(url_for('admin.index'))

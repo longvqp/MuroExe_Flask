@@ -55,3 +55,18 @@
     transform: scale(0.97);
     box-shadow: 5px 5px rgb(0, 0, 0);
 }
+
+.remove_from_cart:link{
+    text-decoration: none;
+    color: black;
+}
+
+.remove_from_cart:visited{
+    text-decoration: none;
+    color: black;
+}
+.remove_from_cart:hover{
+    text-decoration: none;
+    color: red;
+    
+}
