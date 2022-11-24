@@ -106,8 +106,28 @@ def AddToCart(product_id):
     db.session.add(cart)
     db.session.commit()
     flash("Added item to cart")
-    return redirect(url_for('main.product',product_id=pd.id))
+    return redirect(request.url)
     
+@main.route('/buy_now/<product_id>', methods=['GET','POST'])
+def BuyNow(product_id):
+    pd = Product.query.filter_by(id=product_id).first()
+    quantity = request.args.get('quantity')
+    size = request.args.get("size_input")
+    carts = Cart.query.filter_by(user_id=current_user.id).all()
+    for cart in carts:
+        for pd_incart in cart.product_incart:
+            if(str(pd_incart.id)==str(pd.id) and str(cart.size) == str(size)):
+                cart.quantity = quantity
+                db.session.commit()
+                flash("Quantity updated in cart")
+                return redirect(url_for('auth.GetCart'))
+    cart = Cart(user_id=current_user.id,size=size,quantity=quantity)
+    cart.product_incart.append(pd)
+    db.session.add(cart)
+    db.session.commit()
+    flash("Added item to cart")
+    return redirect(url_for('auth.GetCart'))
+
 
 @main.route('/delete_from_cart/<cart_id>/<product_id>', methods=['GET','POST'])
 def DeleteFromCart(cart_id,product_id):

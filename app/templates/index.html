@@ -121,9 +121,26 @@ My Flask App
                     </div>
                     
                     <div class="col-md-6 addCart">
-                        <a href="#" >
-                        Add to cart
-                    </a>
+                        <button>
+               
+                            <form action="{{url_for('main.BuyNow', product_id=product.id)}}">
+                              <input
+                            type="hidden"
+                            id="quantity"
+                            name="quantity"
+                            step="1"
+                            value="1"
+                          />
+                              <select name="size_input" id="size_input">
+                                <option value="38">Size 38</option>
+                                <option value="39">Size 39</option>
+                                <option value="40">Size 40</option>
+                                <option value="41">Size 41</option>
+                                <option value="42">Size 42</option>
+                              </select>
+                              <input type="submit" value="Buy" />
+                        </form>
+                          </button>
                     </div>
                 
                 </div>
@@ -175,9 +192,26 @@ My Flask App
                     </div>
                     
                     <div class="col-md-6 addCart">
-                        <a href="#" >
-                        Add to cart
-                    </a>
+                        <button>
+               
+                            <form action="{{url_for('main.BuyNow', product_id=product.id)}}">
+                              <input
+                            type="hidden"
+                            id="quantity"
+                            name="quantity"
+                            step="1"
+                            value="1"
+                          />
+                              <select name="size_input" id="size_input">
+                                <option value="38">Size 38</option>
+                                <option value="39">Size 39</option>
+                                <option value="40">Size 40</option>
+                                <option value="41">Size 41</option>
+                                <option value="42">Size 42</option>
+                              </select>
+                              <input type="submit" value="Buy" />
+                        </form>
+                          </button>
                     </div>
                 
                 </div>

@@ -1,6 +1,5 @@
-{% extends "base.html" %} {% block title %} My Flask App {% endblock %}
-{% set active_page = category.category_name %} {% block
-page_content %}
+{% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% set
+active_page = category.category_name %} {% block page_content %}
 <main>
   <div class="container-fluid">
     <div class="row pdDetail">
@@ -36,10 +35,10 @@ page_content %}
       <div class="col-md-6">
         <h1>{{product.product_name}}</h1>
         <p>{{category.category_name.capitalize()}} {{product.product_name}}</p>
-        <p id="pd_id">Product ID:  &nbsp;{{product.id}}</p>
+        <p style="color: rgba(0, 0, 0, 0)" id="pd_id">{{product.id}}</p>
         <hr />
         <h5>Description:</h5>
-        <h6 style="text-align:justify ;">{{product.desc}}</h6>
+        <h6 style="text-align: justify">{{product.desc}}</h6>
 
         <hr />
         {% if product.color %}
@@ -67,30 +66,32 @@ page_content %}
             <s>{{size.size}}</s>
           </h5>
         </div>
-          {% endif %} {% endfor %}
-        
-        <form action="http://127.0.0.1:5000/add_to_cart/{{product.id}}" method="GET" >
-          <input type="hidden"
-            name="size_input"
-            id="size_input"
-            value="">
-            <div class="row quantity">
-              <div class="col-md-5">
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" step="1" value="1">
-            
-            
-            <p id="in_stock">&nbsp;</p>
-          
+        {% endif %} {% endfor %}
+
+        <form
+          action="http://127.0.0.1:5000/add_to_cart/{{product.id}}"
+          method="GET"
+        >
+          <input type="hidden" name="size_input" id="size_input" value="" />
+          <div class="row quantity">
+            <div class="col-md-5">
+              <label for="quantity">Quantity</label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                step="1"
+                value="1"
+              />
+
+              <p id="in_stock">&nbsp;</p>
+            </div>
+            <div class="col-md-2">&nbsp;</div>
+            <div class="col-md-5">
+              <button type="submit" class="btn1">Add to basket</button>
+            </div>
           </div>
-          <div class="col-md-2">
-            &nbsp;
-          </div>
-          <div class="col-md-5">
-        <button   type="submit"   class="btn1">Add to basket</button>
-      </div>
-      </div>
-      </form>
+        </form>
       </div>
     </div>
 
@@ -109,7 +110,7 @@ page_content %}
             </div>
           </div>
 
-          <a href="/product/{{product.id}}">
+          <a href="/product/{{pd.id}}">
             <div class="row">
               <img
                 src="{{ url_for('static',filename='assets/Product_Image/'+pd.product_img) }}"
@@ -130,7 +131,26 @@ page_content %}
             <div class="col-md-6">&nbsp;</div>
 
             <div class="col-md-6 addCart">
-              <a href="#"> Add to cart </a>
+              <button>
+               
+                <form action="{{url_for('main.BuyNow', product_id=pd.id)}}">
+                  <input
+                type="hidden"
+                id="quantity"
+                name="quantity"
+                step="1"
+                value="1"
+              />
+                  <select name="size_input" id="size_input">
+                    <option value="38">Size 38</option>
+                    <option value="39">Size 39</option>
+                    <option value="40">Size 40</option>
+                    <option value="41">Size 41</option>
+                    <option value="42">Size 42</option>
+                  </select>
+                  <input type="submit" value="Buy" />
+            </form>
+              </button>
             </div>
           </div>
         </div>
@@ -138,6 +158,7 @@ page_content %}
       {%endif%} {%endfor%}
     </div>
   </div>
+
 </main>
 <script src="{{ url_for('static',filename='javascript/checkSizeStock.js')}}"></script>
 

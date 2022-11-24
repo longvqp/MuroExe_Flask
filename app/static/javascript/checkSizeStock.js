@@ -16,13 +16,10 @@ for (var i = 0; i <= sizes.length - 1; i++) {
     }
     this.className += " sizeCheck";
     pd_id = document.getElementById('pd_id')
-    console.log(pd_id.innerText)
-    console.log('GET:/'+'/get_stock/'+pd_id.innerText+'/'+this.innerText)
     $.ajax({
         type : 'GET',
         url : '/get_stock/'+pd_id.innerText+'/'+this.innerText
     }).done((data)=>{
-        console.log(data)
         in_stock = document.getElementById('in_stock')
         in_stock.innerHTML ='In stock: '+ data
 

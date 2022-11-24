@@ -156,7 +156,7 @@ body {
   padding-right: 0.5vw;
 }
 
-.addCart a:link{
+.addCart button{
   position: absolute;
   bottom: 0;
   color: white;
@@ -164,13 +164,24 @@ body {
   padding: 10px;
   background-color: rgb(0, 0, 0);
   font-weight: bold;
+  border: none;
 }
-.addCart a:visited{
-  color: white;
-}
-.addCart a:hover{
+
+.addCart button:hover{
   color: rgb(0, 0, 0);
-  background-color: rgb(255, 227, 171);
+  background-color: rgb(209, 182, 129);
+}
+.addCart select{
+  font-size: 14px;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  border: none;
+}
+
+.addCart input{
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  border: none;
 }
 
 .moreCtgr {
@@ -370,3 +381,4 @@ ul {
   .quantity p{
     margin-top: 1vh;
   }
+
