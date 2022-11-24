@@ -131,13 +131,19 @@ My Flask App
                             step="1"
                             value="1"
                           />
-                              <select name="size_input" id="size_input">
-                                <option value="38">Size 38</option>
-                                <option value="39">Size 39</option>
-                                <option value="40">Size 40</option>
-                                <option value="41">Size 41</option>
-                                <option value="42">Size 42</option>
-                              </select>
+                          <select name="size_input" id="size_input">
+                            {% if product.category_id==5 %}
+                            <option value="S">Size S</option>
+                            <option value="M">Size M</option>
+                            <option value="L">Size L</option>
+                            {%else%}
+                            <option value="38">Size 38</option>
+                            <option value="39">Size 39</option>
+                            <option value="40">Size 40</option>
+                            <option value="41">Size 41</option>
+                            <option value="42">Size 42</option>
+                            {%endif%}
+                          </select>
                               <input type="submit" value="Buy" />
                         </form>
                           </button>
@@ -202,13 +208,19 @@ My Flask App
                             step="1"
                             value="1"
                           />
-                              <select name="size_input" id="size_input">
-                                <option value="38">Size 38</option>
-                                <option value="39">Size 39</option>
-                                <option value="40">Size 40</option>
-                                <option value="41">Size 41</option>
-                                <option value="42">Size 42</option>
-                              </select>
+                          <select name="size_input" id="size_input">
+                            {% if product.category_id==5 %}
+                            <option value="S">Size S</option>
+                            <option value="M">Size M</option>
+                            <option value="L">Size L</option>
+                            {%else%}
+                            <option value="38">Size 38</option>
+                            <option value="39">Size 39</option>
+                            <option value="40">Size 40</option>
+                            <option value="41">Size 41</option>
+                            <option value="42">Size 42</option>
+                            {%endif%}
+                          </select>
                               <input type="submit" value="Buy" />
                         </form>
                           </button>
