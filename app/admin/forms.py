@@ -21,7 +21,10 @@ class EditProductForm(FlaskForm):
     product_name = StringField('Product Name: ', validators=[DataRequired()])
     price = FloatField('Price')
     desc = TextAreaField('Product Description')
-    category = SelectField('Category', choices=[('shoes', 'Shoe'), ('boots', 'Boot'), ('slippers', 'Slipper')])
+    color = StringField('Product Color: ')
+    style = StringField('Product Style: ')
+    material = StringField('Product Material: ')
+    category = SelectField('Category', choices=[('shoes', 'Shoe'),('sneakers', 'Sneakers'), ('boots', 'Boot'), ('slippers', 'Slipper')])
     tag = SelectField('Tag', choices=[('New Arrival', 'New Arrival'), ('Best Seller', 'Best Seller'),('None', 'None')])
     submit = SubmitField('Update Product')
 

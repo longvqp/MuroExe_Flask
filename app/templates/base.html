@@ -10,12 +10,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/user/information.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/user/cart.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/header.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/register.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/404.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/page.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/products.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/product_panel.css') }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
@@ -38,17 +38,17 @@
         <div class="col-9 navLink">
           <a href="{{url_for('main.listing',category='shoes')}}">Shoes</a>
           <a href="{{url_for('main.listing',category='sneakers')}}">Sneakers</a>
-          <a href="{{url_for('main.listing',category='slippers')}}">Slipers</a>
+          <a href="{{url_for('main.listing',category='slippers')}}">Slippers</a>
           <a href="{{url_for('main.listing',category='boots')}}">Boots</a>
           <a href="{{url_for('main.listing',category='accessories')}}">Accessories</a>
         </div>
         <div class="col-3 userIcon">
           {% if current_user.is_authenticated %}
-          <a href="{{ url_for('auth.logout') }}">Log Out</a>
-          <a href="#">Cart</a>
+          <a href="{{ url_for('auth.logout') }}">Logout</a>
+          <a href="{{ url_for('auth.GetCart')}}">Cart</a>
           <a href="{{ url_for('auth.infor')}}">{{current_user.username}}</a>
           {% else %}
-          <a href="{{ url_for('auth.login') }}">Log In</a>
+          <a href="{{ url_for('auth.login') }}">Login</a>
           <a href="{{ url_for('auth.register') }}">Register</a>
           {% endif %}
 
@@ -67,7 +67,7 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert"
       style="position:absolute; z-index:99; margin-left: 40vw;">
 
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <button style="border: none; background-color:rgba(0, 0, 0, 0);" type="button" class="close" data-dismiss="alert">&times;</button>
       {{message}}
     </div>
   </center>

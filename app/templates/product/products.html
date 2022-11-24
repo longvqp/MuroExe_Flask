@@ -35,39 +35,60 @@ page_content %}
       <div class="col-md-6">
         <h1>{{product.product_name}}</h1>
         <p>{{category.category_name.capitalize()}} {{product.product_name}}</p>
-        <p>Reference MATDUSKBROWN36</p>
         <hr />
         <h5>Description:</h5>
-        <h6>{{product.desc}}</h6>
-       
-            <hr>
-            {% if product.color %}
-         <h5> Color: {{product.color}} </h5>
-            {%endif%}
-            {% if product.style %}
-          <h5> Style: {{product.style}} </h5>
-            {%endif%}
-            {% if product.material %}
-         <h5> Material: {{product.material}} </h5>
-            {%endif%}
-       
+        <h6 style="text-align:justify ;">{{product.desc}}</h6>
+
+        <hr />
+        {% if product.color %}
+        <h5>Color: {{product.color}}</h5>
+        {%endif%} {% if product.style %}
+        <h5>Style: {{product.style}}</h5>
+        {%endif%} {% if product.material %}
+        <h5>Material: {{product.material}}</h5>
+        {%endif%}
+
         <hr />
         <h2>&#163; {{product.price}}.00</h2>
         <p>VAT included</p>
+
         <h4>Size</h4>
         <div class="row sizeChart">
           {% for size in stock_size %} {% if size.stock > 0 %}
-          <h5 class="size">{{size.size}}</h5>
+          <h5 class="size">
+            {% if category.category_name=='accessories'%} {% if size.size == 1%}
+            S {%endif%} {% if size.size == 2%} M {%endif%} {% if size.size ==
+            3%} L {%endif%} {%else%} {{size.size}} {%endif%}
+          </h5>
           {% else %}
           <h5 class="size" style="pointer-events: none">
             <s>{{size.size}}</s>
           </h5>
-          {% endif %} {% endfor %}
         </div>
-        <a href="#" class="btn1">Add to basket</a>
+          {% endif %} {% endfor %}
+        
+        <form action="http://127.0.0.1:5000/add_to_cart/{{product.id}}" method="GET" >
+          <input type="hidden"
+            name="size_input"
+            id="size_input"
+            value="">
+            <div class="row quantity">
+              <div class="col-md-5">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" step="1" value="1">
+            <p>In stock: 100</p>
+          </div>
+          <div class="col-md-2">
+            &nbsp;
+          </div>
+          <div class="col-md-5">
+        <button   type="submit"   class="btn1">Add to basket</button>
+      </div>
+      </div>
+      </form>
       </div>
     </div>
-    
+
     <div class="row mt-5">
       <h1 class="moreCtgr">More {{category.category_name.capitalize()}}</h1>
     </div>
@@ -120,12 +141,15 @@ page_content %}
 
   for (var i = 0; i <= sizes.length - 1; i++) {
     sizes[i].addEventListener("click", function () {
+      size_input = document.getElementById("size_input");
+      size_input.value=this.innerText
       var current = document.getElementsByClassName("sizeCheck");
-
+        
       if (current.length > 0) {
         current[0].className = current[0].className.replace("sizeCheck", "");
       }
       this.className += " sizeCheck";
+      
     });
   }
 </script>

@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from ..models import User, Address
+from ..models import User, Address, Cart, Product
 from ..import db
 
 @auth.route('/login', methods=['GET','POST'])
@@ -116,3 +116,11 @@ def voucher():
 @auth.route('/history')
 def history():
     return render_template('user/account_history.html')
+
+@auth.route('/cart', methods=['GET','POST'])
+def GetCart():
+
+    carts = Cart.query.filter_by(user_id=current_user.id).all()
+    for cart in carts:
+        print(cart.product_incart)
+    return render_template('user/user_cart.html',carts=carts)

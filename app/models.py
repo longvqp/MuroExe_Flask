@@ -35,6 +35,9 @@ class User(UserMixin, db.Model):
 
     #Mot User co nhieu Address
     addresses = db.relationship('Address', backref='users')
+    #Mot User co mot Cart
+    cart =db.relationship('Cart',uselist=False, backref='users')
+    
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
@@ -88,6 +91,24 @@ class Category(db.Model):
     # Mot Category co nhieu san pham
     products = db.relationship('Product', backref='categories')
 
+
+
+
+cart_product = db.Table('cart_product',
+                        db.Column('cart_id',db.Integer,db.ForeignKey('carts.id')),
+                        db.Column('product_id',db.Integer,db.ForeignKey('products.id')))
+
+    
+    
+class Cart(db.Model):
+    __tablename__='carts'
+    id = db.Column(db.Integer, primary_key=True)
+    #Mot cart thuoc ve mot user
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))    
+    product_incart = db.relationship("Product", secondary='cart_product', backref='product_incarts')
+    quantity = db.Column(db.Integer)
+    size = db.Column(db.Integer)
+
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
@@ -106,7 +127,9 @@ class Product(db.Model):
     sizes = db.relationship('StockAndSize', backref='products')
     # Mot San pham thuoc ve mot Category
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-
+    
+    
+    
 class StockAndSize(db.Model):
     __tablename__ = 'product_stock'
     id = db.Column(db.Integer, primary_key=True)
@@ -120,7 +143,9 @@ class BannerImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     banner = db.Column(db.String())
     is_disable = db.Column(db.Boolean(), default=False)
-    
+
+
+
 #Mot size thuoc ve mot San Pham
     
 # class Voucher

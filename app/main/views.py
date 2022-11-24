@@ -1,7 +1,10 @@
-from flask import render_template,request
+from flask import render_template,request,flash,redirect,url_for
+from flask_login import current_user
 from . import main
-from ..models import Product,StockAndSize,Category,BannerImage
+from ..models import Product,StockAndSize,Category,BannerImage,Cart
+from .. import db
 from sqlalchemy import desc,asc
+
 @main.route('/')
 def index():
     products = Product.query.all()
@@ -35,16 +38,11 @@ def listing(category):
     sort = request.args.get('sort')
     get_color = request.args.get('color')
     get_style = request.args.get('style')
-    
-
 
     ctgr = Category.query.filter_by(category_name=category).first()
     products = Product.query.filter_by(category_id=ctgr.id).all()
     pd_att = Product.query.filter_by(category_id=ctgr.id).all()
   
- 
-       
-
     if(get_color and get_style):
         products_forsorting = Product.query.filter_by(category_id=ctgr.id,color=get_color)
         products_forsorting = products_forsorting.filter(Product.style.contains(get_style))
@@ -58,10 +56,7 @@ def listing(category):
             products_forsorting = Product.query.filter_by(category_id=ctgr.id)
             products_forsorting = products_forsorting.filter(Product.style.contains(get_style))
             products = products_forsorting.all()
-       
 
-   
-    print(products)
     if(sort=='r_alpha'):
         products = products_forsorting.order_by(desc(Product.product_name)).all()
     if(sort=='alpha'):
@@ -87,6 +82,41 @@ def listing(category):
             style_.append(i)
     style_ = list(set(style_))
 
-
     return render_template('product/listing.html', products = products,ctgr=ctgr,colors=colors,styles=style_)
+
+#Trường hợp 2 User đều có một product trong giỏ hàng
+#User đặt trước sẽ nhận được
+#User chưa đặt thì thông báo sản phẩm hết hàng và xóa khỏi giỏ hàng
+#
+@main.route('/add_to_cart/<product_id>', methods=['GET','POST'])
+def AddToCart(product_id):
+    print(product_id)
+    pd = Product.query.filter_by(id=product_id).first()
+    quantity = request.args.get('quantity')
+    size = request.args.get("size_input")
+    print("size input", size)
+    print("quantity", quantity)
+    
+
+    carts = Cart.query.filter_by(user_id=current_user.id).all()
+    for cart in carts:
+        print("All the product:",cart.product_incart)
+        for pd_incart in cart.product_incart:
+            print("Each Product:",pd_incart)
+            print("Product ID:",pd_incart.id,'---',pd.id)
+            print("Product Size:",cart.size,'---',size)
+            if(str(pd_incart.id)==str(pd.id) and str(cart.size) == str(size)):
+                cart.quantity = quantity
+                db.session.commit()
+                flash("Quantity updated in cart")
+                return redirect(url_for('main.product',product_id=pd.id))
+            
+                
+    cart = Cart(user_id=current_user.id,size=size,quantity=quantity)
+    cart.product_incart.append(pd)
+    db.session.add(cart)
+    db.session.commit()
+    flash("Added item to cart")
+    return redirect(url_for('main.product',product_id=pd.id))
+    return redirect(url_for('main.product',product_id=pd.id))
 

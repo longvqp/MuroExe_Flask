@@ -63,14 +63,14 @@ body {
 }
 
 .btn1 {
-  margin-top: 10vh;
+  margin-top: 2vh;
   color: white;
   background-color: rgb(0, 0, 0);
   border-style: hidden;
   padding: 10px;
   width: fit-content;
   float: right;
-  margin-right: 15vw;
+  margin-right: 2vw;
   font-size: 25px;
   font-weight: lighter;
   box-shadow: 5px 5px rgb(74, 74, 74);
@@ -240,6 +240,13 @@ ul {
   font-size: 36px;
 }
 
+.sidepanel h2{
+  background-color: white;
+  color: black;
+  padding: 25px;
+  font-weight: bold;
+  box-shadow: 10px 10px rgb(74, 74, 74);
+}
 .openbtn {
   font-size: 20px;
   cursor: pointer;
@@ -265,12 +272,28 @@ ul {
   border: none;
   text-align: left;
   outline: none;
-  font-size: 15px;
-}
 
+}
+.rmvFilter {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  font-size: 25px;
+  font-weight: bold;
+  border: none;
+  text-align: left;
+  outline: none;
+}
+.rmvFilter:hover {
+  padding-left: 25px;
+  color: rgb(240, 238, 234); ;
+}
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .active, .collapsible:hover {
-  background-color: #ccc;
+  background-color: rgb(255, 255, 255);
+  padding-left: 25px;
 }
 
 /* Style the collapsible content. Note: hidden by default */
@@ -308,3 +331,41 @@ ul {
 .backBtn:active {
   background-color: rgb(255, 252, 200);
   transform: scale(1.05);}
+
+#color{
+ font-weight: bold;
+ color: black;
+}
+#color:hover{
+  font-weight: bold;
+  color:white;
+  transform: scale(1.2);
+ }
+
+ #color{
+  font-weight: bold;
+  color: black;
+  
+ }
+ #color:hover{
+   font-weight: bold;
+   color:white;
+   transform: scale(1.2);
+  }
+
+
+  .quantity input{
+    border-radius: 0px;
+    border: 1px solid black;
+    padding: 4px;
+  }
+
+  .quantity label{
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    padding: 5px;
+  }
+  .quantity p{
+    margin-top: 1vh;
+  }

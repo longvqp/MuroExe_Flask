@@ -1,0 +1,98 @@
+{% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
+    page_content %}
+    <main>
+      <div class="container-fluid">
+        <div class="page-header">
+            <h1>Shopping Cart</h1>
+          </div>
+        <div class="row">
+            <div class="col-md-8 product_cart_list">
+                <table class="table cart_table align-middle">
+                    <thead>
+                      <tr>
+                        <th style="width: 60%" scope="col">Product</th>
+                        <th style="width: 10%" scope="col">Price</th>
+                        <th style="width: 20%" scope="col">Quantity</th>
+                        <th style="width: 10%" scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for cart in carts%}
+                        {% for pd in cart.product_incart%}
+                      <tr>
+                     
+                        
+                        <td>
+                            <div class="row">
+                                <div class="col-md-2">
+                                  <img class="pdImg" src="{{ url_for('static',filename='assets/Product_Image/'+pd.product_img)}}" alt="">
+                        </div>
+                        <div class="col-md-10">
+                            <h3>{{pd.product_name}}</h3>
+                            <p>Size: {{cart.size}}</p>
+                        </div>
+                        </div>
+                        </td>
+                        <td><h5>{{pd.price}}$</h5></td>
+                        <td>  <input type="number" id="quantity" name="quantity" step="1" value={{cart.quantity}}></td>
+                        <td><h5>{{pd.price*cart.quantity}}$</h5></td>
+                        
+                      </tr>
+                      {%endfor%}
+                      {%endfor%}
+                     
+                    </tbody>
+                  </table>
+            </div>
+            <div class="col-md-4 checkout_pannel">
+                <div class="row">
+                    <div class="col-md-8">
+                      <h6>  4 Items </h6>
+                    </div>
+                    <div class="col-md-4">
+                        139.00$
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                      <h6> Discount</h6>
+                    </div>
+                    <div class="col-md-4">
+                        -10.00$
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                      <h6> Shipping </h6>
+                    </div>
+                    <div class="col-md-4">
+                        Free
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8">
+                      <h4>  Total </h4>
+                    </div>
+                    <div class="col-md-4">
+                       <h4> 129.00$</h4>
+                    </div>
+                </div>
+                <div class="row voucher_form">
+                    <form action="">
+                        <input type="text" id="voucher" name="voucher" value="" placeholder="Promo code">
+                        <input type="submit" value="Submit" id="voucher_submit">
+                    </form>
+                </div>
+                <div class="row ">
+                    <a class="checkoutBtn" href="#">Proceed to checkout</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+ 
+
+    
+    {% endblock %}
+    

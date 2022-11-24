@@ -2,16 +2,30 @@
 page_content %}
 <main>
   <div id="mySidepanel" class="sidepanel">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Filter:</h2>
+      </div>
+      <div class="col-md-4">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      </div>
+    </div>
     {% if colors %}
     <button type="button" class="collapsible">Color</button>
     <div class="content">
       {% for color in colors%}
+      
 
       <a id="color" href="javascript:addToUrl('color','{{color}}' );">
         <div
-          filter
-          style="padding: 10px 10px 10px 10px; width: 100%; height: 15px; border: 1px solid black ; background-color: {{color}};"
+          style="padding: 10px 10px 10px 10px; width: 100%; height: 15px; border: 1px solid black ; background-color: 
+          {% if color == 'Grape' %}
+          maroon
+          {%else%}
+          {{color.replace(" ", "")}};
+          {%endif%}
+          
+          "
         >
           &nbsp;
         </div>
@@ -33,6 +47,12 @@ page_content %}
       {% endfor%}
     </div>
     {%endif%}
+    <a
+      href="{{url_for('main.listing',category=ctgr.category_name)}}"
+      type="button"
+      class="rmvFilter"
+      >Remove filter</a
+    >
   </div>
 
   <div class="container-fluid">
@@ -60,20 +80,15 @@ page_content %}
     </div>
 
     <div class="row" style="padding: 0 !important; margin: 0 !important">
+      {% if products|length > 0 %} {% for product in products%}
 
-     
-    
-     
-      {% if products|length > 0 %}
-      {% for product in products%}
-     
       <div class="col-3">
         <div class="pdCard">
           <div class="row pdBanner">
             <div class="col-9">
-              {% if product.tag%}
+              {% if product.tag=='None'%} &nbsp; {%else%} {% if product.tag%}
               <h6>{{product.tag}}</h6>
-              {%else%} {% if product.tag==none%} &nbsp; {%endif%} {%endif%}
+              {%endif%} {%endif%}
             </div>
             <div class="col-3">
               <a href="#"><i class="bi bi-heart"></i></a>
@@ -106,15 +121,17 @@ page_content %}
           </div>
         </div>
       </div>
-      
-      {%endfor%}
-      {%else%}
-      <center><h1>Sorry!!</h1>
-        <h2>
-          We currently dont have the product you are looking for
-        </h2>
-        <a class="backBtn" href="{{url_for('main.listing',category=ctgr.category_name)}}">Back to shopping</a>
-    </center>
+
+      {%endfor%} {%else%}
+      <center>
+        <h1>Sorry!!</h1>
+        <h2>We currently dont have the product you are looking for</h2>
+        <a
+          class="backBtn"
+          href="{{url_for('main.listing',category=ctgr.category_name)}}"
+          >Back to shopping</a
+        >
+      </center>
       {%endif%}
     </div>
   </div>
@@ -129,36 +146,26 @@ page_content %}
     function addToUrl(name, value) {
       var href = window.location.href;
       var param = name + "=" + value;
-      
-
       if (href.includes(name)) {
         param_i = href.split("=");
         current = "";
         for (i = 0; i < param_i.length - 1; i++) {
           if (param_i[i].includes("color")) {
-            
             current = param_i[i + 1].toString();
-
-            console.log(current)
           }
           if (param_i[i].includes("style")) {
-            
             current = param_i[i + 1].toString();
-
-            console.log(current)
           }
         }
         href = href.replace(current, value);
-        console.log(href)
-        window.location.href = href
-      }else{
-        if (href.includes("?")) {
-        window.location.href = href + "&" + param;
+        window.location.href = href;
       } else {
-        window.location.href = href + "?" + param;
+        if (href.includes("?")) {
+          window.location.href = href + "&" + param;
+        } else {
+          window.location.href = href + "?" + param;
+        }
       }
-      }
-     
     }
   </script>
 

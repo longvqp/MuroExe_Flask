@@ -1,0 +1,56 @@
+.cart_table th{
+    text-align: center;
+}
+
+.cart_table img{
+    max-width: 75px;
+}
+
+.cart_table input {
+    text-align: center;
+    border: none;
+}
+.checkout_pannel{
+    border-left: 1px solid rgba(0, 0, 0, 0.174);
+    padding: 5vh;
+}
+
+#voucher{
+    margin-top: 50px;
+    width: 80%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+#voucher_submit{
+    margin-top: 50px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+}
+
+.checkoutBtn:link{
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    padding: 25px;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 5vh;
+    transition: ease 0.2s;;
+}
+
+.checkoutBtn:visited{
+    color: white;
+}
+
+.checkoutBtn:hover{
+    background-color: rgb(249, 218, 126);
+    color: black;
+    transform: scale(0.97);
+    box-shadow: 5px 5px rgb(0, 0, 0);
+}

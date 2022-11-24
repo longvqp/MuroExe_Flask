@@ -103,15 +103,42 @@ My Flask App
                         </div>
                     </div>
                 </fieldset>
-
+                <div class="row">
+                    <div class="col-md-6">
+                        <fieldset class="form-field">
+                            <div class="row">
+                                <div class="col-md-6">
+                                <div class="row">
+                                    <h4>{{ form.category.label }}</h4>
+                                </div>
+                                <div class="row">
+                                    <h4>{{ form.category(default=ctgr.category_name) }}</h4>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset class="form-field">
+                            <div class="row">
+                                <div class="col-md-6">
+                                <div class="row">
+                                    <h4>{{ form.tag.label }}</h4>
+                                </div>
+                                <div class="row">
+                                    <h4>{{ form.tag }}</h4>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
                 <fieldset class="form-field">
                     <div class="row">
                         <div class="col-md-6">
                         <div class="row">
-                            <h4>{{ form.category.label }}</h4>
+                            <h4>{{ form.color.label }}</h4>
                         </div>
                         <div class="row">
-                            <h4>{{ form.category }}</h4>
+                            <h4>{{ form.color(value=product.color) }}</h4>
                         </div>
                     </div>
                 </fieldset>
@@ -119,13 +146,26 @@ My Flask App
                     <div class="row">
                         <div class="col-md-6">
                         <div class="row">
-                            <h4>{{ form.tag.label }}</h4>
+                            <h4>{{ form.material.label }}</h4>
                         </div>
                         <div class="row">
-                            <h4>{{ form.tag }}</h4>
+                            <h4>{{ form.material(value=product.material)}}</h4>
                         </div>
                     </div>
                 </fieldset>
+                <fieldset class="form-field">
+                    <div class="row">
+                        <div class="col-md-6">
+                        <div class="row">
+                            <h4>{{ form.style.label }}</h4>
+                        </div>
+                        <div class="row">
+                            <h4>{{ form.style(value=product.style) }}</h4>
+                        </div>
+                    </div>
+                </fieldset>
+               
+               
                     {{ form.submit(value='Update Product') }}
                 </form>
                 <hr>

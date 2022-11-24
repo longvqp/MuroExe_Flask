@@ -79,6 +79,9 @@ def EditProduct(product_id):
         product.product_name = editForm.product_name.data
         product.price = editForm.price.data
         product.tag = editForm.tag.data 
+        product.color = editForm.color.data
+        product.style = editForm.style.data
+        product.material = editForm.material.data
         db.session.commit()
         return redirect(url_for('admin.ManageProduct',category=ctgr.category_name))   
     return render_template('admin/edit_product.html', product=product, form=editForm,ctgr=ctgr)
@@ -86,6 +89,7 @@ def EditProduct(product_id):
 @admin.route('/check_stock/<product_id>', methods=['GET','POST'])
 def CheckStock(product_id):
     product = Product.query.filter_by(id=product_id).first()
+    ctgr = Category.query.filter_by(id=product.category_id).first()
     sizes = StockAndSize.query.filter_by(product_id=product_id)
     stockForm = AddStockForm()
     updateForm = UpdateStockForm()
@@ -103,7 +107,7 @@ def CheckStock(product_id):
             return redirect(url_for('admin.CheckStock',product_id=product.id))   
     if updateForm.validate_on_submit():
         print("UPDATING STOCK VALUE")
-    return render_template('admin/product_stock.html', product=product,sizes=sizes,form=stockForm, updateForm=updateForm)
+    return render_template('admin/product_stock.html', product=product,sizes=sizes,form=stockForm, updateForm=updateForm,ctgr=ctgr)
 
 @admin.route('/update_stock/<size_id>', methods=['POST'])
 def UpdateStock(size_id):
