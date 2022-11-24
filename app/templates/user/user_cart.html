@@ -1,98 +1,132 @@
 {% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
-    page_content %}
-    <main>
-      <div class="container-fluid">
-        <div class="page-header">
-            <h1>Shopping Cart</h1>
-          </div>
+page_content %}
+<main>
+  <div class="container-fluid">
+    <div class="page-header">
+      <h1>Shopping Cart</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-8 product_cart_list">
+        <table class="table cart_table align-middle">
+          <thead>
+            <tr>
+              <th style="width: 60%" scope="col">Product</th>
+              <th style="width: 10%" scope="col">Price</th>
+              <th style="width: 20%" scope="col">Quantity</th>
+              <th style="width: 10%" scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cart in carts%} {% for pd in cart.product_incart%}
+            <tr>
+              <td>
+                <div class="row">
+                  <div class="col-md-2">
+                    <img
+                      class="pdImg"
+                      src="{{ url_for('static',filename='assets/Product_Image/'+pd.product_img)}}"
+                      alt=""
+                    />
+                  </div>
+
+                  <div class="col-md-10">
+                    <h3>{{pd.product_name}}</h3>
+
+                    <p>Size: {{cart.size}}</p>
+                  </div>
+                </div>
+              </td>
+              <td><h5>&euro; &nbsp; {{pd.price}}</h5></td>
+              <td>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  step="1"
+                  value="{{cart.quantity}}"
+                />
+              </td>
+              <td class="each_price">
+                <h5>&euro; &nbsp; {{pd.price*cart.quantity}}</h5>
+              </td>
+            </tr>
+            {%endfor%} {%endfor%}
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-4 checkout_pannel">
         <div class="row">
-            <div class="col-md-8 product_cart_list">
-                <table class="table cart_table align-middle">
-                    <thead>
-                      <tr>
-                        <th style="width: 60%" scope="col">Product</th>
-                        <th style="width: 10%" scope="col">Price</th>
-                        <th style="width: 20%" scope="col">Quantity</th>
-                        <th style="width: 10%" scope="col">Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {% for cart in carts%}
-                        {% for pd in cart.product_incart%}
-                      <tr>
-                     
-                        
-                        <td>
-                            <div class="row">
-                                <div class="col-md-2">
-                                  <img class="pdImg" src="{{ url_for('static',filename='assets/Product_Image/'+pd.product_img)}}" alt="">
-                        </div>
-                        <div class="col-md-10">
-                            <h3>{{pd.product_name}}</h3>
-                            <p>Size: {{cart.size}}</p>
-                        </div>
-                        </div>
-                        </td>
-                        <td><h5>{{pd.price}}$</h5></td>
-                        <td>  <input type="number" id="quantity" name="quantity" step="1" value={{cart.quantity}}></td>
-                        <td><h5>{{pd.price*cart.quantity}}$</h5></td>
-                        
-                      </tr>
-                      {%endfor%}
-                      {%endfor%}
-                     
-                    </tbody>
-                  </table>
-            </div>
-            <div class="col-md-4 checkout_pannel">
-                <div class="row">
-                    <div class="col-md-8">
-                      <h6>  4 Items </h6>
-                    </div>
-                    <div class="col-md-4">
-                        139.00$
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8">
-                      <h6> Discount</h6>
-                    </div>
-                    <div class="col-md-4">
-                        -10.00$
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8">
-                      <h6> Shipping </h6>
-                    </div>
-                    <div class="col-md-4">
-                        Free
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-8">
-                      <h4>  Total </h4>
-                    </div>
-                    <div class="col-md-4">
-                       <h4> 129.00$</h4>
-                    </div>
-                </div>
-                <div class="row voucher_form">
-                    <form action="">
-                        <input type="text" id="voucher" name="voucher" value="" placeholder="Promo code">
-                        <input type="submit" value="Submit" id="voucher_submit">
-                    </form>
-                </div>
-                <div class="row ">
-                    <a class="checkoutBtn" href="#">Proceed to checkout</a>
-                </div>
-            </div>
+          <div class="col-md-8">
+            <h6>{{carts|length}} Items</h6>
+          </div>
+          <div class="col-md-4" id="sum_price" style="text-align: right"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <h6>Discount</h6>
+          </div>
+          <div class="col-md-4" style="text-align: right">
+            &euro; &nbsp; -10.00 
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <h6>Shipping</h6>
+          </div>
+          <div class="col-md-4" style="text-align: right">Free</div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-md-8">
+            <h4>Total</h4>
+          </div>
+          <div class="col-md-4" style="text-align: right">
+            <h4 id="total"></h4>
+          </div>
+        </div>
+        <div class="row voucher_form">
+          <form action="">
+            <input
+              type="text"
+              id="voucher"
+              name="voucher"
+              value=""
+              placeholder="Promo code"
+            />
+            <input type="submit" value="Submit" id="voucher_submit" />
+          </form>
+        </div>
+        <div class="row">
+          <a class="checkoutBtn" href="#">Proceed to checkout</a>
         </div>
       </div>
-    </main>
- 
+    </div>
+  </div>
+</main>
+<script>
+  const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'EUR',
+  });
 
-    
-    {% endblock %}
-    
+  
+  sum_price = document.getElementById("sum_price");
+  each_prices = document.getElementsByClassName("each_price");
+  total_price_before_discount = 0;
+
+  for (i = 0; i < each_prices.length; i++) {
+    price = each_prices[i].innerText.toString().slice(4);
+    console.log(price)
+    total_price_before_discount += parseFloat(price);
+  }
+  // sum_price.innerHTML = "&euro;" + "&nbsp;" + total_price_before_discount.toFixed(2) ;
+  sum_price.innerHTML =formatter.format(total_price_before_discount).toString()
+  total = document.getElementById("total");
+  discount = 10.0;
+  total_price = (total_price_before_discount - discount)
+
+  total.innerHTML=formatter.format(total_price).toString()
+
+</script>
+
+{% endblock %}

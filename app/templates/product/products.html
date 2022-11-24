@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
+{% extends "base.html" %} {% block title %} My Flask App {% endblock %}
+{% set active_page = category.category_name %} {% block
 page_content %}
 <main>
   <div class="container-fluid">
@@ -35,6 +36,7 @@ page_content %}
       <div class="col-md-6">
         <h1>{{product.product_name}}</h1>
         <p>{{category.category_name.capitalize()}} {{product.product_name}}</p>
+        <p id="pd_id">Product ID:  &nbsp;{{product.id}}</p>
         <hr />
         <h5>Description:</h5>
         <h6 style="text-align:justify ;">{{product.desc}}</h6>
@@ -49,7 +51,7 @@ page_content %}
         {%endif%}
 
         <hr />
-        <h2>&#163; {{product.price}}.00</h2>
+        <h2>&#163; {{product.price}}</h2>
         <p>VAT included</p>
 
         <h4>Size</h4>
@@ -76,7 +78,10 @@ page_content %}
               <div class="col-md-5">
             <label for="quantity">Quantity</label>
             <input type="number" id="quantity" name="quantity" step="1" value="1">
-            <p>In stock: 100</p>
+            
+            
+            <p id="in_stock">&nbsp;</p>
+          
           </div>
           <div class="col-md-2">
             &nbsp;
@@ -134,24 +139,6 @@ page_content %}
     </div>
   </div>
 </main>
-<script>
-  console.log("Script on chosing size");
-  var sizeChart = document.getElementsByClassName("sizeChart");
-  var sizes = document.getElementsByClassName("size");
-
-  for (var i = 0; i <= sizes.length - 1; i++) {
-    sizes[i].addEventListener("click", function () {
-      size_input = document.getElementById("size_input");
-      size_input.value=this.innerText
-      var current = document.getElementsByClassName("sizeCheck");
-        
-      if (current.length > 0) {
-        current[0].className = current[0].className.replace("sizeCheck", "");
-      }
-      this.className += " sizeCheck";
-      
-    });
-  }
-</script>
+<script src="{{ url_for('static',filename='javascript/checkSizeStock.js')}}"></script>
 
 {% endblock %}

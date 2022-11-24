@@ -36,11 +36,11 @@
       </div>
       <div class="row">
         <div class="col-9 navLink">
-          <a href="{{url_for('main.listing',category='shoes')}}">Shoes</a>
-          <a href="{{url_for('main.listing',category='sneakers')}}">Sneakers</a>
-          <a href="{{url_for('main.listing',category='slippers')}}">Slippers</a>
-          <a href="{{url_for('main.listing',category='boots')}}">Boots</a>
-          <a href="{{url_for('main.listing',category='accessories')}}">Accessories</a>
+          <a href="{{url_for('main.listing',category='shoes')}}" class=" {{'nav_active' if active_page == 'shoes' else ''}} ">Shoes</a>
+          <a href="{{url_for('main.listing',category='sneakers')}}" class=" {{'nav_active' if active_page == 'sneakers' else ''}} ">Sneakers</a>
+          <a href="{{url_for('main.listing',category='slippers')}}" class=" {{'nav_active' if active_page == 'slippers' else ''}} ">Slippers</a>
+          <a href="{{url_for('main.listing',category='boots')}}" class=" {{'nav_active' if active_page == 'boots' else ''}} ">Boots</a>
+          <a href="{{url_for('main.listing',category='accessories')}}" class=" {{'nav_active' if active_page == 'accessories' else ''}} ">Accessories</a>
         </div>
         <div class="col-3 userIcon">
           {% if current_user.is_authenticated %}
@@ -107,7 +107,7 @@
           <h5>Muroexe</h5>
           <a href="#"> <i class="bi bi-telephone"></i> 971 21 00 93</a><br>
           <a href="#"> <i class="bi bi-envelope"></i> userexperience@muroexe.com</a><br>
-          <a>Monday to Friday, from 09h to 18h.</a><br>
+          <a>Monday to Friday, from 09AM to 18PM.</a><br>
         </div>
       </div>
       <hr>
@@ -139,6 +139,7 @@
     console.log("AOS Library Is Running")
     AOS.init();
   </script>
+  
   {% endblock %}
 
 

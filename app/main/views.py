@@ -120,3 +120,7 @@ def AddToCart(product_id):
     return redirect(url_for('main.product',product_id=pd.id))
     return redirect(url_for('main.product',product_id=pd.id))
 
+@main.route('/get_stock/<product_id>/<size>', methods=['GET','POST'])
+def GetStock(product_id,size):
+    stock = StockAndSize.query.filter_by(product_id=product_id,size=size).first()
+    return str(stock.stock)

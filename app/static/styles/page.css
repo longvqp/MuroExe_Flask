@@ -120,6 +120,14 @@ iframe {
   height: 10vh;
 }
 
+.nav_active:link{
+  background-color: black;
+  color: white !important;
+}
+.nav_active:visited{
+  background-color: black;
+  color: white !important;
+}
 
 @keyframes jumpInfinite {
   0% {
