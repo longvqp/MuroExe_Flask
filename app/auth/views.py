@@ -127,7 +127,8 @@ def CheckOut():
     carts = Cart.query.filter_by(user_id=current_user.id).all()
     
     for cart in carts:
-        print(cart.size)
-        print(cart.quantity)
-        print(cart.product_incart)
+        # print(cart.size)
+        # print(cart.quantity)
+        # print(cart.product_incart)
+        
     return render_template('user/user_order.html')

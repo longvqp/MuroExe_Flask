@@ -109,6 +109,11 @@ class Cart(db.Model):
     quantity = db.Column(db.Integer)
     size = db.Column(db.Integer)
 
+class CartItem(db.Model):
+    __tablename__="cart_items"
+    id = db.Column(db.Integer, primary_key=True)
+    cart_id = db.Column(db.Integer, ForeignKey('carts.id'), backref='cart_items')
+
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
