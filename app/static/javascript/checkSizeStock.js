@@ -1,9 +1,11 @@
-
+$(document).ready(function() {
 console.log("Script for size is Running")
 
-console.log("Script on chosing size");
-var sizeChart = document.getElementsByClassName("sizeChart");
+
 var sizes = document.getElementsByClassName("size");
+var add_cart_button = document.getElementById('btn1')
+
+
 
 for (var i = 0; i <= sizes.length - 1; i++) {
   sizes[i].addEventListener("click", function () {
@@ -16,6 +18,9 @@ for (var i = 0; i <= sizes.length - 1; i++) {
     }
     this.className += " sizeCheck";
     pd_id = document.getElementById('pd_id')
+   
+    add_cart_button.removeAttribute("disabled")
+   
     $.ajax({
         type : 'GET',
         url : '/get_stock/'+pd_id.innerText+'/'+this.innerText
@@ -26,3 +31,5 @@ for (var i = 0; i <= sizes.length - 1; i++) {
     })
   });
 }
+
+})

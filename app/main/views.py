@@ -93,6 +93,9 @@ def AddToCart(product_id):
     pd = Product.query.filter_by(id=product_id).first()
     quantity = request.args.get('quantity')
     size = request.args.get("size_input")
+    if(not size):
+        flash("Please choose a size")
+        return redirect(url_for('main.product',product_id=pd.id))
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     if(not cart):
         cart = Cart(user_id=current_user.id)
@@ -120,19 +123,26 @@ def BuyNow(product_id):
     pd = Product.query.filter_by(id=product_id).first()
     quantity = request.args.get('quantity')
     size = request.args.get("size_input")
-    carts = Cart.query.filter_by(user_id=current_user.id).all()
-    for cart in carts:
-        for pd_incart in cart.product_incart:
-            if(str(pd_incart.id)==str(pd.id) and str(cart.size) == str(size)):
-                cart.quantity = quantity
-                db.session.commit()
-                flash("Quantity updated in cart")
-                return redirect(url_for('auth.GetCart'))
-    cart = Cart(user_id=current_user.id,size=size,quantity=quantity)
-    cart.product_incart.append(pd)
-    db.session.add(cart)
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    if(not cart):
+        cart = Cart(user_id=current_user.id)
+        db.session.add(cart)
+        db.session.commit()
+    #Check if product with X size already in cart
+    is_exist_product = CartItem.query.filter_by(cart_id=cart.id,product_id=pd.id,size=size).first()
+    if(not is_exist_product):
+        cart_item = CartItem(
+            cart_id=cart.id,
+            product_id=pd.id,
+            quantity=quantity,
+            size=size
+        )
+        db.session.add(cart_item)
+        flash("Product added to cart")
+    else:
+        flash("Product already in cart")
+        is_exist_product.quantity=quantity
     db.session.commit()
-    flash("Added item to cart")
     return redirect(url_for('auth.GetCart'))
 
 
