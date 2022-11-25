@@ -7,7 +7,7 @@ page_content %}
     </div>
     <div class="row">
       <div class="col-md-8 product_cart_list">
-        {% if cart_items%}
+        {% if cart_items.all()|length > 0%}
         <table class="table cart_table align-middle">
           <thead>
             <tr>
@@ -61,7 +61,7 @@ page_content %}
                   <div class="col-md-2">
                     <a
                       class="remove_from_cart"
-                      href="{{url_for('main.DeleteFromCart',cart_id=cart.id, product_id=pd.id)}}"
+                      href="{{url_for('main.DeleteFromCart',cart_id=cart.id, product_id=pd.id,size=cart.size)}}"
                       >&times;</a
                     >
                   </div>

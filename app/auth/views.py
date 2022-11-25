@@ -121,11 +121,7 @@ def history():
 def GetCart():
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     cart_items = CartItem.query.filter_by(cart_id=cart.id)
-    for items in cart_items:
-        # print(items.product)
-        for pd in items.product.query.filter_by(id=items.product_id):
-            print(pd)
-    #return 'cart'
+    print("sdljablfjasnl",len(cart_items.all()))
     return render_template('user/user_cart.html',cart_items=cart_items)
 
 @auth.route('/check_out', methods=['GET','POST'])

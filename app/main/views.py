@@ -98,13 +98,20 @@ def AddToCart(product_id):
         cart = Cart(user_id=current_user.id)
         db.session.add(cart)
         db.session.commit()
-    cart_item = CartItem(
-        cart_id=cart.id,
-        product_id=pd.id,
-        quantity=quantity,
-        size=size
-    )
-    db.session.add(cart_item)
+    #Check if product with X size already in cart
+    is_exist_product = CartItem.query.filter_by(cart_id=cart.id,product_id=pd.id,size=size).first()
+    if(not is_exist_product):
+        cart_item = CartItem(
+            cart_id=cart.id,
+            product_id=pd.id,
+            quantity=quantity,
+            size=size
+        )
+        db.session.add(cart_item)
+        flash("Product added to cart")
+    else:
+        flash("Product already in cart")
+        is_exist_product.quantity=quantity
     db.session.commit()
     return redirect(url_for('main.product',product_id=pd.id))
     
@@ -129,14 +136,14 @@ def BuyNow(product_id):
     return redirect(url_for('auth.GetCart'))
 
 
-@main.route('/delete_from_cart/<cart_id>/<product_id>', methods=['GET','POST'])
-def DeleteFromCart(cart_id,product_id):
-    pd = Product.query.filter_by(id=product_id).first()
-    cart_for_deleted = Cart.query.filter_by(id=cart_id).first()
-    cart_for_deleted.product_incart.remove(pd)
-    cart_is_deleted = Cart.query.filter_by(id=cart_id).delete()
+@main.route('/delete_from_cart/<cart_id>/<product_id>/<size>', methods=['GET','POST'])
+def DeleteFromCart(cart_id,product_id,size):
+    cart_for_deleted = CartItem.query.filter_by(id=cart_id,product_id=product_id,size=size).delete()    
     db.session.commit()
-    flash("Deleted from cart")
+    if cart_for_deleted:
+        flash("Deleted from cart")
+    else:
+        flash("Deleted failed")
     return redirect(url_for('auth.GetCart'))
 
 @main.route('/get_stock/<product_id>/<size>', methods=['GET','POST'])
