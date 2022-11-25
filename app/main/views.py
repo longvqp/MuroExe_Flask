@@ -1,7 +1,7 @@
 from flask import render_template,request,flash,redirect,url_for
 from flask_login import current_user
 from . import main
-from ..models import Product,StockAndSize,Category,BannerImage,Cart
+from ..models import Product,StockAndSize,Category,BannerImage,Cart,CartItem
 from .. import db
 from sqlalchemy import desc,asc
 
@@ -93,20 +93,20 @@ def AddToCart(product_id):
     pd = Product.query.filter_by(id=product_id).first()
     quantity = request.args.get('quantity')
     size = request.args.get("size_input")
-    carts = Cart.query.filter_by(user_id=current_user.id).all()
-    for cart in carts:
-        for pd_incart in cart.product_incart:
-            if(str(pd_incart.id)==str(pd.id) and str(cart.size) == str(size)):
-                cart.quantity = quantity
-                db.session.commit()
-                flash("Quantity updated in cart")
-                return redirect(url_for('main.product',product_id=pd.id))
-    cart = Cart(user_id=current_user.id,size=size,quantity=quantity)
-    cart.product_incart.append(pd)
-    db.session.add(cart)
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    if(not cart):
+        cart = Cart(user_id=current_user.id)
+        db.session.add(cart)
+        db.session.commit()
+    cart_item = CartItem(
+        cart_id=cart.id,
+        product_id=pd.id,
+        quantity=quantity,
+        size=size
+    )
+    db.session.add(cart_item)
     db.session.commit()
-    flash("Added item to cart")
-    return redirect(request.url)
+    return redirect(url_for('main.product',product_id=pd.id))
     
 @main.route('/buy_now/<product_id>', methods=['GET','POST'])
 def BuyNow(product_id):

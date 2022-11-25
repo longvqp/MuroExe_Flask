@@ -94,25 +94,21 @@ class Category(db.Model):
 
 
 
-cart_product = db.Table('cart_product',
-                        db.Column('cart_id',db.Integer,db.ForeignKey('carts.id')),
-                        db.Column('product_id',db.Integer,db.ForeignKey('products.id')))
-
-    
-    
 class Cart(db.Model):
     __tablename__='carts'
     id = db.Column(db.Integer, primary_key=True)
     #Mot cart thuoc ve mot user
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))    
-    product_incart = db.relationship("Product", secondary='cart_product', backref='product_incarts')
-    quantity = db.Column(db.Integer)
-    size = db.Column(db.Integer)
-
+    cart_items = db.relationship('CartItem', backref='cart', lazy='dynamic')
+    
 class CartItem(db.Model):
     __tablename__="cart_items"
     id = db.Column(db.Integer, primary_key=True)
-    cart_id = db.Column(db.Integer, ForeignKey('carts.id'), backref='cart_items')
+    cart_id = db.Column(db.Integer, db.ForeignKey('carts.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    product = db.relationship("Product", backref=("cart_items"), uselist=False)
+    quantity = db.Column(db.Integer)
+    size = db.Column(db.Integer)
 
 class Product(db.Model):
     __tablename__ = 'products'

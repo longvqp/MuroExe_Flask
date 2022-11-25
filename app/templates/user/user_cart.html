@@ -7,7 +7,7 @@ page_content %}
     </div>
     <div class="row">
       <div class="col-md-8 product_cart_list">
-        {% if carts%}
+        {% if cart_items%}
         <table class="table cart_table align-middle">
           <thead>
             <tr>
@@ -18,7 +18,8 @@ page_content %}
             </tr>
           </thead>
           <tbody>
-            {% for cart in carts%} {% for pd in cart.product_incart%}
+            {% for cart in cart_items%} 
+            {% for pd in cart.product.query.filter_by(id=cart.product_id)%}
             <tr>
               <td>
                 <div class="row">

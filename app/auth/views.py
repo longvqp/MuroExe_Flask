@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from ..models import User, Address, Cart, Product, Order
+from ..models import User, Address, Cart, Product, Order, CartItem
 from ..import db
 
 @auth.route('/login', methods=['GET','POST'])
@@ -119,16 +119,16 @@ def history():
 
 @auth.route('/cart', methods=['GET','POST'])
 def GetCart():
-    carts = Cart.query.filter_by(user_id=current_user.id).all()
-    return render_template('user/user_cart.html',carts=carts)
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    cart_items = CartItem.query.filter_by(cart_id=cart.id)
+    for items in cart_items:
+        # print(items.product)
+        for pd in items.product.query.filter_by(id=items.product_id):
+            print(pd)
+    #return 'cart'
+    return render_template('user/user_cart.html',cart_items=cart_items)
 
 @auth.route('/check_out', methods=['GET','POST'])
 def CheckOut():
-    carts = Cart.query.filter_by(user_id=current_user.id).all()
-    
-    for cart in carts:
-        # print(cart.size)
-        # print(cart.quantity)
-        # print(cart.product_incart)
-        
+
     return render_template('user/user_order.html')
