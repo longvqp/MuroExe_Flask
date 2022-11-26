@@ -1,12 +1,33 @@
 {% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
-page_content %}
-<main>
-  <div class="container-fluid">
-    <div class="page-header">
-      <h1>Shopping Cart</h1>
+  page_content %}
+  <main>
+    <div class="container-fluid">
+      <div class="page-header">
+        <h1>Checkout</h1>
+      </div>
+      <center>
+      <div class="row">
+        
+        <div class="col-md-3 mx-auto check_out_proceed ">
+          <a href="{{url_for('auth.CheckOut')}}"><h4>Products</h4></a>
+        </div>
+        
+        <div class="col-md-3 mx-auto check_out_proceed ">
+          <a href="{{url_for('auth.CheckOutAddress')}}"><h4>Address</h4></a>
+        </div>
+        
+        <div class="col-md-3 mx-auto check_out_proceed cop_active">
+          <a href="{{url_for('auth.CheckOutPayment')}}"><h4>Payment</h4></a>
+        </div>
+  
+      </div>
+    </center>
+  
+    <div class="row order_content">
+  
     </div>
-    <div class="row"></div>
-  </div>
-</main>
-
-{% endblock %}
+    </div>
+  </main>
+  
+  {% endblock %}
+  

@@ -119,11 +119,28 @@ def history():
 
 @auth.route('/cart', methods=['GET','POST'])
 def GetCart():
+    
     cart = Cart.query.filter_by(user_id=current_user.id).first()
-    cart_items = CartItem.query.filter_by(cart_id=cart.id)
+    if(cart):
+        cart_items = CartItem.query.filter_by(cart_id=cart.id)
+       
+    else:
+        new_cart = Cart(user_id=current_user.id)
+        db.session.add(new_cart)
+        db.session.commit()
     return render_template('user/user_cart.html',cart_items=cart_items)
 
 @auth.route('/check_out', methods=['GET','POST'])
 def CheckOut():
-
+    # cart = Cart.query.filter_by(user_id=current_user.id).first()
     return render_template('user/user_order.html')
+
+@auth.route('/checkout_address', methods=['GET','POST'])
+def CheckOutAddress():
+    # cart = Cart.query.filter_by(user_id=current_user.id).first()
+    return render_template('user/user_order_address.html')
+
+@auth.route('/checkout_payment', methods=['GET','POST'])
+def CheckOutPayment():
+    # cart = Cart.query.filter_by(user_id=current_user.id).first()
+    return render_template('user/user_order_payment.html')

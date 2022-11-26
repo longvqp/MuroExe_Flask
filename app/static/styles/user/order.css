@@ -1,0 +1,35 @@
+.check_out_proceed {
+    padding: 1vh
+}
+
+.check_out_proceed a:link{
+    text-decoration: none;
+    color: black;
+}
+
+.check_out_proceed a:visited{
+    color: black;
+}
+
+.check_out_proceed a:hover{
+    text-decoration: none;
+    color: rgb(255, 223, 142);
+}
+
+.cop_active{
+    background-color: black;
+    color: white !important;
+}
+.cop_active a:link{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+.cop_active a:visited{
+    color: rgb(255, 255, 255);
+}
+
+.cop_active a:hover{
+    text-decoration: none;
+    color: rgb(255, 223, 142);
+}
