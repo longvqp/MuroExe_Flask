@@ -5,6 +5,7 @@ from flask_login import UserMixin
 from . import db, login_manager
 from sqlalchemy import DateTime
 from datetime import datetime
+
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
@@ -38,6 +39,9 @@ class User(UserMixin, db.Model):
     #Mot User co mot Cart
     cart =db.relationship('Cart',uselist=False, backref='users')
     
+    def is_user(self):
+        return Role.query.get(self.role_id).name == 'user'
+
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')

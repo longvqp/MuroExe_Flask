@@ -8,11 +8,21 @@ import uuid as uuid
 import os
 import json
 from config import config
+from flask_login import current_user
 
-@admin.route('/')
+
+@admin.route('/a')
 def index():
     return render_template('admin/index.html')
 
+@admin.route('/e')
+def manage():
+    role = current_user.role.name
+    if role == 'Admin':
+        return redirect(url_for('admin.index'))
+    return render_template('manage/index.html', user=current_user)
+    
+    
 @admin.route('/add_product', methods=['GET','POST'])
 def AddProduct():
     form = AddProductForm()
