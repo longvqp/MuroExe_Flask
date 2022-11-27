@@ -1,58 +1,154 @@
 {% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
-    page_content %}
-    
-    <div class="container-fluid">
-      <div class="row">
-        <h1
-          style="
-            background-color: black;
-            color: white;
-            font-weight: bold;
-            padding: 25px;
-            width: fit-content;
-            box-shadow: 10px 10px rgb(74, 74, 74);
-            margin-bottom: 25px;
-          "
-        >
-          Account Information
-        </h1>
-      </div>
-      <div class="row">
-        <div class="col-md-3 sideNav">
-          <ul>
-            <li>
-              <a  href="{{url_for('auth.infor')}}"
-                ><i class="bi bi-info-square-fill"></i>&nbsp;&nbsp;Information
-              </a>
-            </li>
-            <li>
-              <a href="{{url_for('auth.address')}}"
-                ><i class="bi bi-house-fill"></i>&nbsp;&nbsp;Address
-              </a>
-            </li>
-            <li >
-              <a  href="{{url_for('auth.voucher')}}"
-                ><i class="bi bi-bag-dash-fill"></i>&nbsp;&nbsp;Voucher
-              </a>
-            </li>
-            <li class="active">
-              <a class="active" href="{{url_for('auth.history')}}"
-                ><i class="bi bi-bookmark-star-fill"></i>&nbsp;&nbsp;Order History
-              </a>
-            </li>
-            <li>
-              <a href="{{url_for('main.index')}}"
-                ><i class="bi bi-arrow-up-left-square-fill"></i>&nbsp;&nbsp;Back to
-                shopping</a
-              >
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-9">
-          <h1>Hello {{current_user.username}}</h1>
-        </div>
-      </div>
+page_content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <h1
+      style="
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        padding: 25px;
+        width: fit-content;
+        box-shadow: 10px 10px rgb(74, 74, 74);
+        margin-bottom: 25px;
+      "
+    >
+      Account Information
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3 sideNav">
+      <ul>
+        <li>
+          <a href="{{url_for('auth.infor')}}"
+            ><i class="bi bi-info-square-fill"></i>&nbsp;&nbsp;Information
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.address')}}"
+            ><i class="bi bi-house-fill"></i>&nbsp;&nbsp;Address
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.voucher')}}"
+            ><i class="bi bi-bag-dash-fill"></i>&nbsp;&nbsp;Voucher
+          </a>
+        </li>
+        <li class="active">
+          <a class="active" href="{{url_for('auth.history')}}"
+            ><i class="bi bi-bookmark-star-fill"></i>&nbsp;&nbsp;Order History
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('main.index')}}"
+            ><i class="bi bi-arrow-up-left-square-fill"></i>&nbsp;&nbsp;Back to
+            shopping</a
+          >
+        </li>
+      </ul>
     </div>
+    <div class="col-md-9">
+
+      {%for order in orders%}
+      {% set count = namespace(value=0) %}
+      <div class="row order_card">
+        <div class="row">
+          <div class="col-md-7">
+            <h6><span style="font-weight: bold">ID:#{{order.id}}</span>&nbsp;&nbsp;&nbsp;&nbsp; 
+              
+              {%for pd in order_pd.query.filter_by(order_id=order.id).all()%}
     
-    {% endblock %}
-    
+              {% set count.value  = count.value  + pd.quantity %}
+              {%endfor%}
+              {{ count.value  }}
+            items</h6>
+            <h6>
+              <span style="font-weight: bold">Recipient:</span> {{current_user.fullname}} ({{current_user.phone}})
+            </h6>
+            <h6>
+              <span style="font-weight: bold">Ship to:</span>
+              {{add.filter_by(id=order.address_id).first().address}}
+              {{add.filter_by(id=order.address_id).first().city}}
+            </h6>
+          </div>
+          <div class="col-md-4">
+            <h6>
+              <span style="font-weight: bold">Ordered on: </span>{{order.create_date.strftime('%Y-%m-%d')}}
+            </h6>
+            <hr />
+            <h6><span style="font-weight: bold">Total:</span> &euro;&nbsp;{{order.total}}</h6>
+            <h6><span style="font-weight: bold">Payment method:</span> {{order.payment}}</h6>
+          </div>
+
+          <div class="col-md-1">
+            <h6><span style="font-weight: bold">Action</span></h6>
+            <a
+              class="deleteBtn"
+              href="#"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: smaller;
+              "
+              >Cancel</a
+            >
+            <a
+              class="checkBtn"
+              href="#"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: smaller;
+              "
+              >Recieved</a
+            >
+            <a
+              class="checkBtn"
+              href="#"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: smaller;
+              "
+              >Review</a
+            >
+          </div>
+        </div>
+        <div class="row">
+          <center>
+            <h6><b> Order status</b></h6>
+          </center>
+          <div class="col-md-3">
+            <h6 class="ship_status {{'status_active' if order.status == 'Preparing' else ''}}">
+              <i class="bi bi-clipboard"></i>&nbsp;
+              Preparing
+            
+            </h6>
+          </div>
+          <div class="col-md-3">
+            <h6 class="ship_status  {{'status_active' if order.status == 'Packaging' else ''}}">
+              <i class="bi bi-box-seam"></i>&nbsp; Packaging
+            </h6>
+          </div>
+          <div class="col-md-3 {{'status_active' if order.status == 'Shipping' else ''}}">
+            <h6 class="ship_status">
+              <i class="bi bi-truck"></i>&nbsp; Shipping
+            </h6>
+          </div>
+          <div class="col-md-3">
+            <h6 class="ship_status {{'status_active' if order.status == 'Delievering' else ''}}">
+              <i class="bi bi-emoji-laughing"></i>&nbsp; Delievering
+            </h6>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

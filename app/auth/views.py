@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from ..models import User, Address, Cart, Product, Order, CartItem, OrderProduct
 from ..import db
-
+from currency2text import currency_to_text
 @auth.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm()
@@ -117,11 +117,19 @@ def voucher():
 
 @auth.route('/history')
 def history():
-    return render_template('user/account_history.html')
+    orders = Order.query.filter_by(user_id=current_user.id).all()
+    add = Address.query.filter_by(user_id=current_user.id)
+
+    # for order in orders:
+    #     order_pd = OrderProduct.query.filter_by(order_id=order.id).all()
+    #     for pd in order_pd:
+    #         print(pd.quantity)
+    order_pd = OrderProduct
+    return render_template('user/account_history.html',orders=orders,add=add,order_pd=order_pd)
 
 @auth.route('/cart', methods=['GET','POST'])
 def GetCart():
-    
+ 
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     if(cart):
         cart_items = CartItem.query.filter_by(cart_id=cart.id)

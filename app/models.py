@@ -152,6 +152,7 @@ class Order(db.Model):
     status = db.Column(db.String(), default='Preparing')
     product_inorder = db.relationship("Product", secondary='order_product', backref='product_inorders',overlaps="product")
     payment = db.Column(db.String())
+    create_date = db.Column(db.DateTime(), default=datetime.utcnow)
     user_note = db.Column(db.String())
 
 class Product(db.Model):

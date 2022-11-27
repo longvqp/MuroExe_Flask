@@ -127,3 +127,22 @@
     color: white;
     background-color: rgb(101, 183, 25);
 }
+
+.order_card {
+    background-color: white;
+    color: black;
+    box-shadow: 2px 2px 3px rgb(74, 74, 74);
+    margin-bottom: 35px;
+    
+}
+
+.ship_status {
+padding: 15px;
+font-weight: bolder;
+
+
+}
+.status_active{
+    background-color: black;
+    color: white;
+}
