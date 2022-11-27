@@ -14,8 +14,12 @@ def login():
             login_user(user)
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
-                next = url_for('main.index')
+                if user.is_user():
+                    next = url_for('main.index')
+                else:
+                    next = url_for('admin.manage')
             return redirect(next)
+            
         flash('Invalid user or password.')
     return render_template('auth/login.html',form=form)
 

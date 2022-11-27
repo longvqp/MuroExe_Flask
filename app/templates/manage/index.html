@@ -1,0 +1,12 @@
+{% extends "ad_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid">
+   This is main page for manager's stored
+   Role: {{user.role.name}}
+</div>
+{% endblock %}
