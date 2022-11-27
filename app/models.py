@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from flask_login import UserMixin
+from flask_login import UserMixin,  AnonymousUserMixin
 from . import db, login_manager
 from sqlalchemy import DateTime
 from datetime import datetime
@@ -71,6 +71,12 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+class AnonymousUser(AnonymousUserMixin):
+
+    def is_user(self):
+        return "User"
+
+login_manager.anonymous_user = AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):

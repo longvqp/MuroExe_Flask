@@ -8,6 +8,7 @@ from ..import db
 @auth.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm()
+    print(request.url_root)
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data.lower()).first()
         if user is not None and user.verify_password(form.password.data):
