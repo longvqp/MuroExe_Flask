@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm, OrderForm
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from ..models import User, Address, Cart, Product, Order, CartItem
+from ..models import User, Address, Cart, Product, Order, CartItem, OrderProduct
 from ..import db
 
 @auth.route('/login', methods=['GET','POST'])
@@ -19,7 +19,6 @@ def login():
                 else:
                     next = url_for('admin.manage')
             return redirect(next)
-            
         flash('Invalid user or password.')
     return render_template('auth/login.html',form=form)
 
@@ -34,7 +33,6 @@ def register():
                     )
         db.session.add(user)
         db.session.commit()
-        print(user)
         flash('Register complete!, Login to fill in more data')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
@@ -127,15 +125,26 @@ def GetCart():
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     if(cart):
         cart_items = CartItem.query.filter_by(cart_id=cart.id)
-       
     else:
         new_cart = Cart(user_id=current_user.id)
         db.session.add(new_cart)
         db.session.commit()
-    return render_template('user/user_cart.html',cart_items=cart_items,cart=cart)
+        cart_items = None
+    return render_template('user/user_cart.html',cart=cart,cart_items=cart_items)
 
 @auth.route('/checkout_address', methods=['GET','POST'])
 def CheckOutAddress():
+    #Check if user fill in all the personal infor and address
+    exist_address = Address.query.filter_by(user_id=current_user.id).all()
+    if( not exist_address and current_user.fullname == None or not current_user.phone ):
+        flash("Please fill in your name,phone number and address before checkout")
+        return redirect(url_for('auth.infor'))
+    if(not exist_address):
+        flash("Please add an shipping address before checkout")
+        return redirect(url_for('auth.infor'))
+    if( current_user.fullname == None or not current_user.phone):
+        flash("Please fill in your name and phone number before checkout")
+        return redirect(url_for('auth.infor'))
     order_form = OrderForm()
     total=0
     item_count=0
@@ -143,8 +152,6 @@ def CheckOutAddress():
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     cart_items = CartItem.query.filter_by(cart_id=cart.id)
     for pd in cart_items:
-        # print(pd.product.price)
-        # print(pd.quantity)
         item_count += pd.quantity
         price_per_product = float(pd.product.price) * int(pd.quantity)
         total += price_per_product
@@ -155,7 +162,7 @@ def CheckOutAddress():
     param_address = request.args.get('address_id')
     chosen_address = Address.query.filter_by(id=param_address).first()
 
-    return render_template('user/user_order_address.html',form=order_form,cart_items=cart_items,total=total,item_count=item_count,final_price=final_price,discount=discount,addresses=addresses,chosen_address=chosen_address)
+    return render_template('user/user_order_address.html',cart_id=cart.id,form=order_form,cart_items=cart_items,total=total,item_count=item_count,final_price=final_price,discount=discount,addresses=addresses,chosen_address=chosen_address)
 
 @auth.route('/checkout_address/set/<address_id>', methods=['GET','POST'])
 def SetOrderAddress(address_id):
@@ -165,14 +172,30 @@ def SetOrderAddress(address_id):
 @auth.route('/place_order', methods=['GET','POST'])
 def PlaceOrder():
     order_form = OrderForm()
+    
     if order_form.validate_on_submit():
-        print("email",order_form.email.data)
-        print("full name",order_form.fullname.data)
-        print("phone",order_form.phone.data)
-        print("payment",order_form.payment.data)
-        print("address id",order_form.address.data)
-        print("cart id",order_form.cart_id.data)
-        print("total money",order_form.total.data)
+        new_order = Order(user_id=current_user.id,
+                        address_id=order_form.address.data,
+                        total = order_form.total.data,
+                        payment=order_form.payment.data)
+        get_cart_item = CartItem.query.filter_by(cart_id=order_form.cart_id.data).all()
+        for item in get_cart_item:
+            pd = Product.query.filter_by(id=item.product_id).first()
+            # new_order.product_inorder.append(pd)
+            
+            order_pd = OrderProduct(
+                order=new_order,
+                product=pd,
+                size=item.size,
+                quantity=item.quantity
+            )
+            db.session.add(order_pd)
+            db.session.commit()
+        #Delete old cart
+        old_items = CartItem.query.filter_by(cart_id=order_form.cart_id.data).delete()
+        db.session.commit()
+
+    
     return render_template('user/user_order_payment.html')
         
 @auth.route('/checkout_payment', methods=['GET','POST'])

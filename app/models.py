@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     create_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
 
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), default=2)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
 
@@ -38,7 +38,9 @@ class User(UserMixin, db.Model):
     addresses = db.relationship('Address', backref='users')
     #Mot User co mot Cart
     cart =db.relationship('Cart',uselist=False, backref='users')
-    
+    #Mot User co nhieu Order
+    order = db.relationship("Order",backref='users')
+
     def is_user(self):
         return Role.query.get(self.role_id).name == 'user'
 
@@ -114,6 +116,44 @@ class CartItem(db.Model):
     quantity = db.Column(db.Integer)
     size = db.Column(db.Integer)
 
+# order_product = db.Table('order_product',
+#                         db.Column('order_id',db.Integer,db.ForeignKey('orders.id')),
+#                         db.Column('product_id',db.Integer,db.ForeignKey('products.id')),
+#                         db.Column('size',db.Integer))
+
+class OrderProduct(db.Model):
+    __tablename__ = 'order_product'
+    id = db.Column(db.Integer,primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    size = db.Column(db.Integer)
+    quantity = db.Column(db.Integer)
+
+    # bidirectional attribute/collection of "user"/"user_keywords"
+    order = db.relationship("Order",
+                backref=("order_product")
+            )
+
+    # reference to the "Keyword" object
+    product = db.relationship("Product")
+
+    def __init__(self, product=None, order=None, size=None,quantity=None):
+        self.order = order
+        self.product = product
+        self.size = size
+        self.quantity = quantity
+
+class Order(db.Model):
+    __tablename__='orders'
+    id = db.Column(db.Integer,primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    address_id = db.Column(db.Integer, db.ForeignKey('addresses.id'))
+    total = db.Column(db.Float)
+    status = db.Column(db.String(), default='Preparing')
+    product_inorder = db.relationship("Product", secondary='order_product', backref='product_inorders',overlaps="product")
+    payment = db.Column(db.String())
+    user_note = db.Column(db.String())
+
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
@@ -132,7 +172,7 @@ class Product(db.Model):
     sizes = db.relationship('StockAndSize', backref='products')
     # Mot San pham thuoc ve mot Category
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-    
+  
     
     
 class StockAndSize(db.Model):
@@ -141,7 +181,7 @@ class StockAndSize(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), index=True)
     size = db.Column(db.Integer)
     stock = db.Column(db.Integer)
-    # UniqueConstraint('product_id', 'size', name='size_product')
+
     
 class BannerImage(db.Model):
     __tablename__='banner_images'
@@ -150,17 +190,8 @@ class BannerImage(db.Model):
     is_disable = db.Column(db.Boolean(), default=False)
 
 
-class Order(db.Model):
-    __tablename__='orders'
-    id = db.Column(db.Integer,primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    address_id = db.Column(db.Integer, db.ForeignKey('addresses.id'))
-    total = db.Column(db.Float)
-    status = db.Column(db.String(), default='Preparing')
-    cart_id = db.Column(db.Integer, db.ForeignKey('carts.id'))
-    cart = db.relationship("Cart", backref=("order"), uselist=False)
-    payment = db.Column(db.String())
-    user_note = db.Column(db.String())
+
+
 #Mot size thuoc ve mot San Pham
     
 # class Voucher

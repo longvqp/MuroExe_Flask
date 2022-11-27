@@ -83,6 +83,7 @@ page_content %}
           >
             Address Information
           </h3>
+          <p>( i ) You can set your default shipping address in your profile</p>
           <div class="row">
             <div class="col-md-4">
               <h4>&nbsp;</h4>
@@ -132,6 +133,9 @@ page_content %}
                   </fieldset>
                   <fieldset class="form-field">
                     {{ form.fullname(value=current_user.fullname) }}
+                  </fieldset>
+                  <fieldset class="form-field">
+                    {{ form.cart_id(value=cart_id) }}
                   </fieldset>
                   <fieldset class="form-field">
                     {{ form.phone(value=current_user.phone) }}

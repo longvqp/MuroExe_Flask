@@ -9,8 +9,7 @@ from sqlalchemy import desc,asc
 def index():
     products = Product.query.all()
     banners = BannerImage.query.all()
-    if current_user and not current_user.is_user():
-        return redirect(url_for('admin.manage', user=current_user))
+    
     return render_template('index.html',products=products,banners=banners)
 
 
@@ -32,6 +31,8 @@ def about():
 
 @main.route('/infor/<user_id>', methods=['GET','POST'])
 def get_infor(user_id): 
+    if current_user and not current_user.is_user():
+        return redirect(url_for('admin.manage', user=current_user))
     return render_template('account_infor.html', user_id=user_id)
 
 

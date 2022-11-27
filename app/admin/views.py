@@ -1,7 +1,7 @@
 from flask import render_template, current_app as app, redirect,url_for,flash
 from . import admin
 from .forms import AddProductForm,EditProductForm,AddStockForm,UpdateStockForm,AddBannerImageForm
-from ..models import Product, Category, StockAndSize, BannerImage
+from ..models import Product, Category, StockAndSize, BannerImage,Role
 from .. import db
 from werkzeug.utils import secure_filename
 import uuid as uuid
@@ -170,6 +170,18 @@ def DeleteBanner(banner_id):
     return redirect(url_for('admin.PageBanner'))
 
 # For Batch Data Adding
+@admin.route('/add_role')
+def AddRole():
+    role = Role(
+        name='admin',
+    )
+    role_2 = Role(
+        name='user'
+    )
+    db.session.add_all([role,role_2])
+    db.session.commit()
+    return "added_role"
+
 @admin.route('/add_category')
 def AddCategory():
     shoe = Category(category_name='shoes')
@@ -240,15 +252,15 @@ def AddProductSize():
     all_accessory   = Product.query.filter_by(category_id=5).all()
     
     
-    # for shoe in all_shoe:
-    #     for i in range(37,43):
-    #         print(i)
-    #         stock = StockAndSize(size=i,
-    #                             stock=100,
-    #                             product_id=shoe.id)
-    #         db.session.add(stock)
-    #         db.session.commit()
-    #     print("Added size for ", shoe.product_name)
+    for shoe in all_shoe:
+        for i in range(37,43):
+            print(i)
+            stock = StockAndSize(size=i,
+                                stock=100,
+                                product_id=shoe.id)
+            db.session.add(stock)
+            db.session.commit()
+        print("Added size for ", shoe.product_name)
     
     for sneaker in all_sneaker:
         for i in range(37,43):
