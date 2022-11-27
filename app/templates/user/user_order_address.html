@@ -1,33 +1,277 @@
 {% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
-  page_content %}
-  <main>
-    <div class="container-fluid">
-      <div class="page-header">
-        <h1>Checkout</h1>
+page_content %}
+<main>
+  <div id="mySidepanel" class="sidepanel">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Your Addresses:</h2>
       </div>
-      <center>
-      <div class="row">
+      <div class="col-md-4">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      </div>
+    </div>
+
+    <div>
+      {% for address in addresses%}
+      <a
+        class="addresses"
+        href="{{url_for('auth.SetOrderAddress',address_id=address.id)}}"
+      >
+        {{address.address}} {{address.city}} {{address.country}}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="page-header">
+      <h1>Checkout</h1>
+    </div>
+    <center>
+      <div class="row mb-4">
         
-        <div class="col-md-3 mx-auto check_out_proceed ">
-          <a href="{{url_for('auth.CheckOut')}}"><h4>Products</h4></a>
+
+        <div class="col-md-3 mx-auto check_out_proceed cop_active">
+          <a disabled href="{{url_for('auth.CheckOutAddress')}}"
+            ><h4>Shipping Info</h4></a
+          >
         </div>
-        
-        <div class="col-md-3 mx-auto check_out_proceed cop_active ">
-          <a disabled href="{{url_for('auth.CheckOutAddress')}}"><h4>Address</h4></a>
+
+        <div class="col-md-3 mx-auto check_out_proceed">
+          <a disabled href="{{url_for('auth.CheckOutPayment')}}"
+            ><h4>Payment</h4></a
+          >
         </div>
-        
-        <div class="col-md-3 mx-auto check_out_proceed ">
-          <a disabled href="{{url_for('auth.CheckOutPayment')}}"><h4>Payment</h4></a>
-        </div>
-  
       </div>
     </center>
-  
+
     <div class="row order_content">
-  
+      <div class="row contact_info">
+        <div class="col-md-8">
+          <h3
+            style="
+              padding: 20px;
+              background-color: black;
+              color: white;
+              max-width: fit-content;
+            "
+          >
+            Contact Information
+          </h3>
+          <div class="row">
+            <h4>&nbsp;</h4>
+            <div class="col-md-4">
+              <h4>Recipient name:</h4>
+              <h4>Email:</h4>
+              <h4>Phone number:</h4>
+            </div>
+            <div class="col-md-8" style="text-align: right">
+              <h4>{{current_user.fullname}}</h4>
+              <h4>{{current_user.email}}</h4>
+
+              <h4>{{current_user.phone}}</h4>
+            </div>
+          </div>
+          <hr />
+          <h3
+            style="
+              padding: 20px;
+              background-color: black;
+              color: white;
+              max-width: fit-content;
+            "
+          >
+            Address Information
+          </h3>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>&nbsp;</h4>
+              <h4>Shipping Address:</h4>
+              <h4>City:</h4>
+              <h4>Postal code:</h4>
+              <h4>Country:</h4>
+            </div>
+            <div class="col-md-8" style="text-align: right">
+              {% if chosen_address %}
+              <h4>&nbsp;</h4>
+              <h4>{{chosen_address.address}}</h4>
+              <h4>{{chosen_address.city}}</h4>
+              <h4>{{chosen_address.postal_code}}</h4>
+              <h4>{{chosen_address.country}}</h4>
+              {%else%} {% for address in addresses%} {% if address.is_default%}
+              <h4>&nbsp;</h4>
+              <h4>{{address.address}}</h4>
+              <h4>{{address.city}}</h4>
+              <h4>{{address.postal_code}}</h4>
+              <h4>{{address.country}}</h4>
+              {%endif%} {%endfor%} {%endif%}
+              <button class="openbtn" onclick="openNav()">
+                Choose shipping address
+              </button>
+            </div>
+          </div>
+
+          <hr />
+          <h3
+            style="
+              padding: 20px;
+              background-color: black;
+              color: white;
+              max-width: fit-content;
+            "
+          >
+            Payment method
+          </h3>
+          <div class="row">
+            <div>
+              <center>
+                <form action="{{url_for('auth.PlaceOrder')}}" id="order_form" method="POST">
+                  {{form.csrf_token}}
+                  <fieldset class="form-field">
+                    {{ form.email(value=current_user.email) }}
+                  </fieldset>
+                  <fieldset class="form-field">
+                    {{ form.fullname(value=current_user.fullname) }}
+                  </fieldset>
+                  <fieldset class="form-field">
+                    {{ form.phone(value=current_user.phone) }}
+                  </fieldset>
+                  <fieldset class="form-field">
+                  <input
+                  type="radio"
+                  class="btn-check"
+                  name="payment"
+                  id="cod"
+                  autocomplete="off"
+                  value="COD"
+                />
+                <label class="btn btn-outline-success" for="cod"
+                  >Cash on delivery</label
+                >&nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="payment"
+                  id="momo"
+                  autocomplete="off"
+                  value="MOMO"
+                />
+                <label class="btn btn-outline-danger" for="momo"
+                  >Pay with Momo</label
+                >&nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="payment"
+                  id="card"
+                  autocomplete="off"
+                  value="CARD"
+                />
+                <label class="btn btn btn-outline-primary" for="card"
+                  >Pay with card</label
+                ><br />
+                  
+              </fieldset>
+                  <fieldset class="form-field">
+                    {% if chosen_address %}
+                      {{ form.address(value=chosen_address.id) }}
+                    {% else %}
+                      {% for address in addresses%} 
+                        {% if address.is_default%}
+                          {{ form.address(value=address.id) }}
+                        {% endif %}
+                      {%endfor%}
+                    {%endif%}
+                  </fieldset>
+                  <fieldset class="form-field">
+                    {{ form.cart_id(value=cart_items.cart_id) }}
+                  </fieldset>
+                  <fieldset class="form-field">
+                    {{ form.user_id(value=current_user.id) }}
+                  </fieldset>
+                  <fieldset class="form-field">
+                    {{ form.total(value=final_price) }}
+                  </fieldset>
+                </form>
+              </center>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 checkout_pannel">
+          <center>
+            <h4>Bill</h4>
+          </center>
+          <div class="row">
+            <div class="col-md-7">
+              <h6 >Product</h6>
+       
+              {% for pd in cart_items%}
+              <h6>{{pd.product.product_name}}&nbsp;&nbsp;&nbsp;(&nbsp;size&nbsp;{{pd.size}}&nbsp;)</h6>
+              {%endfor%}
+              <hr>
+              <h6 id="quantity_total"><b>{{item_count}} Items</b></h6>
+            
+            </div>
+            <div class="col-md-2" style="text-align:center; ">
+              <h6>Quantity</h6>
+   
+              {% for pd in cart_items%}
+              <h6 >{{pd.quantity}}</h6>
+              {%endfor%}
+              <hr>
+              <h6><b>Total</b></h6>
+              
+            </div>
+            <div class="col-md-3" id="sum_price" style="text-align: right">
+              <h6>Price</h6>
+    
+              {% for pd in cart_items%}
+              <h6>{{pd.product.price*pd.quantity}}</h6>
+              {%endfor%}
+              <hr>
+              <h6><b>&euro; &nbsp;{{total}}</b></h6>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-8">
+              <h6>Discount</h6>
+            </div>
+            <div class="col-md-4" style="text-align: right">
+              &euro; &nbsp; {{discount}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <h6>Shipping</h6>
+            </div>
+            <div class="col-md-4" style="text-align: right">Free</div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-md-8">
+              <h4><b> Total</b></h4>
+            </div>
+            <div class="col-md-4" style="text-align: right">
+              <h4 id="total"><b>&euro; &nbsp;{{final_price}}</b></h4>
+            </div>
+          </div>
+          <div class="row">
+            <button class="orderBtn" type="submit" form="order_form" value="submit">Place Order</button>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
-  </main>
-  
-  {% endblock %}
-  
+  </div>
+  <script>
+    function openNav() {
+      document.getElementById("mySidepanel").style.width = "25vw";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidepanel").style.width = "0";
+    }
+  </script>
+</main>
+
+{% endblock %}

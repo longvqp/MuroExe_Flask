@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField,HiddenField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import User
@@ -50,3 +50,16 @@ class AddressForm(FlaskForm):
     country = SelectField('Country', choices=[(country.name, country.name) for country in pycountry.countries])
     submit = SubmitField('Add')
 
+class OrderForm(FlaskForm):
+    email = HiddenField("email")
+    fullname = HiddenField("fullname")
+    phone = HiddenField('Phone number: ')
+    address = HiddenField("Address")
+    city = HiddenField("City")
+    postal_code = HiddenField("Postal Code")
+    country = HiddenField("Country")
+    cart_id = HiddenField()
+    user_id = HiddenField()
+    payment = HiddenField()
+    total = HiddenField()
+    note = HiddenField()

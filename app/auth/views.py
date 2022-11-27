@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
-from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm
+from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm, OrderForm
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from ..models import User, Address, Cart, Product, Order, CartItem
@@ -132,18 +132,49 @@ def GetCart():
         new_cart = Cart(user_id=current_user.id)
         db.session.add(new_cart)
         db.session.commit()
-    return render_template('user/user_cart.html',cart_items=cart_items)
-
-@auth.route('/check_out', methods=['GET','POST'])
-def CheckOut():
-    # cart = Cart.query.filter_by(user_id=current_user.id).first()
-    return render_template('user/user_order.html')
+    return render_template('user/user_cart.html',cart_items=cart_items,cart=cart)
 
 @auth.route('/checkout_address', methods=['GET','POST'])
 def CheckOutAddress():
-    # cart = Cart.query.filter_by(user_id=current_user.id).first()
-    return render_template('user/user_order_address.html')
+    order_form = OrderForm()
+    total=0
+    item_count=0
+    discount = float(-10)
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    cart_items = CartItem.query.filter_by(cart_id=cart.id)
+    for pd in cart_items:
+        # print(pd.product.price)
+        # print(pd.quantity)
+        item_count += pd.quantity
+        price_per_product = float(pd.product.price) * int(pd.quantity)
+        total += price_per_product
+    final_price = total + discount
+    
+    addresses = Address.query.filter_by(user_id=current_user.id).all()
+    
+    param_address = request.args.get('address_id')
+    chosen_address = Address.query.filter_by(id=param_address).first()
 
+    return render_template('user/user_order_address.html',form=order_form,cart_items=cart_items,total=total,item_count=item_count,final_price=final_price,discount=discount,addresses=addresses,chosen_address=chosen_address)
+
+@auth.route('/checkout_address/set/<address_id>', methods=['GET','POST'])
+def SetOrderAddress(address_id):
+    return redirect(url_for('auth.CheckOutAddress',address_id=address_id))
+
+
+@auth.route('/place_order', methods=['GET','POST'])
+def PlaceOrder():
+    order_form = OrderForm()
+    if order_form.validate_on_submit():
+        print("email",order_form.email.data)
+        print("full name",order_form.fullname.data)
+        print("phone",order_form.phone.data)
+        print("payment",order_form.payment.data)
+        print("address id",order_form.address.data)
+        print("cart id",order_form.cart_id.data)
+        print("total money",order_form.total.data)
+    return render_template('user/user_order_payment.html')
+        
 @auth.route('/checkout_payment', methods=['GET','POST'])
 def CheckOutPayment():
     # cart = Cart.query.filter_by(user_id=current_user.id).first()

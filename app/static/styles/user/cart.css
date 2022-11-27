@@ -70,3 +70,9 @@
     color: red;
     
 }
+
+.addresses:link{
+    margin-top: 4vh;
+    background-color: white;
+    font-size: 20px;
+}

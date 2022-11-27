@@ -33,3 +33,32 @@
     text-decoration: none;
     color: rgb(255, 223, 142);
 }
+.order_form{
+    font-size: 25px;
+}
+
+.order_form{
+    margin-top: 2vh;
+    margin-bottom: 10vh;
+}
+.orderBtn{
+    background-color: black;
+    border: none;
+    padding: 25px;
+    font-size: 25px;
+    color:white;
+    margin-top: 5vh;
+    transition: ease 0.2s;;
+}
+.orderBtn:hover{
+    background-color: rgb(249, 218, 126);
+    color: black;
+    transform: scale(0.97);
+    box-shadow: 5px 5px rgb(0, 0, 0);
+}
+
+.orderBtn:active{
+    transform: scale(0.9);
+    background-color: rgb(231, 212, 157);
+    box-shadow: 5px 5px 7px rgb(0, 0, 0);
+}

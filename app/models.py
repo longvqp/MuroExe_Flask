@@ -149,20 +149,18 @@ class BannerImage(db.Model):
     banner = db.Column(db.String())
     is_disable = db.Column(db.Boolean(), default=False)
 
-order_cart =  db.Table('order_cart',
-                        db.Column('order_id',db.Integer,db.ForeignKey('orders.id')),
-                        db.Column('cart_id',db.Integer,db.ForeignKey('carts.id')))
-
 
 class Order(db.Model):
     __tablename__='orders'
     id = db.Column(db.Integer,primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    cart_inorder = db.relationship("Cart", secondary='order_cart', backref='cart_inorder')
     address_id = db.Column(db.Integer, db.ForeignKey('addresses.id'))
     total = db.Column(db.Float)
     status = db.Column(db.String(), default='Preparing')
-    
+    cart_id = db.Column(db.Integer, db.ForeignKey('carts.id'))
+    cart = db.relationship("Cart", backref=("order"), uselist=False)
+    payment = db.Column(db.String())
+    user_note = db.Column(db.String())
 #Mot size thuoc ve mot San Pham
     
 # class Voucher
