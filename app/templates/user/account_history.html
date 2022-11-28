@@ -127,7 +127,6 @@ page_content %}
             <h6 class="ship_status {{'status_active' if order.status == 'Preparing' else ''}}">
               <i class="bi bi-clipboard"></i>&nbsp;
               Preparing
-            
             </h6>
           </div>
           <div class="col-md-3">
@@ -135,8 +134,8 @@ page_content %}
               <i class="bi bi-box-seam"></i>&nbsp; Packaging
             </h6>
           </div>
-          <div class="col-md-3 {{'status_active' if order.status == 'Shipping' else ''}}">
-            <h6 class="ship_status">
+          <div class="col-md-3">
+            <h6 class="ship_status  {{'status_active' if order.status == 'Shipping' else ''}}">
               <i class="bi bi-truck"></i>&nbsp; Shipping
             </h6>
           </div>

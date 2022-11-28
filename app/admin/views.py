@@ -1,7 +1,7 @@
 from flask import render_template, current_app as app, redirect,url_for,flash
 from . import admin
 from .forms import AddProductForm,EditProductForm,AddStockForm,UpdateStockForm,AddBannerImageForm,AddVoucherForm
-from ..models import Product, Category, StockAndSize, BannerImage,Role, Voucher
+from ..models import Address, Product, Category, StockAndSize, BannerImage,Role, Voucher, Order,User
 from .. import db
 from werkzeug.utils import secure_filename
 import uuid as uuid
@@ -190,6 +190,48 @@ def DeleteVoucher(voucher_id):
     db.session.commit()
     flash("Deleted voucher")
     return redirect(url_for('admin.MangeVoucher'))
+
+@admin.route('/mange_order', methods=['GET','POST'])
+def ManageOrder():
+    orders = Order.query.all()
+    user_model = User.query
+    address_model = Address.query
+    return render_template('admin/manage_order.html',orders=orders,user_model=user_model,address_model=address_model)
+
+@admin.route('/set_order_status_up/<ord_id>', methods=['GET','POST'])
+def SetOrderUp(ord_id):
+    order = Order.query.filter_by(id=ord_id).first()
+    if(order.status=='Preparing'):
+        order.status='Packaging'
+    else:
+        if(order.status=='Packaging'):
+            order.status='Shipping'
+        else:
+            if(order.status=='Shipping'):
+                order.status='Delievering'
+            else:
+                if(order.status=='Delievering'):
+                    order.status='Done'
+    db.session.commit()
+    return redirect(url_for('admin.ManageOrder'))
+
+
+@admin.route('/set_order_status_down/<ord_id>', methods=['GET','POST'])
+def SetOrderDown(ord_id):
+    order = Order.query.filter_by(id=ord_id).first()
+    if(order.status=='Done'):
+        order.status='Delievering'
+    else:
+        if(order.status=='Delievering'):
+            order.status='Shipping'
+        else:
+            if(order.status=='Shipping'):
+                order.status='Packaging'
+            else:
+                if(order.status=='Packaging'):
+                    order.status='Preparing'
+    db.session.commit()
+    return redirect(url_for('admin.ManageOrder'))
 
 # For Batch Data Adding
 @admin.route('/add_role')

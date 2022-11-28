@@ -1,0 +1,54 @@
+{% extends "ad_base.html" %}
+{% set active_page = 'order' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+   <h1 class="heading" >MANAGE VOUCHER</h1>
+  </div>
+  <div class="col-md-6">
+ 
+</div>
+  </div>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">User</th>
+        <th scope="col">Address</th>
+        <th scope="col">Total</th>
+        <th scope="col">Payment method</th>
+        <th scope="col">Created date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ord in orders%}
+      <tr class="tbRow">
+        <th  style="vertical-align: middle;" scope="row">{{ord.id}}</th>
+        <td style="vertical-align: middle;">{{user_model.filter_by(id=ord.user_id).first().username}}</td>
+        <td style="vertical-align: middle;"> {{address_model.filter_by(id=ord.address_id).first().address}}, {{address_model.filter_by(id=ord.address_id).first().city}}</td>
+        <td style="vertical-align: middle;"> &euro;&nbsp;{{ord.total}}</td>
+        <td style="vertical-align: middle; ">{{ord.payment}}</td>
+        <td style="vertical-align: middle; ">{{ord.create_date.strftime('%d-%m-%Y')}}</td>
+        <td style="vertical-align: middle; ">{{ord.status}}</td>
+        <td style="vertical-align: middle;"><a id="deleteBtn" href="{{url_for('admin.SetOrderUp',ord_id=ord.id)}}">Up</a>||<a id="deleteBtn" href="{{url_for('admin.SetOrderDown',ord_id=ord.id)}}">Down</a></td>
+      </tr>
+{%endfor%}
+    </tbody>
+  </table>
+  
+</div>
+{% endblock %}
+
+
+
+
+

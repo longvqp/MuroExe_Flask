@@ -85,6 +85,13 @@
               >Voucher</a
             >
           </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {{ 'active' if active_page == 'order' else ''}}"
+              href="{{url_for('admin.ManageOrder')}}"
+              >Mange Order</a
+            >
+          </li>
           <li class="nav-item"></li>
         </ul>
       </div>
