@@ -1,0 +1,53 @@
+{% extends "ad_base.html" %}
+{% set active_page = 'voucher' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+   <h1 class="heading" >MANAGE VOUCHER</h1>
+  </div>
+  <div class="col-md-6">
+  {{ wtf.quick_form(form) }}
+</div>
+  </div>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Voucher Name</th>
+        <th scope="col">Voucher Code</th>
+        <th scope="col">Discount</th>
+        <th scope="col">Expired date</th>
+        <th scope="col">Created date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for voucher in vouchers%}
+      <tr class="tbRow">
+        <th  style="vertical-align: middle;" scope="row">{{voucher.id}}</th>
+        <td style="vertical-align: middle;">
+            <a href="#">{{voucher.name}}</a></td>
+        <td style="vertical-align: middle;"> {{voucher.code}}</td>
+        <td style="vertical-align: middle;"> &#163; {{voucher.discount}} &euro;</td>
+        <td style="vertical-align: middle; ">{{voucher.expire_date}}</td>
+        <td style="vertical-align: middle; ">{{voucher.create_date}}</td>
+        <td style="vertical-align: middle;"><a id="deleteBtn" href="{{url_for('admin.DeleteVoucher',voucher_id=voucher.id)}}">Delete</a></td>
+      </tr>
+{%endfor%}
+    </tbody>
+  </table>
+  
+</div>
+{% endblock %}
+
+
+
+
+

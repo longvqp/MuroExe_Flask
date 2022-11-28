@@ -114,7 +114,7 @@ page_content %}
             <h6><b>Total</b></h6>
           </div>
           <div class="col-md-3" id="sum_price" style="text-align: right">
-            <h6><b>&euro; &nbsp;{{total}}</b></h6>
+            <h6 style="display: inline;">&euro; &nbsp;</h6><h6 style="display: inline;" id="subtotal"><b>{{total}}</b></h6>
           </div>
         </div>
         <hr />
@@ -122,8 +122,8 @@ page_content %}
           <div class="col-md-8">
             <h6>Discount</h6>
           </div>
-          <div class="col-md-4" style="text-align: right">
-            &euro; &nbsp; -10
+          <div class="col-md-4" style="text-align: right" >
+            <h6 style="display: inline;">&euro; &nbsp;</h6><h6 style="display: inline;" id="discount"> -10</h6>
           </div>
         </div>
         <div class="row">
@@ -139,7 +139,7 @@ page_content %}
         <p>In text</p>
           </div>
           <div class="col-md-10" style="text-align: right">
-            <h4 id="total"><b>&euro; &nbsp;{{get_order.total}}</b></h4>
+            <h4 style="display: inline;">&euro; &nbsp;</h4><h4 style="display: inline;" id="total"><b>{{get_order.total}}</b></h4>
             <p>{{grand_total_intext}}</p>
           </div>
         </div>
@@ -175,5 +175,11 @@ page_content %}
     
   </div>
 </div>
-
+<script>
+  discount = document.getElementById('discount')
+  total = document.getElementById("subtotal").innerText
+  grand_total = document.getElementById('total').innerText
+  
+  discount.innerHTML=parseFloat(grand_total)-parseFloat(total)
+</script>
 {% endblock %}

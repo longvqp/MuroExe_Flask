@@ -116,11 +116,6 @@ class CartItem(db.Model):
     quantity = db.Column(db.Integer)
     size = db.Column(db.Integer)
 
-# order_product = db.Table('order_product',
-#                         db.Column('order_id',db.Integer,db.ForeignKey('orders.id')),
-#                         db.Column('product_id',db.Integer,db.ForeignKey('products.id')),
-#                         db.Column('size',db.Integer))
-
 class OrderProduct(db.Model):
     __tablename__ = 'order_product'
     id = db.Column(db.Integer,primary_key=True)
@@ -128,13 +123,7 @@ class OrderProduct(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     size = db.Column(db.Integer)
     quantity = db.Column(db.Integer)
-
-    # bidirectional attribute/collection of "user"/"user_keywords"
-    order = db.relationship("Order",
-                backref=("order_product")
-            )
-
-    # reference to the "Keyword" object
+    order = db.relationship("Order", backref=("order_product"))
     product = db.relationship("Product")
 
     def __init__(self, product=None, order=None, size=None,quantity=None):
@@ -180,7 +169,7 @@ class StockAndSize(db.Model):
     __tablename__ = 'product_stock'
     id = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), index=True)
-    size = db.Column(db.Integer)
+    size = db.Column(db.String())
     stock = db.Column(db.Integer)
 
     
@@ -191,21 +180,18 @@ class BannerImage(db.Model):
     is_disable = db.Column(db.Boolean(), default=False)
 
 
+class Voucher(db.Model):
+    __tablename__="vouchers"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    code = db.Column(db.Integer)
+    discount = db.Column(db.Float)
+    expire_date = db.Column(db.Date())
+    create_date = db.Column(db.Date(), default=datetime.utcnow)
+    max_usage = db.Column(db.Integer, default=1000)
 
 
-#Mot size thuoc ve mot San Pham
-    
-# class Voucher
-#     #mot User co nhieu voucher
-#     #mot Order ap dung mot voucher
 
-# class Order
-#     # 1 User co nhieu Order
-#     # 1 Order co nhieu Product
-
-# class History
-#     # 1 user co mot History
-#     # 1 History chua nhieu Order
 
 
 

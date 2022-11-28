@@ -1,7 +1,7 @@
 from flask import render_template, current_app as app, redirect,url_for,flash
 from . import admin
-from .forms import AddProductForm,EditProductForm,AddStockForm,UpdateStockForm,AddBannerImageForm
-from ..models import Product, Category, StockAndSize, BannerImage,Role
+from .forms import AddProductForm,EditProductForm,AddStockForm,UpdateStockForm,AddBannerImageForm,AddVoucherForm
+from ..models import Product, Category, StockAndSize, BannerImage,Role, Voucher
 from .. import db
 from werkzeug.utils import secure_filename
 import uuid as uuid
@@ -169,6 +169,28 @@ def DeleteBanner(banner_id):
     db.session.commit()
     return redirect(url_for('admin.PageBanner'))
 
+@admin.route('/voucher', methods=['GET','POST'])
+def MangeVoucher():
+    form = AddVoucherForm()
+    if form.validate_on_submit():
+        new_voucher = Voucher(name=form.name.data,
+                        code = form.code.data,
+                        discount=form.discount.data,
+                        expire_date=form.expire_date.data,
+                        max_usage=form.max_usage.data)
+        db.session.add(new_voucher)
+        db.session.commit()
+        flash('Added new voucher')
+    vouchers = Voucher.query.all()
+    return render_template('admin/manage_voucher.html',form = form,vouchers=vouchers)
+
+@admin.route('/delete_voucher/<voucher_id>', methods=['GET','POST'])
+def DeleteVoucher(voucher_id):
+    is_deleted_voucher = Voucher.query.filter_by(id=voucher_id).delete()
+    db.session.commit()
+    flash("Deleted voucher")
+    return redirect(url_for('admin.MangeVoucher'))
+
 # For Batch Data Adding
 @admin.route('/add_role')
 def AddRole():
@@ -291,9 +313,9 @@ def AddProductSize():
             db.session.add(stock)
             db.session.commit()
         print("Added size for ", slipper.product_name)
-
+    size = ["S", "M", "L"]
     for accs in all_accessory:
-        for i in range(1,4):
+        for i in size:
             print(i)
             stock = StockAndSize(size=i,
                                 stock=100,

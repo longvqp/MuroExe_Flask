@@ -63,3 +63,7 @@ class OrderForm(FlaskForm):
     payment = HiddenField()
     total = HiddenField()
     note = HiddenField()
+
+class UseVoucherForm(FlaskForm):
+    name = StringField()
+    submit = SubmitField('Submit')

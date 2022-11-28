@@ -8,6 +8,7 @@ page_content %}
     <div class="row">
       <div class="col-md-8 product_cart_list">
         {% if cart_items.all()|length > 0%}
+        {% set count = namespace(value=1) %}
         <table class="table cart_table align-middle">
           <thead>
             <tr>
@@ -95,7 +96,7 @@ page_content %}
             <h6>Discount</h6>
           </div>
           <div class="col-md-4" style="text-align: right">
-            &euro; &nbsp; -10.00
+            &euro; &nbsp; {{discount}}
           </div>
         </div>
         <div class="row">
@@ -127,7 +128,7 @@ page_content %}
         </div>
   
         <div class="row">
-          <a class="checkoutBtn {{'no_pointer' if count.value==0 else ''}}" href="{{url_for('auth.CheckOutAddress')}}"   >Proceed to checkout</a>
+          <a class="checkoutBtn {{'no_pointer' if count.value==0 else ''}}" href="{{url_for('auth.CheckOutAddress',n=n)}}"   >Proceed to checkout</a>
         </div>
       </div>
     </div>
@@ -162,8 +163,8 @@ page_content %}
     .format(total_price_before_discount)
     .toString();
   total = document.getElementById("total");
-  discount = 10.0;
-  total_price = total_price_before_discount - discount;
+  discount = {{discount}};
+  total_price = total_price_before_discount + discount;
 
   total.innerHTML = formatter.format(total_price).toString();
 </script>

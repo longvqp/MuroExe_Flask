@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request
-from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm, OrderForm
+from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm, OrderForm,UseVoucherForm
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from ..models import User, Address, Cart, Product, Order, CartItem, OrderProduct, StockAndSize
+from ..models import User, Address, Cart, Product, Order, CartItem, OrderProduct, StockAndSize, Voucher
 from ..import db
 from currency2text import currency_to_text
 @auth.route('/login', methods=['GET','POST'])
@@ -129,15 +129,16 @@ def OrderBill(order_id):
     pd_model = Product
     total=0
     address = Address.query.filter_by(id=get_order.address_id).first()
+
     for pd in produtcs_inorder:
         product = pd_model.query.filter_by(id=pd.product_id).first().price
-        total += product 
+        total += product*pd.quantity  
     grand_total_intext = str(currency_to_text(get_order.total, 'EUR', 'en_US'))[2:-1]
     return render_template('user/order_bill.html',grand_total_intext=grand_total_intext,address=address,get_order=get_order,produtcs_inorder=produtcs_inorder,pd_model=pd_model,total=total)
 
 @auth.route('/cart', methods=['GET','POST'])
 def GetCart():
- 
+    
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     if(cart):
         cart_items = CartItem.query.filter_by(cart_id=cart.id)
@@ -146,10 +147,21 @@ def GetCart():
         db.session.add(new_cart)
         db.session.commit()
         cart_items = None
-    return render_template('user/user_cart.html',cart=cart,cart_items=cart_items)
+    #Check voucher code
+    voucher_code = request.args.get('voucher')
+    voucher = Voucher.query.filter_by(code=voucher_code).first()
+    
+    if(voucher):
+        code = voucher_code
+        discount = voucher.discount
+    else:
+        discount = float(0)
+        code = 'n'
 
-@auth.route('/checkout_address', methods=['GET','POST'])
-def CheckOutAddress():
+    return render_template('user/user_cart.html',cart=cart,cart_items=cart_items,discount=discount,n=code)
+
+@auth.route('/checkout_address/<n>', methods=['GET','POST'])
+def CheckOutAddress(n):
     #Check if user fill in all the personal infor and address
     exist_address = Address.query.filter_by(user_id=current_user.id).all()
     if( not exist_address and current_user.fullname == None or not current_user.phone ):
@@ -161,10 +173,17 @@ def CheckOutAddress():
     if( current_user.fullname == None or not current_user.phone):
         flash("Please fill in your name and phone number before checkout")
         return redirect(url_for('auth.infor'))
+    print(n)
+    #Check voucher code
+    voucher = Voucher.query.filter_by(code=n).first()
+    if(voucher):
+        discount = voucher.discount
+    else:
+        discount=float(0)
     order_form = OrderForm()
     total=0
     item_count=0
-    discount = float(-10)
+   
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     cart_items = CartItem.query.filter_by(cart_id=cart.id)
     for pd in cart_items:
@@ -178,11 +197,11 @@ def CheckOutAddress():
     param_address = request.args.get('address_id')
     chosen_address = Address.query.filter_by(id=param_address).first()
 
-    return render_template('user/user_order_address.html',cart_id=cart.id,form=order_form,cart_items=cart_items,total=total,item_count=item_count,final_price=final_price,discount=discount,addresses=addresses,chosen_address=chosen_address)
+    return render_template('user/user_order_address.html',n=n,cart_id=cart.id,form=order_form,cart_items=cart_items,total=total,item_count=item_count,final_price=final_price,discount=discount,addresses=addresses,chosen_address=chosen_address)
 
-@auth.route('/checkout_address/set/<address_id>', methods=['GET','POST'])
-def SetOrderAddress(address_id):
-    return redirect(url_for('auth.CheckOutAddress',address_id=address_id))
+@auth.route('/checkout_address/set/<address_id>/<n>', methods=['GET','POST'])
+def SetOrderAddress(address_id,n):
+    return redirect(url_for('auth.CheckOutAddress',address_id=address_id, n=n))
 
 
 @auth.route('/place_order', methods=['GET','POST'])
@@ -203,6 +222,7 @@ def PlaceOrder():
                 size=item.size,
                 quantity=item.quantity
             )
+            #Product Stock decrease by quantity.
             product_stock_size = StockAndSize.query.filter_by(product_id=item.product_id,size=item.size).first()
             in_stock = product_stock_size.stock
             product_stock_size.stock = in_stock - item.quantity
@@ -211,9 +231,9 @@ def PlaceOrder():
         #Delete old cart
         old_items = CartItem.query.filter_by(cart_id=order_form.cart_id.data).delete()
         db.session.commit()
-        #Product Stock decrease by quantity.
+        
 
-    return render_template('user/user_order_payment.html')
+    return redirect(url_for('auth.history'))
        
 @auth.route('/cancel_order/<order_id>', methods=['GET','POST'])
 def CancelOrder(order_id):

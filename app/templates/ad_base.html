@@ -78,6 +78,13 @@
               >Page Banner</a
             >
           </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {{ 'active' if active_page == 'voucher' else ''}}"
+              href="{{url_for('admin.MangeVoucher')}}"
+              >Voucher</a
+            >
+          </li>
           <li class="nav-item"></li>
         </ul>
       </div>

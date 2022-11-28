@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, TextAreaField,FloatField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, TextAreaField,FloatField,DateField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import Category
@@ -41,3 +41,11 @@ class AddBannerImageForm(FlaskForm):
     banner = FileField('Product Image: ', validators=[DataRequired()])
     is_disable = BooleanField('Disalbe')
     submit = SubmitField('save')
+
+class AddVoucherForm(FlaskForm):
+    name = StringField('voucher name:')
+    code = StringField('voucher code:')
+    discount = FloatField('Discount amount:')
+    expire_date = DateField('Expired Date: ')
+    max_usage = IntegerField('Max usage: ')
+    submit = SubmitField('Add')

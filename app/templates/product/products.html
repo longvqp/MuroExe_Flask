@@ -58,9 +58,7 @@ active_page = category.category_name %} {% block page_content %}
         <div class="row sizeChart">
           {% for size in stock_size %} {% if size.stock > 0 %}
           <h5 class="size">
-            {% if category.category_name=='accessories'%} {% if size.size == 1%}
-            S {%endif%} {% if size.size == 2%} M {%endif%} {% if size.size ==
-            3%} L {%endif%} {%else%} {{size.size}} {%endif%}
+           {{size.size}} 
           </h5>
           {% else %}
           <h5 class="size" style="pointer-events: none">
