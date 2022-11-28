@@ -55,21 +55,22 @@ page_content %}
       <div class="row order_card">
         <div class="row">
           <div class="col-md-7">
-            <h6><span style="font-weight: bold">ID:#{{order.id}}</span>&nbsp;&nbsp;&nbsp;&nbsp; 
+            <h6><span style="font-weight: bold"><a href="{{url_for('auth.OrderBill', order_id=order.id)}}">ID:#{{order.id}}</span>&nbsp;&nbsp;&nbsp;&nbsp; 
               
               {%for pd in order_pd.query.filter_by(order_id=order.id).all()%}
     
               {% set count.value  = count.value  + pd.quantity %}
               {%endfor%}
               {{ count.value  }}
-            items</h6>
+            items</a> </h6>
             <h6>
-              <span style="font-weight: bold">Recipient:</span> {{current_user.fullname}} ({{current_user.phone}})
-            </h6>
+              <span style="font-weight: bold"><a href="{{url_for('auth.OrderBill', order_id=order.id)}}">Recipient:</span> {{current_user.fullname}} ({{current_user.phone}})
+              </a> </h6>
             <h6>
-              <span style="font-weight: bold">Ship to:</span>
+              <span style="font-weight: bold"><a href="{{url_for('auth.OrderBill', order_id=order.id)}}"  >Ship to:</span>
               {{add.filter_by(id=order.address_id).first().address}}
               {{add.filter_by(id=order.address_id).first().city}}
+            </a> 
             </h6>
           </div>
           <div class="col-md-4">

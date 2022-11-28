@@ -119,13 +119,22 @@ def voucher():
 def history():
     orders = Order.query.filter_by(user_id=current_user.id).all()
     add = Address.query.filter_by(user_id=current_user.id)
-
-    # for order in orders:
-    #     order_pd = OrderProduct.query.filter_by(order_id=order.id).all()
-    #     for pd in order_pd:
-    #         print(pd.quantity)
     order_pd = OrderProduct
     return render_template('user/account_history.html',orders=orders,add=add,order_pd=order_pd)
+
+@auth.route('/order_bill/<order_id>')
+def OrderBill(order_id):
+    get_order = Order.query.filter_by(id=order_id).first()
+    produtcs_inorder = OrderProduct.query.filter_by(order_id=order_id)
+    pd_model = Product
+    total=0
+    address = Address.query.filter_by(id=get_order.address_id).first()
+    for pd in produtcs_inorder:
+        product = pd_model.query.filter_by(id=pd.product_id).first().price
+        total += product 
+    grand_total_intext = str(currency_to_text(get_order.total, 'EUR', 'en_US'))[2:-1]
+    print(grand_total_intext)
+    return render_template('user/order_bill.html',grand_total_intext=grand_total_intext,address=address,get_order=get_order,produtcs_inorder=produtcs_inorder,pd_model=pd_model,total=total)
 
 @auth.route('/cart', methods=['GET','POST'])
 def GetCart():
@@ -205,7 +214,7 @@ def PlaceOrder():
 
     
     return render_template('user/user_order_payment.html')
-        
+       
 @auth.route('/checkout_payment', methods=['GET','POST'])
 def CheckOutPayment():
     # cart = Cart.query.filter_by(user_id=current_user.id).first()

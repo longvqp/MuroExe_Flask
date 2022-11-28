@@ -1,0 +1,179 @@
+{% extends "base.html" %} {% block title %} My Flask App {% endblock %} {% block
+page_content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <h1
+      style="
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        padding: 25px;
+        width: fit-content;
+        box-shadow: 10px 10px rgb(74, 74, 74);
+        margin-bottom: 25px;
+      "
+    >
+      Account Information
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3 sideNav">
+      <ul>
+        <li>
+          <a href="{{url_for('auth.infor')}}"
+            ><i class="bi bi-info-square-fill"></i>&nbsp;&nbsp;Information
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.address')}}"
+            ><i class="bi bi-house-fill"></i>&nbsp;&nbsp;Address
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('auth.voucher')}}"
+            ><i class="bi bi-bag-dash-fill"></i>&nbsp;&nbsp;Voucher
+          </a>
+        </li>
+        <li>
+          <a class="active" href="{{url_for('auth.history')}}"
+            ><i class="bi bi-bookmark-star-fill"></i>&nbsp;&nbsp;Order History
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('main.index')}}"
+            ><i class="bi bi-arrow-up-left-square-fill"></i>&nbsp;&nbsp;Back to
+            shopping</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+      <div class="col-md-5">
+        <center>
+          <h4>Bill</h4>
+          <hr>
+        </center>
+        <div class="row">
+          <div class="col-md-10">
+          <h6>Date: {{get_order.create_date.strftime('%Y-%m-%d at %H:%M')}}</h6>
+          <h6>Payment method: {{get_order.payment}}</h6>
+        </div>
+        <div class="col-md-2">
+          <img style="width:100%;  " src="{{ url_for('static',filename='assets/Img/muroexe.png') }}" />
+        </div>
+        </div>
+        <hr />
+        <div class="row mx-auto">
+          <table>
+            <tr >
+              <th><h6>Product</h6></th>
+              <th><h6 style="text-align: center;">Quantity</h6></th>
+              <th><h6 style="text-align: right;">Price</h6></th>
+            </tr>
+            {% for item in produtcs_inorder%}
+
+            <tr>
+              <td>
+                <h6>
+                  {{pd_model.query.filter_by(id=item.product_id).first().product_name}}&nbsp;&nbsp;&nbsp;(&nbsp;size&nbsp;{{item.size}}&nbsp;)
+                </h6>
+              </td>
+              <td>
+                <h6 id="quantity_total" style="text-align: center;">
+                  <b>
+                    {{item.quantity}}</b
+                  >
+                </h6>
+              </td>
+              <td>
+                <h6 style="text-align: right;">
+                  &euro;
+                  &nbsp;{{pd_model.query.filter_by(id=item.product_id).first().price
+                  * item.quantity}}
+                </h6>
+              </td>
+            </tr>
+
+            {%endfor%}
+          </table>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-7">
+            <h6 id="quantity_total">
+              <b>
+                {% set count = namespace(value=0) %} {%for item in
+                produtcs_inorder%} {% set count.value = count.value +
+                item.quantity %} {%endfor%} {{ count.value }} Items</b
+              >
+            </h6>
+          </div>
+          <div class="col-md-2" style="text-align: center">
+            <h6><b>Total</b></h6>
+          </div>
+          <div class="col-md-3" id="sum_price" style="text-align: right">
+            <h6><b>&euro; &nbsp;{{total}}</b></h6>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-md-8">
+            <h6>Discount</h6>
+          </div>
+          <div class="col-md-4" style="text-align: right">
+            &euro; &nbsp; -10
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <h6>Shipping</h6>
+          </div>
+          <div class="col-md-4" style="text-align: right">Free</div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-md-2">
+            <h4><b> Total</b></h4>
+        <p>In text</p>
+          </div>
+          <div class="col-md-10" style="text-align: right">
+            <h4 id="total"><b>&euro; &nbsp;{{get_order.total}}</b></h4>
+            <p>{{grand_total_intext}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+        &nbsp;
+      </div>
+      <div class="col-md-5">
+        <h4>Shipping Information</h4>
+        <hr>
+        <div class="row">
+          <h4>Recipient:</h4>
+          <h5>Full name: {{current_user.fullname}}</h5>
+          <h5>Phone number: {{current_user.phone}}</h5>
+          <h5>Email: {{current_user.email}}</h5>
+        </div>
+        <div class="row">
+          <hr>
+          <h4>Shipping:</h4>
+          <h5>Address: {{address.address}}</h5>
+          <h5>City: {{address.city}}</h5>
+          <h5>Country:      {{address.country}}</h5>
+        </div>
+        
+        
+   
+        <div class="row">
+          <a class="backBtn" href="{{url_for('auth.history')}}">Back</a>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  </div>
+</div>
+
+{% endblock %}

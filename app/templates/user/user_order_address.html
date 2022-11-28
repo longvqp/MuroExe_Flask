@@ -29,8 +29,6 @@ page_content %}
     </div>
     <center>
       <div class="row mb-4">
-        
-
         <div class="col-md-3 mx-auto check_out_proceed cop_active">
           <a disabled href="{{url_for('auth.CheckOutAddress')}}"
             ><h4>Shipping Info</h4></a
@@ -126,7 +124,11 @@ page_content %}
           <div class="row">
             <div>
               <center>
-                <form action="{{url_for('auth.PlaceOrder')}}" id="order_form" method="POST">
+                <form
+                  action="{{url_for('auth.PlaceOrder')}}"
+                  id="order_form"
+                  method="POST"
+                >
                   {{form.csrf_token}}
                   <fieldset class="form-field">
                     {{ form.email(value=current_user.email) }}
@@ -141,50 +143,45 @@ page_content %}
                     {{ form.phone(value=current_user.phone) }}
                   </fieldset>
                   <fieldset class="form-field">
-                  <input
-                  type="radio"
-                  class="btn-check"
-                  name="payment"
-                  id="cod"
-                  autocomplete="off"
-                  value="COD"
-                />
-                <label class="btn btn-outline-success" for="cod"
-                  >Cash on delivery</label
-                >&nbsp;&nbsp;&nbsp;&nbsp;
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="payment"
-                  id="momo"
-                  autocomplete="off"
-                  value="MOMO"
-                />
-                <label class="btn btn-outline-danger" for="momo"
-                  >Pay with Momo</label
-                >&nbsp;&nbsp;&nbsp;&nbsp;
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="payment"
-                  id="card"
-                  autocomplete="off"
-                  value="CARD"
-                />
-                <label class="btn btn btn-outline-primary" for="card"
-                  >Pay with card</label
-                ><br />
-                  
-              </fieldset>
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name="payment"
+                      id="cod"
+                      autocomplete="off"
+                      value="COD"
+                    />
+                    <label class="btn btn-outline-success" for="cod"
+                      >Cash on delivery</label
+                    >&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name="payment"
+                      id="momo"
+                      autocomplete="off"
+                      value="MOMO"
+                    />
+                    <label class="btn btn-outline-danger" for="momo"
+                      >Pay with Momo</label
+                    >&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name="payment"
+                      id="card"
+                      autocomplete="off"
+                      value="CARD"
+                    />
+                    <label class="btn btn btn-outline-primary" for="card"
+                      >Pay with card</label
+                    ><br />
+                  </fieldset>
                   <fieldset class="form-field">
-                    {% if chosen_address %}
-                      {{ form.address(value=chosen_address.id) }}
-                    {% else %}
-                      {% for address in addresses%} 
-                        {% if address.is_default%}
-                          {{ form.address(value=address.id) }}
-                        {% endif %}
-                      {%endfor%}
+                    {% if chosen_address %} {{
+                    form.address(value=chosen_address.id) }} {% else %} {% for
+                    address in addresses%} {% if address.is_default%} {{
+                    form.address(value=address.id) }} {% endif %} {%endfor%}
                     {%endif%}
                   </fieldset>
                   <fieldset class="form-field">
@@ -206,37 +203,51 @@ page_content %}
             <h4>Bill</h4>
           </center>
           <div class="row">
+            <div class="row mx-auto">
+            <table>
+              <tr>
+                <th><h6>Product</h6></th>
+                <th><h6 style="text-align: center">Quantity</h6></th>
+                <th><h6 style="text-align: right">Price</h6></th>
+              </tr>
+              {% for pd in cart_items%}
+
+              <tr>
+                <td>
+                  <h6>
+                    <h6>
+                      {{pd.product.product_name}}&nbsp;&nbsp;&nbsp;(&nbsp;size&nbsp;{{pd.size}}&nbsp;)
+                    </h6>
+                  </h6>
+                </td>
+                <td>
+                  <h6 id="quantity_total" style="text-align: center">
+                    <b> {{pd.quantity}}</b>
+                  </h6>
+                </td>
+                <td>
+                  <h6 style="text-align: right">
+                    &euro; &nbsp;{{pd.product.price*pd.quantity}}
+                  </h6>
+                </td>
+              </tr>
+
+              {%endfor%}
+            </table>
+          </div>
+            <hr>
             <div class="col-md-7">
-              <h6 >Product</h6>
-       
-              {% for pd in cart_items%}
-              <h6>{{pd.product.product_name}}&nbsp;&nbsp;&nbsp;(&nbsp;size&nbsp;{{pd.size}}&nbsp;)</h6>
-              {%endfor%}
-              <hr>
               <h6 id="quantity_total"><b>{{item_count}} Items</b></h6>
-            
             </div>
-            <div class="col-md-2" style="text-align:center; ">
-              <h6>Quantity</h6>
-   
-              {% for pd in cart_items%}
-              <h6 >{{pd.quantity}}</h6>
-              {%endfor%}
-              <hr>
+            <div class="col-md-2" style="text-align: center">
               <h6><b>Total</b></h6>
-              
             </div>
             <div class="col-md-3" id="sum_price" style="text-align: right">
-              <h6>Price</h6>
-    
-              {% for pd in cart_items%}
-              <h6>{{pd.product.price*pd.quantity}}</h6>
-              {%endfor%}
-              <hr>
               <h6><b>&euro; &nbsp;{{total}}</b></h6>
             </div>
           </div>
-          <hr>
+
+          <hr />
           <div class="row">
             <div class="col-md-8">
               <h6>Discount</h6>
@@ -261,7 +272,14 @@ page_content %}
             </div>
           </div>
           <div class="row">
-            <button class="orderBtn" type="submit" form="order_form" value="submit">Place Order</button>
+            <button
+              class="orderBtn"
+              type="submit"
+              form="order_form"
+              value="submit"
+            >
+              Place Order
+            </button>
           </div>
         </div>
       </div>

@@ -129,6 +129,7 @@
 }
 
 .order_card {
+    padding-top: 15px;
     background-color: white;
     color: black;
     box-shadow: 2px 2px 3px rgb(74, 74, 74);
@@ -145,4 +146,14 @@ font-weight: bolder;
 .status_active{
     background-color: black;
     color: white;
+}
+
+.order_card h6 a:link{
+    text-decoration: none;
+    color: black;
+}
+
+.order_card h6 a:visited{
+    text-decoration: none;
+    color: black;
 }
