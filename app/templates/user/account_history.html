@@ -74,7 +74,7 @@ page_content %}
           </div>
           <div class="col-md-4">
             <h6>
-              <span style="font-weight: bold">Ordered on: </span>{{order.create_date.strftime('%Y-%m-%d')}}
+              <span style="font-weight: bold">Ordered on: </span>{{order.create_date.strftime('%Y-%m-%d at %H:%M')}}
             </h6>
             <hr />
             <h6><span style="font-weight: bold">Total:</span> &euro;&nbsp;{{order.total}}</h6>
