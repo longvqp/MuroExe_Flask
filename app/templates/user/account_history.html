@@ -86,7 +86,7 @@ page_content %}
             <h6><span style="font-weight: bold">Action</span></h6>
             <a
               class="deleteBtn"
-              href="#"
+              href="{{url_for('auth.CancelOrder',order_id=order.id)}}"
               style="
                 display: flex;
                 justify-content: center;

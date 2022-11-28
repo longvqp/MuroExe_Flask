@@ -72,6 +72,7 @@ page_content %}
           </tbody>
         </table>
         {% else %}
+        {% set count = namespace(value=0) %}
         <center>
           <h1>Oops!</h1>
           <h2>Look like you do not have any product in your cart</h2>
@@ -126,7 +127,7 @@ page_content %}
         </div>
   
         <div class="row">
-          <a class="checkoutBtn" href="{{url_for('auth.CheckOutAddress')}}" >Proceed to checkout</a>
+          <a class="checkoutBtn {{'no_pointer' if count.value==0 else ''}}" href="{{url_for('auth.CheckOutAddress')}}"   >Proceed to checkout</a>
         </div>
       </div>
     </div>

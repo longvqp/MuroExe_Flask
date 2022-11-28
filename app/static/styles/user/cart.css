@@ -14,10 +14,13 @@
     border-left: 1px solid rgba(0, 0, 0, 0.174);
     padding: 5vh;
 }
+.no_pointer{
+    pointer-events: none;
+}
 
 #voucher{
     margin-top: 50px;
-    width: 80%;
+    width: 75%;
     padding-top: 10px;
     padding-bottom: 10px;
     border: none;

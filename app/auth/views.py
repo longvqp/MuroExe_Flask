@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm, OrderForm
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from ..models import User, Address, Cart, Product, Order, CartItem, OrderProduct
+from ..models import User, Address, Cart, Product, Order, CartItem, OrderProduct, StockAndSize
 from ..import db
 from currency2text import currency_to_text
 @auth.route('/login', methods=['GET','POST'])
@@ -133,7 +133,6 @@ def OrderBill(order_id):
         product = pd_model.query.filter_by(id=pd.product_id).first().price
         total += product 
     grand_total_intext = str(currency_to_text(get_order.total, 'EUR', 'en_US'))[2:-1]
-    print(grand_total_intext)
     return render_template('user/order_bill.html',grand_total_intext=grand_total_intext,address=address,get_order=get_order,produtcs_inorder=produtcs_inorder,pd_model=pd_model,total=total)
 
 @auth.route('/cart', methods=['GET','POST'])
@@ -198,23 +197,45 @@ def PlaceOrder():
         get_cart_item = CartItem.query.filter_by(cart_id=order_form.cart_id.data).all()
         for item in get_cart_item:
             pd = Product.query.filter_by(id=item.product_id).first()
-            # new_order.product_inorder.append(pd)
-            
             order_pd = OrderProduct(
                 order=new_order,
                 product=pd,
                 size=item.size,
                 quantity=item.quantity
             )
+            product_stock_size = StockAndSize.query.filter_by(product_id=item.product_id,size=item.size).first()
+            in_stock = product_stock_size.stock
+            product_stock_size.stock = in_stock - item.quantity
             db.session.add(order_pd)
             db.session.commit()
         #Delete old cart
         old_items = CartItem.query.filter_by(cart_id=order_form.cart_id.data).delete()
         db.session.commit()
+        #Product Stock decrease by quantity.
 
-    
     return render_template('user/user_order_payment.html')
        
+@auth.route('/cancel_order/<order_id>', methods=['GET','POST'])
+def CancelOrder(order_id):
+    order = Order.query.filter_by(id=order_id).first()
+    if(order.status=='Preparing'):
+        order_product = OrderProduct.query.filter_by(order_id=order_id)
+        order_delte = Order.query.filter_by(id=order_id).delete()
+        
+        for item in order_product:
+            print(item.product_id)
+            print(item.size)
+            print(item.quantity)
+            product_stock = StockAndSize.query.filter_by(product_id=item.product_id,size=item.size).first()
+            product_stock.stock += item.quantity
+            db.session.commit()
+        order_product.delete()
+        db.session.commit()
+        flash('Order canceled')
+        return redirect(url_for('auth.history'))
+    else:
+        flash('Order already shipping, cannot cancel')
+        return redirect(url_for('auth.history'))
 @auth.route('/checkout_payment', methods=['GET','POST'])
 def CheckOutPayment():
     # cart = Cart.query.filter_by(user_id=current_user.id).first()
