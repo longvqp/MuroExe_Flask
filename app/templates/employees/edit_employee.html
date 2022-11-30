@@ -1,0 +1,79 @@
+{% extends "ad_base.html" %}
+{% set active_page = 'edit_product' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid register">
+    <div class="row">
+        <div class="row page-header d-flex justify-content-center text-center">
+            <h1>Edit Account</h1>
+            <div class="col-md-10 mx-auto">
+                <form method="POST" action="{{url_for('employee.editEmployee',id=user.id)}}">
+                    <div>
+                        {{ form.email.label}}
+                        {{ form.email(value=user.email, disabled="disabled") }}
+                    </div>
+                    <div>
+                        {{ form.username.label}}
+                        {% if user.username %}
+                            {{ form.username(value=user.username) }}
+                        {% else %}
+                            {{ form.username }}
+                        {% endif %}
+                        
+                    </div>
+                    <div>
+                        {{ form.fullname.label}}
+                        {% if user.fullname %}
+                            {{ form.fullname(value=user.fullname) }}
+                        {% else %}
+                            {{ form.fullname }}
+                        {% endif %}
+                            
+                    </div>
+                    <div>
+                        {{ form.phone.label}}
+                        {% if user.phone %}
+                            {{ form.phone(value=user.phone) }}
+                        {% else %}
+                            {{ form.phone }}
+                        {% endif %}
+                    
+                    </div>
+                    <div>
+                        {{ form.dob.label}}
+                        {% if user.dob %}
+                            {{ form.dob(value=user.dob) }}
+                        {% else %}
+                            {{ form.dob }}
+                        {% endif %}
+                    
+                    </div>
+                    <div>
+                        {{ form.gender.label}}
+                        {{ form.gender(value=user.gender) }}
+                    </div>
+                    <div>
+                        {% if curUser.role.permission > 16 %}
+                            {{ form.role1.label }}
+                            {{ form.role1(value=user.role.name) }}
+                        {% else %}
+                            {{ form.role.label }}
+                            {{ form.role(value=user.role.name) }}
+                        {% endif %}
+                        
+                    </div>
+                    <div>
+                        {{ form.submit(value='Update Employee')}}
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

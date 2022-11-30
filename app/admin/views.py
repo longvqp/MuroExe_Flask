@@ -9,9 +9,19 @@ import os
 import json
 from config import config
 from flask_login import current_user
+from functools import wraps
 
+def is_admin(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if (current_user.role.permission & 63) < 32:
+            flash("Bạn không có quyền truy cập!")
+            return redirect(url_for('main.index'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @admin.route('/a')
+@is_admin
 def index():
     return render_template('admin/index.html')
 

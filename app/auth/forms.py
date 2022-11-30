@@ -24,10 +24,10 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[
-    DataRequired(), Length(1, 64),
-    Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
-               'Usernames must have only letters, numbers, dots or '
-               'underscores')])
+    DataRequired(), Length(1, 64)])
+    # Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
+    #            'Usernames must have only letters, numbers, dots or '
+    #            'underscores')
     password = PasswordField('Password')
     submit = SubmitField('Login')
 

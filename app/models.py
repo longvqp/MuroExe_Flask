@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from flask_login import UserMixin
+from flask_login import UserMixin,  AnonymousUserMixin
 from . import db, login_manager
 from sqlalchemy import DateTime
 from datetime import datetime
@@ -10,8 +10,20 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
+    permission = db.Column(db.Integer, default = 0)
     users = db.relationship('User', backref='role', lazy='dynamic')
     
+    def insert_permission(self):
+        dict_permission = {
+            'Admin' : 32,
+            'Manager' : 16,
+            'Warehouse Manager' : 8,
+            'Sales Employee' : 4,
+            'Shipper' : 2,
+            'User' :  1 
+        }
+        self.permission = dict_permission[self.name]
+        db.session.commit()
     def __repr__(self):
         return '<Role %r>' % self.name
 
@@ -42,7 +54,7 @@ class User(UserMixin, db.Model):
     order = db.relationship("Order",backref='users')
 
     def is_user(self):
-        return Role.query.get(self.role_id).name == 'user'
+        return Role.query.get(self.role_id).name == 'User'
 
     @property
     def password(self):
@@ -73,6 +85,12 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+class AnonymousUser(AnonymousUserMixin):
+
+    def is_user(self):
+        return "User"
+
+login_manager.anonymous_user = AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):
