@@ -57,7 +57,10 @@ page_content %}
     <div class="col-md-9">
       <h1>Hello {{current_user.username}}</h1>
       <h6>Member since: {{current_user.create_date.strftime('%d-%m-%Y')}}</h6>
-
+      
+      {% if not current_user.confirmed %}
+      <p> <small> ( i ) You need to confirm your email before shopping </small></p>
+      {%endif%}
       <form action="{{url_for('auth.infor')}}" method="POST">
         {{inforForm.csrf_token}}
 
@@ -80,9 +83,13 @@ page_content %}
               {{ inforForm.email(value=current_user.email, disabled="disabled")
               }}
             </div>
+            {% if not current_user.confirmed %}
+            
             <div class="col-md-2">
               <a href="{{url_for('auth.resend_confirmation')}}" class="reConfirmBtn">Send confirm email</a>
             </div>
+
+            {% endif %}
           </div>
         </fieldset>
         <hr />

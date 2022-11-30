@@ -6,6 +6,9 @@ from ..models import User, Address, Cart, Product, Order, CartItem, Role, OrderP
 from ..import db
 from ..email import send_email
 from currency2text import currency_to_text
+
+
+
 @auth.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm()
@@ -13,12 +16,14 @@ def login():
         user = User.query.filter((User.username==form.username.data.lower()) \
                                     | (User.email==form.username.data.lower())).first()
         # user = User.query.filter_by(username=form.username.data.lower()).first()
-        print(user.role)
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 if user.is_user():
+                    if(not current_user.confirmed):
+                        flash("You need to confirm your email and fill in your information, address to start shopping")
+                        return redirect(url_for('auth.infor'))
                     next = url_for('main.index')
                 else:
                     next = url_for('admin.manage')
@@ -44,6 +49,7 @@ def register():
     return render_template('auth/register.html', form=form)
 
 @auth.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash('You have been logged out.')
@@ -51,9 +57,12 @@ def logout():
 
 
 @auth.route('/infor', methods=['GET','POST'])
+@login_required
 def infor():
     inforForm = InformationForm()
-    print(current_user.id)
+    if(not current_user.confirmed):
+        flash("You need to confirm your email and fill in your information, address to start shopping")
+    
     if inforForm.validate_on_submit():
         current_user.fullname = inforForm.fullname.data
         current_user.phone = inforForm.phone.data
@@ -65,6 +74,7 @@ def infor():
 
 
 @auth.route('/address', methods=['GET','POST'])
+@login_required
 def address():
     addressForm = AddressForm()
     if addressForm.validate_on_submit():    
@@ -80,6 +90,7 @@ def address():
     return render_template('user/account_address.html', addressForm=addressForm, addresses=addresses)
 
 @auth.route('/delete_address/<address_id>', methods=['GET','POST'])
+@login_required
 def delete_address(address_id):
     is_deleted = Address.query.filter_by(id=address_id).delete()
     db.session.commit()
@@ -87,6 +98,7 @@ def delete_address(address_id):
     return redirect(url_for('auth.address'))
 
 @auth.route('/make_default/<address_id>', methods=['GET','POST'])
+@login_required
 def make_address_default(address_id):
     #Check if have other default
     default_address = Address.query.filter_by(is_default=True).first()
@@ -101,6 +113,7 @@ def make_address_default(address_id):
     return redirect(url_for('auth.address'))
 
 @auth.route('/adding_address', methods=['GET','POST'])
+@login_required
 def adding_address():
     addressForm = AddressForm()
     if addressForm.validate_on_submit():    
@@ -118,10 +131,12 @@ def adding_address():
     return render_template('user/add_address.html',addressForm=addressForm)
 
 @auth.route('/voucher')
+@login_required
 def voucher():
     return render_template('user/account_voucher.html')
 
 @auth.route('/history')
+@login_required
 def history():
     orders = Order.query.filter_by(user_id=current_user.id).all()
     add = Address.query.filter_by(user_id=current_user.id)
@@ -129,6 +144,7 @@ def history():
     return render_template('user/account_history.html',orders=orders,add=add,order_pd=order_pd)
 
 @auth.route('/order_bill/<order_id>')
+@login_required
 def OrderBill(order_id):
     get_order = Order.query.filter_by(id=order_id).first()
     produtcs_inorder = OrderProduct.query.filter_by(order_id=order_id)
@@ -143,6 +159,7 @@ def OrderBill(order_id):
     return render_template('user/order_bill.html',grand_total_intext=grand_total_intext,address=address,get_order=get_order,produtcs_inorder=produtcs_inorder,pd_model=pd_model,total=total)
 
 @auth.route('/cart', methods=['GET','POST'])
+@login_required
 def GetCart():
     
     cart = Cart.query.filter_by(user_id=current_user.id).first()
@@ -167,7 +184,11 @@ def GetCart():
     return render_template('user/user_cart.html',cart=cart,cart_items=cart_items,discount=discount,n=code)
 
 @auth.route('/checkout_address/<n>', methods=['GET','POST'])
+@login_required
 def CheckOutAddress(n):
+    if( not current_user.confirmed):
+        flash('Please confirm your email before shopping')
+        return redirect(url_for('auth.infor'))
     #Check if user fill in all the personal infor and address
     exist_address = Address.query.filter_by(user_id=current_user.id).all()
     if( not exist_address and current_user.fullname == None or not current_user.phone ):
@@ -206,11 +227,13 @@ def CheckOutAddress(n):
     return render_template('user/user_order_address.html',n=n,cart_id=cart.id,form=order_form,cart_items=cart_items,total=total,item_count=item_count,final_price=final_price,discount=discount,addresses=addresses,chosen_address=chosen_address)
 
 @auth.route('/checkout_address/set/<address_id>/<n>', methods=['GET','POST'])
+@login_required
 def SetOrderAddress(address_id,n):
     return redirect(url_for('auth.CheckOutAddress',address_id=address_id, n=n))
 
 
 @auth.route('/place_order', methods=['GET','POST'])
+@login_required
 def PlaceOrder():
     order_form = OrderForm()
     
@@ -242,6 +265,7 @@ def PlaceOrder():
     return redirect(url_for('auth.history'))
        
 @auth.route('/cancel_order/<order_id>', methods=['GET','POST'])
+@login_required
 def CancelOrder(order_id):
     order = Order.query.filter_by(id=order_id).first()
     if(order.status=='Preparing'):
@@ -286,7 +310,6 @@ def confirm(token):
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
-    print(token)
     send_email(current_user.email, 'Confirm Your Account',
                'auth/email/confirm', user=current_user, token=token)
     flash('A new confirmation email has been sent to you by email.')
