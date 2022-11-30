@@ -14,18 +14,9 @@ from functools import wraps
 def is_admin(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if current_user.role.name != 'Admin':
+        if (current_user.role.permission & 63) < 32:
             flash("Bạn không có quyền truy cập!")
             return redirect(url_for('main.index'))
-        return f(*args, **kwargs)
-    return decorated_function
-def is_manager(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if current_user.role.name != 'Saler':
-            flash("Bạn không có quyền truy cập!")
-            return redirect(url_for('main.index'))
-        flash("Quyền truy cập được thông qua")
         return f(*args, **kwargs)
     return decorated_function
 
@@ -35,7 +26,6 @@ def index():
     return render_template('admin/index.html')
 
 @admin.route('/e')
-@is_manager
 def manage():
     role = current_user.role.name
     if role == 'Admin':

@@ -1,0 +1,50 @@
+{% extends "ad_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky - Add employee{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid register">
+    <div class="row">
+        <div class="col-md-4" >
+            <span>&nbsp;</span>
+        </div>
+        <div class="col-md-6">
+            <div class="page-header">
+                <h1>Create Account</h1>
+                <div class="col-md-10">
+                    <form method="POST" action="{{url_for('employee.AddEmployee')}}">
+                        <div>
+                            {{ form.email.label}}
+                            {{ form.email }}
+                        </div>
+                        <div>
+                            {{ form.password.label}}
+                            {{ form.password }}
+                        </div>
+                        <div>
+                            {{ form.password2.label}}
+                            {{ form.password2 }} 
+                        </div>
+                        <div>
+
+                            {% if curUser.role.permission > 16 %}
+                                {{ form.role1.label }}
+                                {{ form.role1 }}
+                            {% else %}
+                                {{ form.role.label }}
+                                {{ form.role }}
+                            {% endif %}
+                        
+                        </div>
+                        <div>
+                            {{ form.submit}}
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

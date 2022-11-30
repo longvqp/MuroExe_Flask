@@ -1,0 +1,29 @@
+{% extends "ad_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+My Flask App
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid">
+   {% for user in users %}
+   <div class="row">
+      <div class="col">
+         <h6>{{ user.email }}</h6>
+      </div>
+      <div class="col">
+         {% if user.role %}
+            <h6>{{ user.role.name }}</h6>
+         {% else %}
+            <h6>User</h6>
+         {% endif %}
+      </div>
+      <div class="col">
+         <a href="/employee/edit_employee/{{user.id}}">Edit </a> 
+         <a href="/employee/delete_employee/{{user.id}}">Delete </a>
+      </div>
+      
+   </div>
+   {% endfor %}
+</div>
+{% endblock %}

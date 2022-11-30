@@ -2,15 +2,17 @@ from flask import render_template, flash, redirect, url_for, request
 from .forms import RegistrationForm, LoginForm, InformationForm, AddressForm
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from ..models import User, Address, Cart, Product, Order, CartItem
+from ..models import User, Address, Cart, Product, Order, CartItem, Role
 from ..import db
 
 @auth.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm()
-    print(request.url_root)
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data.lower()).first()
+        user = User.query.filter((User.username==form.username.data.lower()) \
+                                    | (User.email==form.username.data.lower())).first()
+        # user = User.query.filter_by(username=form.username.data.lower()).first()
+        print(user.role)
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
             next = request.args.get('next')
@@ -29,10 +31,12 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        role = Role.query.filter_by(name='User').first()
+        print(role)
         user = User(email=form.email.data.lower(),
                     username=form.username.data,
-                    password=form.password.data
-                    )
+                    password=form.password.data,
+                    role=role)
         db.session.add(user)
         db.session.commit()
         print(user)
