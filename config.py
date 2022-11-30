@@ -6,6 +6,17 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER =  os.path.join(basedir,'app/static/assets/Product_Image')
 
+    #MAIL CONFIGURATION
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
+        ['true', 'on', '1']
+    MAIL_USERNAME ='vuquangphilong@gmail.com'
+    MAIL_PASSWORD = 'uykejsdjdxixngmu'
+    FLASKY_MAIL_SUBJECT_PREFIX = '[MuroEXE]'
+    FLASKY_MAIL_SENDER = 'vuquangphilong@gmail.com'
+
+
     @staticmethod
     def init_app(app):
         pass

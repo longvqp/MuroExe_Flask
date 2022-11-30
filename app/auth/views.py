@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from ..models import User, Address, Cart, Product, Order, CartItem, Role, OrderProduct, StockAndSize, Voucher
 from ..import db
+from ..email import send_email
 from currency2text import currency_to_text
 @auth.route('/login', methods=['GET','POST'])
 def login():
@@ -265,3 +266,29 @@ def CancelOrder(order_id):
 def CheckOutPayment():
     # cart = Cart.query.filter_by(user_id=current_user.id).first()
     return render_template('user/user_order_payment.html')
+
+
+#EMAIL SECTION
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!')
+    else:
+        flash('The confirmation link is invalid or has expired.')
+    return redirect(url_for('main.index'))
+
+
+@auth.route('/send_confirm', methods=['GET','POST'])
+@login_required
+def resend_confirmation():
+    token = current_user.generate_confirmation_token()
+    print(token)
+    send_email(current_user.email, 'Confirm Your Account',
+               'auth/email/confirm', user=current_user, token=token)
+    flash('A new confirmation email has been sent to you by email.')
+    return redirect(url_for('auth.infor'))
+

@@ -52,7 +52,7 @@ class User(UserMixin, db.Model):
     cart =db.relationship('Cart',uselist=False, backref='users')
     #Mot User co nhieu Order
     order = db.relationship("Order",backref='users')
-
+    
     def is_user(self):
         return Role.query.get(self.role_id).name == 'User'
 

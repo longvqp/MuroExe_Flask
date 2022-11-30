@@ -63,10 +63,10 @@ page_content %}
 
         <fieldset class="form-field">
           <div class="row">
-            <div class="form_label col-md-4">
+            <div class="form_label col-md-3">
               {{ inforForm.username.label }}
             </div>
-            <div class="form_input col-md-8">
+            <div class="form_input col-md-7">
               {{ inforForm.username(value=current_user.username,
               disabled="disabled") }}
             </div>
@@ -75,10 +75,13 @@ page_content %}
 
         <fieldset class="form-field">
           <div class="row">
-            <div class="form_label col-md-4">{{ inforForm.email.label }}</div>
-            <div class="form_input col-md-8">
+            <div class="form_label col-md-3">{{ inforForm.email.label }}</div>
+            <div class="form_input col-md-7">
               {{ inforForm.email(value=current_user.email, disabled="disabled")
               }}
+            </div>
+            <div class="col-md-2">
+              <a href="{{url_for('auth.resend_confirmation')}}" class="reConfirmBtn">Send confirm email</a>
             </div>
           </div>
         </fieldset>

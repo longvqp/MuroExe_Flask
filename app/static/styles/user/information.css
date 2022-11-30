@@ -157,3 +157,31 @@ font-weight: bolder;
     text-decoration: none;
     color: black;
 }
+
+
+
+.reConfirmBtn {
+    text-decoration: none;
+    display: block;
+    color: white;
+    background-color: rgb(0, 0, 0);
+    border-style: hidden;
+    padding: 10px;
+    width: fit-content;
+    font-size: 15px;
+    font-weight: lighter;
+    box-shadow: 5px 5px rgb(74, 74, 74);
+    transition: ease 0.2s;
+  }
+  
+  .reConfirmBtn:hover {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 5px 5px 8px rgb(74, 74, 74);
+    transform: scale(1.1);
+    color: black;
+  }
+  
+  .reConfirmBtn:active {
+    background-color: rgb(255, 252, 200);
+    transform: scale(1.05);}
+  
