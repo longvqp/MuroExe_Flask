@@ -1,0 +1,107 @@
+<html>
+  <head> 
+  </head>
+  <body>
+<center>
+        <img style="pointer-events: none; width:20vw; margin-top: 5vh; margin-bottom: 2vh;" src="https://drive.google.com/uc?export=view&id=1bqrEuVa3UQMQEEe9ShJqyC-PTsAmGa2Z" alt="...">
+</center>
+  
+<div class="container">
+<div class="row">
+<div class="col-md-5">
+    <center>
+      <h4>Bill</h4>
+      <hr>
+    </center>
+    <div class="row">
+      <div class="col-md-10">
+      <h6>Date: {{get_order.create_date.strftime('%Y-%m-%d at %H:%M')}}</h6>
+      <h6>Payment method: {{get_order.payment}}</h6>
+    </div>
+   
+    </div>
+    <hr />
+    <div class="row mx-auto">
+      <table>
+        <tr >
+          <th><h6>Product</h6></th>
+          <th><h6 style="text-align: center;">Quantity</h6></th>
+          <th><h6 style="text-align: right;">Price</h6></th>
+        </tr>
+        {% for item in produtcs_inorder%}
+
+        <tr>
+          <td>
+            <h6>
+              {{pd_model.query.filter_by(id=item.product_id).first().product_name}}&nbsp;&nbsp;&nbsp;(&nbsp;size&nbsp;{{item.size}}&nbsp;)
+            </h6>
+          </td>
+          <td>
+            <h6 id="quantity_total" style="text-align: center;">
+              <b>
+                {{item.quantity}}</b
+              >
+            </h6>
+          </td>
+          <td>
+            <h6 style="text-align: right;">
+              &euro;
+              &nbsp;{{pd_model.query.filter_by(id=item.product_id).first().price
+              * item.quantity}}
+            </h6>
+          </td>
+        </tr>
+
+        {%endfor%}
+      </table>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-7">
+        <h6 id="quantity_total">
+          <b>
+            {% set count = namespace(value=0) %} {%for item in
+            produtcs_inorder%} {% set count.value = count.value +
+            item.quantity %} {%endfor%} {{ count.value }} Items</b
+          >
+        </h6>
+      </div>
+      <div class="col-md-2" style="text-align: center">
+        <h6><b>Total</b></h6>
+      </div>
+      <div class="col-md-3" id="sum_price" style="text-align: right">
+        <h6 style="display: inline;">&euro; &nbsp;</h6><h6 style="display: inline;" id="subtotal"><b>{{total}}</b></h6>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-8">
+        <h6>Discount</h6>
+      </div>
+      <div class="col-md-4" style="text-align: right" >
+        <h6 style="display: inline;">&euro; &nbsp;</h6><h6 style="display: inline;" id="discount"> -10</h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <h6>Shipping</h6>
+      </div>
+      <div class="col-md-4" style="text-align: right">Free</div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-2">
+        <h4><b> Total</b></h4>
+    <p>In text</p>
+      </div>
+      <div class="col-md-10" style="text-align: right">
+        <h4 style="display: inline;">&euro; &nbsp;</h4><h4 style="display: inline;" id="total"><b>{{get_order.total}}</b></h4>
+        <p>{{grand_total_intext}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+  </body>
+</html>

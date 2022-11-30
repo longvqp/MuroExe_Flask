@@ -9,6 +9,7 @@ from currency2text import currency_to_text
 
 
 
+
 @auth.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm()
@@ -260,8 +261,23 @@ def PlaceOrder():
         #Delete old cart
         old_items = CartItem.query.filter_by(cart_id=order_form.cart_id.data).delete()
         db.session.commit() 
+        
+        
+        # FOR EMAIL CONTENT
+        order_id = new_order.id
+        get_order = Order.query.filter_by(id=order_id).first()
+        produtcs_inorder = OrderProduct.query.filter_by(order_id=order_id)
+        pd_model = Product
+        total=0
+        address = Address.query.filter_by(id=get_order.address_id).first()
 
-
+        for pd in produtcs_inorder:
+            product = pd_model.query.filter_by(id=pd.product_id).first().price
+            total += product*pd.quantity  
+        grand_total_intext = str(currency_to_text(get_order.total, 'EUR', 'en_US'))[2:-1]
+        discount = get_order.total - total
+        send_email(current_user.email, 'Your shopping receipt','auth/email/bill',discount=discount, grand_total_intext=grand_total_intext,address=address,get_order=get_order,produtcs_inorder=produtcs_inorder,pd_model=pd_model,total=total)
+        flash("Your order have been placed.")
     return redirect(url_for('auth.history'))
        
 @auth.route('/cancel_order/<order_id>', methods=['GET','POST'])

@@ -1,0 +1,122 @@
+<html>
+  <head> </head>
+  <body>
+    <center>
+      <img
+        style="
+          pointer-events: none;
+          width: 20vw;
+          margin-top: 5vh;
+          margin-bottom: 2vh;
+        "
+        src="https://drive.google.com/uc?export=view&id=1bqrEuVa3UQMQEEe9ShJqyC-PTsAmGa2Z"
+        alt="..."
+      />
+    </center>
+    <p style="font-size: 14px;">
+      Thank you for shopping at our place
+      <br>
+      Here is an invoice of your order
+
+      <br>
+      &nbsp;
+      <br>
+      Sincerely.
+      <br>
+      MuroEXE Team
+    </p>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <center>
+            <h2>Invoice</h2>
+            <hr />
+          </center>
+          <center>
+
+           
+       
+          <div class="row">
+          
+            <table>
+              <tr>
+                <td>            <h3 style="text-align: left;">
+                  Date: {{get_order.create_date.strftime('%Y-%m-%d at %H:%M')}}
+                </h3></td>
+              </tr>
+              <tr>
+                <td> <h3 style="text-align: left;">Payment method: {{get_order.payment}}</h3></td>
+              </tr>
+              <tr>
+                <th><h3 style="text-align: left;">Product</h3></th>
+                <th><h3 style="text-align: center">Quantity</h3></th>
+                <th><h3 style="text-align: right">Price</h3></th>
+              </tr>
+              {% for item in produtcs_inorder%}
+              <tr>
+                <td>
+                  <p style="font-size: 16px;">
+                    {{pd_model.query.filter_by(id=item.product_id).first().product_name}}&nbsp;&nbsp;&nbsp;(&nbsp;size&nbsp;{{item.size}}&nbsp;)
+                  </p>
+                </td>
+                <td>
+                  <p id="quantity_total" style="text-align: center; font-size: 16px;">
+                    {{item.quantity}}
+                  </p>
+                </td>
+                <td>
+                  <p style="text-align: right; font-size: 16px;">
+                    &euro;
+                    &nbsp;{{pd_model.query.filter_by(id=item.product_id).first().price
+                    * item.quantity}}
+                    </p>
+                </td>
+              </tr>
+
+              {%endfor%}
+              <tr>
+                <td>
+                  <h3>
+                    <b>
+                      {% set count = namespace(value=0) %} {%for item in
+                      produtcs_inorder%} {% set count.value = count.value +
+                      item.quantity %} {%endfor%} {{ count.value }} Items</b
+                    >
+                  </h3>
+                </td>
+                <td>
+                  <h3 style="text-align: center"><b>Sub total</b></h3>
+                </td>
+                <td>
+                  <h3  style="text-align: right">&euro; &nbsp;<b>{{total}}</b></h3>
+                </td>
+              </tr>
+              <tr>
+                <td><h3>Discount</h3></td>
+                <td style="text-align: center">&nbsp;</td>
+                <td><h3  style="text-align: right">&euro; &nbsp;-{{discount}}</h3></td>
+              </tr>
+              <tr>
+                <td><h3>Shipping</h3></td>
+                <td style="text-align: center">&nbsp;</td>
+                <td><h3  style="text-align: right">Free</h3></td>
+              </tr>
+              <tr>
+                <td><h2>Grand total</h2></td>
+                <td style="text-align: center">&nbsp;</td>
+                <td><h2  style="text-align: right">&euro;
+                  &nbsp;{{get_order.total}}</h2></td>
+              </tr>
+              <tr>
+                <td><p style="text-align: left; font-size: 16px;">In text</p></td>
+                <td style="text-align: center">&nbsp;</td>
+                <td><p  style="text-align: right; font-size: 16px;">{{grand_total_intext}}</p></td>
+              </tr>
+            </table>
+          </div>
+        </center>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
