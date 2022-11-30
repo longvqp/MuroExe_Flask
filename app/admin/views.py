@@ -247,12 +247,26 @@ def SetOrderDown(ord_id):
 @admin.route('/add_role')
 def AddRole():
     role = Role(
-        name='admin',
+        name='Admin',
+        permission=32
     )
     role_2 = Role(
-        name='user'
+        name='User',
+        permission=1
     )
-    db.session.add_all([role,role_2])
+    role_3 = Role(
+        name='Manager',
+        permission=16
+    )
+    role_4 = Role(
+        name='Sales Employee',
+        permission=4
+    )
+    role_5 = Role(
+        name='Warehouse Manager',
+        permission=8
+    )
+    db.session.add_all([role,role_2,role_3,role_4,role_5])
     db.session.commit()
     return "added_role"
 

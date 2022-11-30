@@ -157,7 +157,7 @@ class Order(db.Model):
     address_id = db.Column(db.Integer, db.ForeignKey('addresses.id'))
     total = db.Column(db.Float)
     status = db.Column(db.String(), default='Preparing')
-    product_inorder = db.relationship("Product", secondary='order_product', backref='product_inorders',overlaps="product")
+    product_inorder = db.relationship("Product", secondary='order_product', backref='product_inorders',overlaps="order,order_product")
     payment = db.Column(db.String())
     create_date = db.Column(db.DateTime(), default=datetime.utcnow)
     user_note = db.Column(db.String())
