@@ -259,8 +259,8 @@ def PlaceOrder():
             db.session.commit()
         #Delete old cart
         old_items = CartItem.query.filter_by(cart_id=order_form.cart_id.data).delete()
-        db.session.commit()
-        
+        db.session.commit() 
+
 
     return redirect(url_for('auth.history'))
        

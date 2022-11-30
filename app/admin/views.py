@@ -20,7 +20,7 @@ def is_admin(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@admin.route('/a')
+@admin.route('/')
 @is_admin
 def index():
     return render_template('admin/index.html')
