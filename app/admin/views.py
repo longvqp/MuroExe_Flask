@@ -1,7 +1,7 @@
-from flask import render_template, current_app as app, redirect,url_for,flash
+from flask import render_template, current_app as app, redirect,url_for,flash,request
 from . import admin
 from .forms import AddProductForm,EditProductForm,AddStockForm,UpdateStockForm,AddBannerImageForm,AddVoucherForm
-from ..models import Address, Product, Category, StockAndSize, BannerImage,Role, Voucher, Order,User
+from ..models import Address, Product, Category, StockAndSize, BannerImage,Role, Voucher, Order,User,Revenue
 from .. import db
 from werkzeug.utils import secure_filename
 import uuid as uuid
@@ -10,6 +10,7 @@ import json
 from config import config
 from flask_login import current_user
 from functools import wraps
+import datetime
 
 def is_admin(f):
     @wraps(f)
@@ -242,6 +243,70 @@ def SetOrderDown(ord_id):
                     order.status='Preparing'
     db.session.commit()
     return redirect(url_for('admin.ManageOrder'))
+
+
+@admin.route('/manage_revenue', methods=['GET','POST'])
+def ManageRevenue():
+    quarter = request.args.get('quarter')
+    year = request.args.get('year')
+    
+    if(year and quarter):
+        find_revenues = Revenue.query.filter_by(quarter=quarter,year=year).all()
+        return render_template('admin/manage_revenue.html',all_revenues=find_revenues)
+    if(year):
+        find_revenues = Revenue.query.filter_by(year=year).all()
+        return render_template('admin/manage_revenue.html',all_revenues=find_revenues)
+    all_revenues = Revenue.query.all()
+    return render_template('admin/manage_revenue.html',all_revenues=all_revenues)
+
+@admin.route('/detail_revenue/<year>/<quarter>', methods=['GET','POST'])
+def DetailRevenue(year,quarter):
+    revenue = Revenue.query.filter_by(quarter=quarter,year=year).first()
+    orders = Order.query.filter_by(revenue_id=revenue.id).all()
+    user_model = User.query
+    address_model = Address.query
+    return render_template('admin/manage_revenue_detail.html',revenue=revenue, orders=orders,user_model=user_model,address_model=address_model)
+
+@admin.route('/record_sale/<order_id>', methods=['GET','POST'])
+def RecordSale(order_id):
+    new_order = Order.query.filter_by(id=order_id).first()
+     #Add to revenue
+
+    order_date = new_order.create_date.strftime("%Y-%m-%d")
+    order_month = datetime.datetime.strptime(order_date, "%Y-%m-%d").month 
+    order_year = datetime.datetime.strptime(order_date, "%Y-%m-%d").year 
+        
+    print("Order Date", order_date)
+    print("Order Month ",order_month)
+    print("Order Year ", order_year)
+    quater = 0
+    if(order_month>0 and order_month<4):
+        quater = 1
+    if(order_month>3 and order_month<7):
+        quater = 2
+    if(order_month>6 and order_month<10):
+        quater = 3
+    if(order_month>9 and order_month<13):
+        quater = 4
+    
+    print(quater)
+    sale_revenue = Revenue.query.filter_by(quarter=quater,year=order_year).first()
+    if( not sale_revenue ):
+        new_sale = Revenue(
+            total_sale=new_order.total,
+            quarter=quater,
+            year=order_year
+        )
+        db.session.add(new_sale)
+        db.session.commit()
+    else:
+        new_order.revenue_id=sale_revenue.id
+        new_order.status = 'Recorded'
+        sale_revenue.total_sale += new_order.total
+        db.session.commit()
+
+    return redirect(url_for('admin.ManageOrder'))
+    
 
 # For Batch Data Adding
 @admin.route('/add_role')

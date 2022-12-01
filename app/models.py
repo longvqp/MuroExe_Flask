@@ -161,6 +161,7 @@ class Order(db.Model):
     payment = db.Column(db.String())
     create_date = db.Column(db.DateTime(), default=datetime.utcnow)
     user_note = db.Column(db.String())
+    revenue_id = db.Column(db.Integer, db.ForeignKey('revenue.id'))
 
 class Product(db.Model):
     __tablename__ = 'products'
@@ -208,10 +209,13 @@ class Voucher(db.Model):
     create_date = db.Column(db.Date(), default=datetime.utcnow)
     max_usage = db.Column(db.Integer, default=1000)
 
-
-
-
-
+class Revenue(db.Model):
+    __tablename__="revenue"
+    id = db.Column(db.Integer, primary_key=True)
+    total_sale = db.Column(db.Float)
+    quarter = db.Column(db.Integer)
+    year = db.Column(db.Integer)
+    order  = db.relationship('Order')
 
 
 

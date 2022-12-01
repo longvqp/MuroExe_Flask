@@ -92,6 +92,13 @@
               >Mange Order</a
             >
           </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {{ 'active' if active_page == 'revenue' else ''}}"
+              href="{{url_for('admin.ManageRevenue')}}"
+              >Mange Sale</a
+            >
+          </li>
           <li class="nav-item"></li>
         </ul>
       </div>

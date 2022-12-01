@@ -1,5 +1,5 @@
 {% extends "ad_base.html" %}
-{% set active_page = 'order' %}
+{% set active_page = 'revenue' %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}
 My Flask App
@@ -15,6 +15,34 @@ My Flask App
  
 </div>
   </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Year</th>
+        <th scope="col">Quarter</th>
+        <th scope="col">Total Sale</th>
+        <th scope="col">Total Items</th>
+        <th scope="col">Increase/Decrease</th>
+       
+        
+      </tr>
+    </thead>
+    <tbody>
+     
+      
+      <tr class="tbRow">
+        <th  style="vertical-align: middle;" scope="row">{{revenue.year}}</th>
+        <td style="vertical-align: middle;">{{revenue.quarter}}</td>
+        <td style="vertical-align: middle;"> &euro;&nbsp; {{revenue.total_sale}}</td>
+        <td style="vertical-align: middle;"> 1</td>
+        <td style="vertical-align: middle; ">Up Down</td>
+
+       
+      </tr>
+      
+
+    </tbody>
+  </table>
   
   <table class="table table-striped">
     <thead>
@@ -26,12 +54,12 @@ My Flask App
         <th scope="col">Payment method</th>
         <th scope="col">Created date</th>
         <th scope="col">Status</th>
-        <th scope="col">Action</th>
+       
       </tr>
     </thead>
     <tbody>
       {% for ord in orders%}
-      {% if ord.status != "Recorded" %}
+      {% if ord.status == "Recorded" %}
       <tr class="tbRow">
         <th  style="vertical-align: middle;" scope="row">{{ord.id}}</th>
         <td style="vertical-align: middle;">{{user_model.filter_by(id=ord.user_id).first().username}}</td>
@@ -40,15 +68,7 @@ My Flask App
         <td style="vertical-align: middle; ">{{ord.payment}}</td>
         <td style="vertical-align: middle; ">{{ord.create_date.strftime('%d-%m-%Y')}}</td>
         <td style="vertical-align: middle; ">{{ord.status}}</td>
-        <td style="vertical-align: middle;">
-          {% if ord.status == "Done"%}
-          <a id="deleteBtn" href="{{url_for('admin.RecordSale',order_id=ord.id)}}">Record</a>||
-          <a id="deleteBtn" href="{{url_for('admin.SetOrderDown',ord_id=ord.id)}}">Down</a>
-          {% else %}
-          <a id="deleteBtn" href="{{url_for('admin.SetOrderUp',ord_id=ord.id)}}">Up</a>||
-          <a id="deleteBtn" href="{{url_for('admin.SetOrderDown',ord_id=ord.id)}}">Down</a>
-          {% endif %}
-        </td>
+        
 
       </tr>
       {% endif %}
